@@ -5,26 +5,6 @@
         <title>Simple Zinc WebGL Demo</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-
-        <style>
-            body {
-                font-family: Monospace;
-                background-color: #000;
-                color: #fff;
-                margin: 0px;
-                overflow: hidden;
-            }
-            #info {
-                color: #fff;
-                position: absolute;
-                top: 10px;
-                width: 100%;
-                text-align: center;
-                z-index: 100;
-                display:block;
-            }
-            #info a, .button { color: #f00; font-weight: bold; text-decoration: underline; cursor: pointer }
-        </style>
         <link rel="stylesheet" type="text/css" href="css/verticle_menu.css">
         <script type="text/javascript" src="js/verticle_menu.js"> </script>
 
@@ -48,9 +28,12 @@
                 <select id="videoSource"></select>
             </div>
         </div>
-
-        <span onclick="openNav()" style="font-size:40px;">Menu</span>
+        
+        
+ <button class="block_button" id="menu_button" onclick="openNav()">Menu</button>
+        
         <!--
+<span onclick="openNav()" style="font-size:40px;">Menu</span>
 <button name="Reset View" value="OK" type="button" onclick="resetView()">Reset View</button>
 <button name="View All" value="OK" type="button" onclick="viewAll()">View All</button>
 <button name="Jaw" value="jaw" type="button" onclick="loadMyModel(this.value)">Jaw</button>
@@ -77,7 +60,7 @@
             });
 
             //create plane with video texture
-            var geo = new THREE.PlaneGeometry(512, 512);
+            var geo = new THREE.PlaneGeometry(1, 1);
             //var mat = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
 
             surface_material_video.depthTest = false;
@@ -105,8 +88,8 @@
 
             Zinc.defaultMaterialColor = 0xFFFF9C
             zincRenderer.initialiseVisualisation();
-            loadMyModel("deforming_heart");
-            //loadMyModel("skin");
+            //loadMyModel("deforming_heart");
+            loadMyModel("skin");
 
             //alert(numbertest);
 

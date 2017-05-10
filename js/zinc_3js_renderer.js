@@ -982,7 +982,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
         newGeometry.mixer = mixer;
         newGeometry.clipAction = clipAction;
         zincGeometries.push ( newGeometry ) ;
-
+        alert(modelId);
         if (finishCallback != undefined && (typeof finishCallback == 'function'))
             finishCallback(newGeometry);
         return newGeometry;
@@ -1082,19 +1082,22 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 fullScene.add(sceneItem.getThreeJSScene());
             }
         }
+        
         renderer.clear();
         if (stereoEffectFlag && stereoEffect) {
             stereoEffect.render(fullScene, _this.camera);
         }
         else{
+            //#WORKING
             //If the video is ready for change we update the videoTexture
             if( video.readyState === video.HAVE_ENOUGH_DATA ){
                 videoTexture.needsUpdate = true;
                 //console.log("hi");
             }
+            
             //Create a temporary mesh for the video plane
             var meshtemp= fullScene.getObjectByName("video_plane");
-            
+            meshtemp.scale.set(global_width,global_height,1);
             meshtemp.position.copy(_this.camera.position);
             meshtemp.rotation.copy( _this.camera.rotation );
 
@@ -1314,9 +1317,9 @@ Zinc.Renderer = function (containerIn, window) {
     this.animate = function() {
         animated_id = requestAnimationFrame( _this.animate );
         //This is for updating the camera if new data is coming in
+        
 
-
-
+        
 
         _this.render();
     }

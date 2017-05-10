@@ -1,3 +1,9 @@
+//This variables will be global variable 
+var global_width=undefined;
+var global_height=undefined;
+
+
+
 //Video initialization etc
 var video = document.createElement('video');
 video.autoplay=true;
@@ -24,6 +30,7 @@ function gotDevices(deviceInfos) {
     for (var i = 0; i !== deviceInfos.length; ++i) {
         var deviceInfo = deviceInfos[i];
         var option = document.createElement('option');
+        
         option.value = deviceInfo.deviceId;
 
         if (deviceInfo.kind === 'videoinput') {
@@ -81,6 +88,11 @@ function start() {
     //video.addEventListener("loadedmetadata");
 
     //if the meta data has changed;
+    video.onloadedmetadata=function(){
+        global_width=this.videoWidth;
+        global_height=this.videoHeight;
+    
+    }
     /*
     video.onloadedmetadata = function() {
         console.log('width is', this.videoWidth);
