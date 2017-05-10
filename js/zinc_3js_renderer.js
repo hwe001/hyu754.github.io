@@ -982,7 +982,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
         newGeometry.mixer = mixer;
         newGeometry.clipAction = clipAction;
         zincGeometries.push ( newGeometry ) ;
-        alert(modelId);
+        
         if (finishCallback != undefined && (typeof finishCallback == 'function'))
             finishCallback(newGeometry);
         return newGeometry;

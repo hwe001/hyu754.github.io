@@ -3,6 +3,13 @@ var global_width=undefined;
 var global_height=undefined;
 
 
+//Orientation of the device, if is undefined; we assume a pc here
+//Else it will be:
+//      verticle:0 or 180
+//      horizontal:90 or -90
+var previousOrientation = window.orientation;
+
+
 
 //Video initialization etc
 var video = document.createElement('video');
@@ -146,5 +153,24 @@ function start() {
 
 videoSelect.onchange = start;
 start();
+
+//Function for resizing the image plane in Zinc if the orientation is changed
+var checkOrientation = function(){
+    if(previousOrientation!==undefined){
+        if(window.orientation!==previousOrientation){
+
+            previousOrientation = window.orientation;
+            
+            //If the current orientation is horizontal we switch width <-> height 
+            var dummyGlobalHeight = global_height;
+            global_height = global_width;
+            global_width = dummyGlobalHeight;
+        }
+    }
+}
+
+ window.addEventListener("orientationchange", checkOrientation, false);
+
+
 
 
