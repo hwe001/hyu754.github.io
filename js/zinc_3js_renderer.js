@@ -878,7 +878,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
         for (var i = 0; i < number; i++)
         {
             var modelId = nextAvailableInternalZincModelId();
-            //alert(modelId);
+            alert(modelId);
             var filename = urls[i]
             var loader = new THREE.JSONLoader( true );
             var colour = Zinc.defaultMaterialColor;
@@ -886,7 +886,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             if (colours != undefined && colours[i] != undefined)
                 colour = colours[i] ? true: false;
             if (opacities != undefined && opacities[i] != undefined)
-                opacity = opacities[i];sssss
+                opacity = opacities[i];
             var localTimeEnabled = 0;
             if (timeEnabled != undefined && timeEnabled[i] != undefined)
                 localTimeEnabled = timeEnabled[i] ? true: false;
@@ -1141,7 +1141,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             //alert(centroidGEO);
             _this.forEachGeometry(
             function(modelIN){
-                //alert(centroidGEO);  
+                
                 geometry = modelIN.geometry;
                 if(modelIN.modelId==1001){ // surface
                     if(surfacePreviousVisibility ==true){
@@ -1394,7 +1394,7 @@ Zinc.Renderer = function (containerIn, window) {
         //This is for updating the camera if new data is coming in
         
         //current_scene.forEachGeometry(function(aaa){alert(aaa);})
-
+       // alert("hi");
 
         _this.render();
     }
