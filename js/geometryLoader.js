@@ -11,6 +11,8 @@ var meshGlobal;
 //Some common materials
 var surface_material = new THREE.MeshPhongMaterial({color: "rgb(190,100,90)", opacity: 0.8, transparent: true});
 
+//This array will store the modelIds in order
+var meshIDArray=[];
 
 //Create functionss to load goemtry
 

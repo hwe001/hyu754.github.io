@@ -877,6 +877,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
         for (var i = 0; i < number; i++)
         {
             var modelId = nextAvailableInternalZincModelId();
+            alert(modelId);
             var filename = urls[i]
             var loader = new THREE.JSONLoader( true );
             var colour = Zinc.defaultMaterialColor;
