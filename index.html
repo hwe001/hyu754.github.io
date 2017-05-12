@@ -1,8 +1,12 @@
 <!DOCTYPE html>
-
+<!--
+This html document is a modified version of the Simple Zinc WebGL Demo
+Written by David with code and inspiration from Paul
+12/05/2017
+-->
 <html lang="en" style="height:100%">
     <head>
-        <title>Simple Zinc WebGL Demo</title>
+        <title>WebRTC liver augmentation</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
         <link rel="stylesheet" type="text/css" href="css/verticle_menu.css">
@@ -11,7 +15,7 @@
         <script src="js/three.min.js"></script>
         <script src="js/zinc_threejs_control.js"></script>
         <script src="js/zinc_3js_renderer.js"></script>
-
+        <script src="js/geometryLoader.js"></script>
     </head>
 
     <body style="height:100%">
@@ -20,13 +24,14 @@
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
-
+            <p1>Geometry visibility </p1> 
             <div class="btn-group">
-  <button class="button">Surface</button>
-  <button class="button">Hepatic</button>
-  <button class="button">Portal</button>
-  <button class="button">Bile</button>
-</div>
+
+                <button class="button" id="surface_button" onclick="surfaceVisibility()">Surface</button>
+                <button class="button" id ="hepatic_button" onclick="hepaticVisibility()">Hepatic</button>
+                <button class="button" id ="portal_button" onclick="portalVisibility()">Portal</button>
+                <button class="button" id ="bile_button" onclick="bileVisibility()">Bile</button>
+            </div>
 
             <div class = "slidernav">
                 <p1>Camera plane size </p1> 
@@ -41,14 +46,14 @@
 
 
 
-          
-      
+
+
         </div>
 
 
-    <button class="block_button" id="menu_button" onclick="openNav()">Menu</button>
+        <button class="block_button" id="menu_button" onclick="openNav()">Menu</button>
 
-    <!--
+        <!--
 <span onclick="openNav()" style="font-size:40px;">Menu</span>
 <button name="Reset View" value="OK" type="button" onclick="resetView()">Reset View</button>
 <button name="View All" value="OK" type="button" onclick="viewAll()">View All</button>
@@ -61,75 +66,75 @@
 <button name="liver surface" value = "liver_surface" type = "button" onclick="alert('model not loaded')">liver surface</button>
 
 -->
-    <!--Creating a selector for the video source-->
+        <!--Creating a selector for the video source-->
 
 
-    <script src= "js/create_video.js"></script>
-    <script src="js/geometryLoader.js"></script>
-    <script>
-        //*********************************//
-        //   Create video texture and plane//
-        //*********************************//
-        //creates new texture for the plane
-        var videoTexture = new THREE.Texture(video);
-        var surface_material_video = new THREE.MeshBasicMaterial ({
-            map : videoTexture
-        });
+        <script src= "js/create_video.js"></script>
 
-        //create plane with video texture
-        var geo = new THREE.PlaneGeometry(1, 1);
-        //var mat = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
+        <script>
+            //*********************************//
+            //   Create video texture and plane//
+            //*********************************//
+            //creates new texture for the plane
+            var videoTexture = new THREE.Texture(video);
+            var surface_material_video = new THREE.MeshBasicMaterial ({
+                map : videoTexture
+            });
 
-        surface_material_video.depthTest = false;
-        surface_material_video.depthWrite=false;
-        var plane = new THREE.Mesh(geo, surface_material_video);
-        plane.name="video_plane";
-        plane.material.side=THREE.DoubleSide;
+            //create plane with video texture
+            var geo = new THREE.PlaneGeometry(1, 1);
+            //var mat = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
 
-
-
-        //*****************************//
-        //   ZINC GL initialization    //
-        //*****************************//
-        var currentPatient = undefined;
-
-        container = document.createElement( 'div' );
-        document.body.appendChild( container );
-        container.style.height = "100%"
+            surface_material_video.depthTest = false;
+            surface_material_video.depthWrite=false;
+            var plane = new THREE.Mesh(geo, surface_material_video);
+            plane.name="video_plane";
+            plane.material.side=THREE.DoubleSide;
 
 
 
-        zincRenderer = new Zinc.Renderer(container, window);
+            //*****************************//
+            //   ZINC GL initialization    //
+            //*****************************//
+            var currentPatient = undefined;
+
+            container = document.createElement( 'div' );
+            document.body.appendChild( container );
+            container.style.height = "100%"
 
 
 
-        Zinc.defaultMaterialColor = 0xFFFF9C
-        zincRenderer.initialiseVisualisation();
-        //loadMyModel("deforming_heart");
-        //loadMyModel("skin");
-        //loadMyModel("S01_bile");
-        //loadMyModel("beating_heart");
-        loadLiverGroup("S01");
-        //loadLiverGroup("S01");
-        //alert(numbertest);
-
-
-        //Loading the current scene
-        var current_scene = zincRenderer.getCurrentScene();
-        // current_scene.setStereoEffectEnable(true);
-        //current_scene.loadFromViewURL("models/"+"newfoot");
-
-        // jloader.load('./models/S01_surface_1.json', loadGeometryThreeJS);
-        //zincRenderer.addToScene(meshGlobal);
-        zincRenderer.addToScene(plane);
-
-        zincRenderer.animate();
-
-        //var scene2 = new THREE.Scene();
+            zincRenderer = new Zinc.Renderer(container, window);
 
 
 
-    </script>
+            Zinc.defaultMaterialColor = 0xFFFF9C
+            zincRenderer.initialiseVisualisation();
+            //loadMyModel("deforming_heart");
+            //loadMyModel("skin");
+            //loadMyModel("S01_bile");
+            //loadMyModel("beating_heart");
+            loadLiverGroup("S01");
+            //loadLiverGroup("S01");
+            //alert(numbertest);
+
+
+            //Loading the current scene
+            var current_scene = zincRenderer.getCurrentScene();
+            // current_scene.setStereoEffectEnable(true);
+            //current_scene.loadFromViewURL("models/"+"newfoot");
+
+            // jloader.load('./models/S01_surface_1.json', loadGeometryThreeJS);
+            //zincRenderer.addToScene(meshGlobal);
+            zincRenderer.addToScene(plane);
+
+            zincRenderer.animate();
+
+            //var scene2 = new THREE.Scene();
+
+
+
+        </script>
 
     </body>
 </html>

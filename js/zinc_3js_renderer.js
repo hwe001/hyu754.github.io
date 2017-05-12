@@ -789,6 +789,10 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             callbackFunction(zincGeometries[i]);
         }
     }
+    
+    this.findCentroidGeometry = function(callbackFunction){
+        callbackFunction(zincGeometries[1]);
+    }
 
     this.forEachGlyphset = function(callbackFunction) {
         for ( var i = 0; i < zincGlyphsets.length; i ++ ) {
@@ -961,7 +965,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
           
         }
         //Removed this to not show internal faces
-        //material.side = THREE.DoubleSide;
+        material.side = THREE.OneSide;
         var mesh = undefined;
         mesh = new THREE.Mesh( geometry, material );
 
@@ -1104,32 +1108,71 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             //Create a temporary mesh for the video plane
             var meshtemp= fullScene.getObjectByName("video_plane");
             meshtemp.scale.set(global_width,global_height,1);
+            
             meshtemp.position.copy(_this.camera.position);
             meshtemp.rotation.copy( _this.camera.rotation );
                 
-            var changeZ = document.getElementById("surface-slider").value;
+             var changeZ = document.getElementById("surface-slider").value;
             //TODO: this -500 should be changable
+                
+            meshtemp.translateZ(  -800 +Number(changeZ));
             
+       // meshtemp.position.x(-1000);
             
-            meshtemp.translateZ(  -1000 +Number(changeZ));
             //meshtemp.updateMatrix();
             //var centroid ;
-            /*
-            _this.forEachGeometry(
+            var centroidGEO;
+            
+            _this.findCentroidGeometry(
             function(modelIN){
+                if(modelIN!=undefined){
                 geometry = modelIN.geometry;
                 geometry.computeBoundingBox();
 
                 var centerX = 0.5 * ( geometry.boundingBox.min.x + geometry.boundingBox.max.x );
                 var centerY = 0.5 * ( geometry.boundingBox.min.y + geometry.boundingBox.max.y );
                 var centerZ = 0.5 * ( geometry.boundingBox.min.z + geometry.boundingBox.max.z );
-                centroid = [ centerX, centerY, centerZ]
-               // geometry.translate([0.0001,0.00001,0.00001]);
-              
-                //alert(centroid);
+                centroidGEO = [ centerX, centerY, centerZ]
+                }
+            })
+            //alert(centroidGEO);
+            _this.forEachGeometry(
+            function(modelIN){
+                geometry = modelIN.geometry;
+                if(modelIN.modelId==1001){ // surface
+                    if(surfacePreviousVisibility ==true){
+                        modelIN.setVisibility(true);
+                    } else{
+                         modelIN.setVisibility(false); 
+                    }
+                   
+                } else if (modelIN.modelId==1002){ //bile
+                    if(bilePreviousVisibility==true){
+                        modelIN.setVisibility(true);
+                    } else{
+                        modelIN.setVisibility(false);
+                    }
+                } else if(modelIN.modelId==1003){ //hepatic
+                    if(hepaticPreviousVisibility==true){
+                        modelIN.setVisibility(true);
+                    } else {
+                        modelIN.setVisibility(false);
+                    }
+                } else if(modelIN.modelId == 1004){
+                    if(portalPreviousVisibility==true){
+                        modelIN.setVisibility(true);
+                    } else {
+                        modelIN.setVisibility(false);
+                    }
+                }
+                
+                
+                geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
+              //  console.log(centerX);
+                
                 }
             )
-            */
+            
            // alert(centroid);
            
             

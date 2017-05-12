@@ -36,10 +36,10 @@ function loadLiverGroup(patientID) {
 
             scene = zincRenderer.createScene(patientID);
 
-            scene.loadFromViewURL("models/"+patientID+"_surface");
-            scene.loadFromViewURL("models/"+patientID+"_bile");
-            scene.loadFromViewURL("models/"+patientID+"_hepatic_vein");
-            scene.loadFromViewURL("models/"+patientID+"_portal");
+            scene.loadFromViewURL("models/"+patientID+"_surface"); //id will be 1000 + 1
+            scene.loadFromViewURL("models/"+patientID+"_bile"); // //id will be 1000 + 2
+            scene.loadFromViewURL("models/"+patientID+"_hepatic_vein");//id will be 1000 + 3
+            scene.loadFromViewURL("models/"+patientID+"_portal");//id will be 1000 + 4
             
         } else {
 
