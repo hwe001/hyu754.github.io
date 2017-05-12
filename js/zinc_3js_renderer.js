@@ -792,7 +792,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
     }
     
     this.findCentroidGeometry = function(callbackFunction){
-        callbackFunction(zincGeometries[1]);
+        callbackFunction(zincGeometries[0]);
     }
 
     this.forEachGlyphset = function(callbackFunction) {
@@ -1128,13 +1128,13 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 _this.findCentroidGeometry(
                 function(modelIN){
                     if(modelIN!=undefined){
-                    geometry = modelIN.geometry;
-                    geometry.computeBoundingBox();
+                        geometry = modelIN.geometry;
+                        geometry.computeBoundingBox();
 
-                    var centerX = 0.5 * ( geometry.boundingBox.min.x + geometry.boundingBox.max.x );
-                    var centerY = 0.5 * ( geometry.boundingBox.min.y + geometry.boundingBox.max.y );
-                    var centerZ = 0.5 * ( geometry.boundingBox.min.z + geometry.boundingBox.max.z );
-                    centroidGEO = [ centerX, centerY, centerZ]
+                        var centerX = 0.5 * ( geometry.boundingBox.min.x + geometry.boundingBox.max.x );
+                        var centerY = 0.5 * ( geometry.boundingBox.min.y + geometry.boundingBox.max.y );
+                        var centerZ = 0.5 * ( geometry.boundingBox.min.z + geometry.boundingBox.max.z );
+                        centroidGEO = [ centerX, centerY, centerZ]
                     }
                 })
             //}
