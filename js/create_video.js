@@ -34,7 +34,7 @@ function gotDevices(deviceInfos) {
             select.removeChild(select.firstChild);
         }
     });
-    for (var i = deviceInfos.length; i !== 0; --i) {
+    for (var i = deviceInfos.length-1; i !== 0; --i) {
         var deviceInfo = deviceInfos[i];
         var option = document.createElement('option');
         

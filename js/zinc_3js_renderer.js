@@ -654,6 +654,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
     var errorDownload = false;
     var stereoEffectFlag = false;
     var stereoEffect = undefined;
+    var centroidGEO=undefined;
     var _this = this;
 
     this.getDownloadProgress = function() {
@@ -1122,23 +1123,25 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             
             //meshtemp.updateMatrix();
             //var centroid ;
-            var centroidGEO;
             
-            _this.findCentroidGeometry(
-            function(modelIN){
-                if(modelIN!=undefined){
-                geometry = modelIN.geometry;
-                geometry.computeBoundingBox();
+            //if(centroidGEO==undefined){
+                _this.findCentroidGeometry(
+                function(modelIN){
+                    if(modelIN!=undefined){
+                    geometry = modelIN.geometry;
+                    geometry.computeBoundingBox();
 
-                var centerX = 0.5 * ( geometry.boundingBox.min.x + geometry.boundingBox.max.x );
-                var centerY = 0.5 * ( geometry.boundingBox.min.y + geometry.boundingBox.max.y );
-                var centerZ = 0.5 * ( geometry.boundingBox.min.z + geometry.boundingBox.max.z );
-                centroidGEO = [ centerX, centerY, centerZ]
-                }
-            })
+                    var centerX = 0.5 * ( geometry.boundingBox.min.x + geometry.boundingBox.max.x );
+                    var centerY = 0.5 * ( geometry.boundingBox.min.y + geometry.boundingBox.max.y );
+                    var centerZ = 0.5 * ( geometry.boundingBox.min.z + geometry.boundingBox.max.z );
+                    centroidGEO = [ centerX, centerY, centerZ]
+                    }
+                })
+            //}
             //alert(centroidGEO);
             _this.forEachGeometry(
             function(modelIN){
+                //alert(centroidGEO);  
                 geometry = modelIN.geometry;
                 if(modelIN.modelId==1001){ // surface
                     if(surfacePreviousVisibility ==true){
