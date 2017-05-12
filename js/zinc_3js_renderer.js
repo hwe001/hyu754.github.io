@@ -1112,6 +1112,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             meshtemp.translateZ(  -1000 );
             //meshtemp.updateMatrix();
             //var centroid ;
+            /*
             _this.forEachGeometry(
             function(modelIN){
                 geometry = modelIN.geometry;
@@ -1126,6 +1127,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 //alert(centroid);
                 }
             )
+            */
            // alert(centroid);
            
             
