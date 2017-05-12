@@ -16,7 +16,7 @@ Style for all P tages
     z-index: 1; /* Stay on top */
     top: 0;
     left: 0;
-    background-color: #111; /* Black*/
+    background-color: darkslategrey; /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 60px; /* Place content 60px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
@@ -123,22 +123,23 @@ overflow: hidden;
 }
 
 
-.show_vessel{
+.btn-group .button {
+    background-color: #4CAF50; /* Green */
     border: none;
     color: white;
-    background-color: deepskyblue;
-    padding: 15px 32px;
+    padding: 10px 32px;
     text-align: center;
-    width:150px;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    transition: 0.5s;
+    width:130px;
+    cursor: pointer;
+    
+    float: middle;
 }
 
-.show_vessl{
-   
-    transition: 0.5s;
+.btn-group .button:hover {
+    background-color: #3e8e41;
 }
 
 
