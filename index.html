@@ -33,22 +33,23 @@
  <button class="block_button" id="menu_button" onclick="openNav()">Menu</button>
         
         <!--
-<span onclick="openNav()" style="font-size:40px;">Menu</span>
-<button name="Reset View" value="OK" type="button" onclick="resetView()">Reset View</button>
-<button name="View All" value="OK" type="button" onclick="viewAll()">View All</button>
-<button name="Jaw" value="jaw" type="button" onclick="loadMyModel(this.value)">Jaw</button>
-<button name="Beating Heart" value="beating_heart" type="button" onclick="loadMyModel(this.value)">Beating Heart</button>
-<button name="foot" value="newfoot" type="button" onclick="loadMyModel(this.value)">Foot</button>
-<button name="skin" value="skin" type="button" onclick="loadMyModel(this.value)">Skin</button>
-<button name="materials" value="materials" type="button" onclick="loadMyModel(this.value)">materials</button>
-<button name="deforming_heart" value="deforming_heart" type="button" onclick="loadMyModel(this.value)">Deforming heart</button>
-<button name="liver surface" value = "liver_surface" type = "button" onclick="alert('model not loaded')">liver surface</button>
+        <span onclick="openNav()" style="font-size:40px;">Menu</span>
+        <button name="Reset View" value="OK" type="button" onclick="resetView()">Reset View</button>
+        <button name="View All" value="OK" type="button" onclick="viewAll()">View All</button>
+        <button name="Jaw" value="jaw" type="button" onclick="loadMyModel(this.value)">Jaw</button>
+        <button name="Beating Heart" value="beating_heart" type="button" onclick="loadMyModel(this.value)">Beating Heart</button>
+        <button name="foot" value="newfoot" type="button" onclick="loadMyModel(this.value)">Foot</button>
+        <button name="skin" value="skin" type="button" onclick="loadMyModel(this.value)">Skin</button>
+        <button name="materials" value="materials" type="button" onclick="loadMyModel(this.value)">materials</button>
+        <button name="deforming_heart" value="deforming_heart" type="button" onclick="loadMyModel(this.value)">Deforming heart</button>
+        <button name="liver surface" value = "liver_surface" type = "button" onclick="alert('model not loaded')">liver surface</button>
 
--->
+        -->
         <!--Creating a selector for the video source-->
 
 
         <script src= "js/create_video.js"></script>
+        <script src="js/geometryLoader.js"></script>
         <script>
             //*********************************//
             //   Create video texture and plane//
@@ -74,7 +75,7 @@
             //*****************************//
             //   ZINC GL initialization    //
             //*****************************//
-            var currentModel = undefined;
+            var currentPatient = undefined;
 
             container = document.createElement( 'div' );
             document.body.appendChild( container );
@@ -89,8 +90,11 @@
             Zinc.defaultMaterialColor = 0xFFFF9C
             zincRenderer.initialiseVisualisation();
             //loadMyModel("deforming_heart");
-            loadMyModel("skin");
-
+            //loadMyModel("skin");
+            //loadMyModel("S01_bile");
+            //loadMyModel("beating_heart");
+            loadLiverGroup("S01");
+            loadLiverGroup("S01");
             //alert(numbertest);
 
 
@@ -98,63 +102,17 @@
             var current_scene = zincRenderer.getCurrentScene();
             // current_scene.setStereoEffectEnable(true);
             //current_scene.loadFromViewURL("models/"+"newfoot");
-
-
+            
+           // jloader.load('./models/S01_surface_1.json', loadGeometryThreeJS);
+            //zincRenderer.addToScene(meshGlobal);
             zincRenderer.addToScene(plane);
-
+            
             zincRenderer.animate();
 
             //var scene2 = new THREE.Scene();
 
 
-            function loadMyModel(model_name) {
-                if (currentModel != model_name) {
-                    var scene = zincRenderer.getSceneByName(model_name)
-
-                    if (scene == undefined) {
-
-                        //plane.material.side = THREE.DoubleSide;
-
-
-                        scene = zincRenderer.createScene(model_name);
-
-                        //scene.addObject(plane);
-                        //var current_scene=zincRenderer.getCurrentScene();
-                        //var scene_returned=new scene.getThreeJSScene();
-                        //scene_returned.add(plane);
-                        //scene_returned.add(plane);
-                        scene.loadFromViewURL("models/"+model_name);
-
-                        //zincRenderer.addToScene(plane);
-
-                        //scene.hello_world();
-                        //scene.loadFromViewURL("models/"+"newfoot");
-
-                    } else {
-                        // zincRenderer.addToScene(plane);
-                        scene.resetView();
-                        //   zincRenderer.getThreeJSScene();
-
-                    }
-
-                    //zincRenderer.addToScene(plane);
-                    // zincRenderer.addToScene(plane);
-                    zincRenderer.setCurrentScene(scene);
-                    zincRenderer.addToScene(plane);
-                }
-            }
-
-            function resetView()
-            {
-                zincRenderer.resetView();
-
-            }
-
-            function viewAll()
-            {
-                zincRenderer.viewAll();
-            }
-
+            
         </script>
 
     </body>

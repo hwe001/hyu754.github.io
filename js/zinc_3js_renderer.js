@@ -784,6 +784,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
     }
 
     this.forEachGeometry = function(callbackFunction) {
+        //alert(zincGeometries.length);
         for ( var i = 0; i < zincGeometries.length; i ++ ) {
             callbackFunction(zincGeometries[i]);
         }
@@ -936,7 +937,9 @@ Zinc.Scene = function ( containerIn, rendererIn) {
         var centerX = 0.5 * ( geometry.boundingBox.min.x + geometry.boundingBox.max.x );
         var centerY = 0.5 * ( geometry.boundingBox.min.y + geometry.boundingBox.max.y );
         var centerZ = 0.5 * ( geometry.boundingBox.min.z + geometry.boundingBox.max.z );
-        centroid = [ centerX, centerY, centerZ]
+        centroid = [ centerX, centerY, centerZ];
+        
+       
     }
 
 
@@ -953,9 +956,12 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             material = materialIn;
             material.morphTargets = localTimeEnabled;
         } else {
+            
             material = new THREE.MeshPhongMaterial( { color: colour, morphTargets: localTimeEnabled, morphNormals: false, vertexColors: THREE.VertexColors, transparent: isTransparent, opacity: opacity });
+          
         }
-        material.side = THREE.DoubleSide;
+        //Removed this to not show internal faces
+        //material.side = THREE.DoubleSide;
         var mesh = undefined;
         mesh = new THREE.Mesh( geometry, material );
 
@@ -982,7 +988,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
         newGeometry.mixer = mixer;
         newGeometry.clipAction = clipAction;
         zincGeometries.push ( newGeometry ) ;
-        
+      
         if (finishCallback != undefined && (typeof finishCallback == 'function'))
             finishCallback(newGeometry);
         return newGeometry;
@@ -1082,7 +1088,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 fullScene.add(sceneItem.getThreeJSScene());
             }
         }
-        
+
         renderer.clear();
         if (stereoEffectFlag && stereoEffect) {
             stereoEffect.render(fullScene, _this.camera);
@@ -1094,17 +1100,35 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 videoTexture.needsUpdate = true;
                 //console.log("hi");
             }
-            
+        //       _this.camera.position.set(centroid)
             //Create a temporary mesh for the video plane
             var meshtemp= fullScene.getObjectByName("video_plane");
             meshtemp.scale.set(global_width,global_height,1);
             meshtemp.position.copy(_this.camera.position);
             meshtemp.rotation.copy( _this.camera.rotation );
-
+                
 
             //TODO: this -500 should be changable
             meshtemp.translateZ(  -1000 );
-            meshtemp.updateMatrix();
+            //meshtemp.updateMatrix();
+            //var centroid ;
+            _this.forEachGeometry(
+            function(modelIN){
+                geometry = modelIN.geometry;
+                geometry.computeBoundingBox();
+
+                var centerX = 0.5 * ( geometry.boundingBox.min.x + geometry.boundingBox.max.x );
+                var centerY = 0.5 * ( geometry.boundingBox.min.y + geometry.boundingBox.max.y );
+                var centerZ = 0.5 * ( geometry.boundingBox.min.z + geometry.boundingBox.max.z );
+                centroid = [ centerX, centerY, centerZ]
+               // geometry.translate([0.0001,0.00001,0.00001]);
+              
+                //alert(centroid);
+                }
+            )
+           // alert(centroid);
+           
+            
             renderer.render( fullScene, _this.camera );
 
         }
@@ -1318,8 +1342,8 @@ Zinc.Renderer = function (containerIn, window) {
         animated_id = requestAnimationFrame( _this.animate );
         //This is for updating the camera if new data is coming in
         
+        //current_scene.forEachGeometry(function(aaa){alert(aaa);})
 
-        
 
         _this.render();
     }
@@ -1511,3 +1535,39 @@ function loadExternalFiles(urls, callback, errorCallback) {
         loadExternalFile(urls[i], i, partialCallback, errorCallback);
     }
 }
+
+function loadMyModel(model_name) {
+    if (currentModel != model_name) {
+        var scene = zincRenderer.getSceneByName(model_name)
+
+        if (scene == undefined) {
+
+            scene = zincRenderer.createScene(model_name);
+
+            scene.loadFromViewURL("models/"+model_name);
+
+
+        } else {
+          
+            scene.resetView();
+        
+
+        }
+
+      
+        zincRenderer.setCurrentScene(scene);
+        zincRenderer.addToScene(plane);
+    }
+}
+
+function resetView()
+{
+    zincRenderer.resetView();
+
+}
+
+function viewAll()
+{
+    zincRenderer.viewAll();
+}
+
