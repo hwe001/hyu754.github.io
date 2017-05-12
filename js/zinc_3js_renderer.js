@@ -878,7 +878,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
         for (var i = 0; i < number; i++)
         {
             var modelId = nextAvailableInternalZincModelId();
-            alert(modelId);
+            //alert(modelId);
             var filename = urls[i]
             var loader = new THREE.JSONLoader( true );
             var colour = Zinc.defaultMaterialColor;
@@ -886,7 +886,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             if (colours != undefined && colours[i] != undefined)
                 colour = colours[i] ? true: false;
             if (opacities != undefined && opacities[i] != undefined)
-                opacity = opacities[i];
+                opacity = opacities[i];sssss
             var localTimeEnabled = 0;
             if (timeEnabled != undefined && timeEnabled[i] != undefined)
                 localTimeEnabled = timeEnabled[i] ? true: false;
