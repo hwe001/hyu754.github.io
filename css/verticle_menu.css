@@ -20,10 +20,11 @@ Style for all P tages
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 60px; /* Place content 60px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    text-align: center;
 }
 
 .sidenav p{
-    padding: 8px 8px 8px 32px;
+   /* padding: 8px 8px 8px 32px;*/
     text-decoration: none;
     font-size:24px;
     color:aliceblue;
@@ -34,7 +35,8 @@ Style for all P tages
 .sidenav a{
     text-decoration: none;
     color:bisque;
-    padding: 8px 8px 8px 32px;
+    
+    /*padding: 8px 8px 8px 32px;*/
 }
 
 
@@ -51,6 +53,22 @@ Style for all P tages
     margin-left:50px;
 }
 
+.slidernav{
+    text-decoration: none;
+    color:bisque;
+   
+    text-decoration: none;
+    font-size:25px;
+    color:aliceblue;
+    display:block;
+    font-family:sans-serif;
+    transition:0.2s;
+}
+
+#surface-slider{
+    padding: 8px 8px 8px 8px;
+    
+}
 /*On smaller screens change the style of the sidenav less pading and smaller font size*/
 
 @media screen and (max-height:450px){
@@ -101,6 +119,25 @@ overflow: hidden;
     display: inline-block;
     font-size: 16px;
     position:absolute;
+    transition: 0.5s;
+}
+
+
+.show_vessel{
+    border: none;
+    color: white;
+    background-color: deepskyblue;
+    padding: 15px 32px;
+    text-align: center;
+    width:150px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    transition: 0.5s;
+}
+
+.show_vessl{
+   
     transition: 0.5s;
 }
 

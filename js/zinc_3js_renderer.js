@@ -1107,9 +1107,11 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             meshtemp.position.copy(_this.camera.position);
             meshtemp.rotation.copy( _this.camera.rotation );
                 
-
+            var changeZ = document.getElementById("surface-slider").value;
             //TODO: this -500 should be changable
-            meshtemp.translateZ(  -1000 );
+            
+            
+            meshtemp.translateZ(  -1000 +Number(changeZ));
             //meshtemp.updateMatrix();
             //var centroid ;
             /*
