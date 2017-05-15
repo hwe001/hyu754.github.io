@@ -791,6 +791,11 @@ Zinc.Scene = function ( containerIn, rendererIn) {
         }
     }
     
+    this.returnNumGeometry = function(){
+        return zincGeometries.length;
+    }
+    
+    
     this.findCentroidGeometry = function(callbackFunction){
         callbackFunction(zincGeometries[0]);
     }
@@ -1125,6 +1130,8 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             //var centroid ;
             
             //if(centroidGEO==undefined){
+      
+            if(_this.returnNumGeometry()==4){
                 _this.findCentroidGeometry(
                 function(modelIN){
                     if(modelIN!=undefined){
@@ -1176,7 +1183,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 
                 }
             )
-            
+            }
            // alert(centroid);
            
             
