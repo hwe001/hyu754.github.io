@@ -972,7 +972,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
           
         }
         //Removed this to not show internal faces
-        material.side = THREE.OneSide;
+        material.side = THREE.DoubleSided;
         var mesh = undefined;
         mesh = new THREE.Mesh( geometry, material );
 
@@ -998,6 +998,8 @@ Zinc.Scene = function ( containerIn, rendererIn) {
         newGeometry.morph = mesh;
         newGeometry.mixer = mixer;
         newGeometry.clipAction = clipAction;
+        newGeometry.flipped= false;
+       // newGeometry.scale.x = -1;
         zincGeometries.push ( newGeometry ) ;
       
         if (finishCallback != undefined && (typeof finishCallback == 'function'))
@@ -1179,6 +1181,16 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 
                 
                 geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
+                if(modelIN.flipped == false){
+                    var mS = (new THREE.Matrix4()).identity();
+                    //0 5 10
+                    mS.elements[0] = -1;
+                    
+                    geometry.applyMatrix(mS);
+                    geometry.scale( - 1, 1, 1 );
+                    modelIN.flipped = true;
+                }
+                
               //  console.log(centerX);
                 
                 }
