@@ -977,7 +977,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
         }
         //Removed this to not show internal faces
-        // material.side = THREE.BackSide;
+        //material.side = THREE.DoubleSide;
         var mesh = undefined;
 
 
@@ -1120,20 +1120,20 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             if( video.readyState === video.HAVE_ENOUGH_DATA ){
                 videoTexture.needsUpdate = true;
                 //console.log("hi");
-            
-            //       _this.camera.position.set(centroid)
-            //Create a temporary mesh for the video plane
-            var meshtemp= fullScene.getObjectByName("video_plane");
-            meshtemp.scale.set(global_width,global_height,1);
 
-            meshtemp.position.copy(_this.camera.position);
-            meshtemp.rotation.copy( _this.camera.rotation );
+                //       _this.camera.position.set(centroid)
+                //Create a temporary mesh for the video plane
+                var meshtemp= fullScene.getObjectByName("video_plane");
+                meshtemp.scale.set(global_width,global_height,1);
 
-            var changeZ = document.getElementById("surface-slider").value;
-            //TODO: this -500 should be changable
+                meshtemp.position.copy(_this.camera.position);
+                meshtemp.rotation.copy( _this.camera.rotation );
 
-            meshtemp.translateZ(  -800 +Number(changeZ));
-}
+                var changeZ = document.getElementById("plane-slider").value;
+                //TODO: this -500 should be changable
+
+                meshtemp.translateZ(  -800 +Number(changeZ));
+            }
             // meshtemp.position.x(-1000);
 
             //meshtemp.updateMatrix();
@@ -1161,14 +1161,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                     function(modelIN){
 
                         geometry = modelIN.geometry;
-                        if(modelIN.modelId==1001){ // surface
-                            if(surfacePreviousVisibility ==true){
-                                modelIN.setVisibility(true);
-                            } else{
-                                modelIN.setVisibility(false); 
-                            }
-
-                        } else if (modelIN.modelId==1002){ //bile
+                        if (modelIN.modelId==1002){ //bile
                             if(bilePreviousVisibility==true){
                                 modelIN.setVisibility(true);
                             } else{
@@ -1186,7 +1179,16 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                             } else {
                                 modelIN.setVisibility(false);
                             }
-                        }
+                        } else if(modelIN.modelId==1001){ // surface
+                            if(surfacePreviousVisibility ==true){
+                                modelIN.setVisibility(true);
+                            } else{
+                                modelIN.setVisibility(false); 
+                            }
+                      
+                            modelIN.setAlpha(   document.getElementById("surface-slider").value);
+
+                        } 
 
 
                         geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
@@ -1201,7 +1203,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             // alert(centroid);
 
             if(backcameraselected==false){
-navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
+                navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
                 if  (document.getElementById('videoSource').length>1){
                     //alert(document.querySelector('select#videoSource')[1].value);
                     if(document.getElementById('videoSource')[1].value!=undefined){
