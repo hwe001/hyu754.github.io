@@ -1203,7 +1203,9 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             if(backcameraselected==false){
                 
                 if  (document.getElementById("videoSource").length>0){
-                    alert(document.getElementById("videoSource").length);
+                    alert(document.getElementById("videoSource")[0]);
+                    document.getElementById("videoSource")[1].selected;
+                    backcameraselected = true;
                 }
             }
             renderer.render( fullScene, _this.camera );
