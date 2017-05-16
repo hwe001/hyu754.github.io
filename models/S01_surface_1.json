@@ -12,7 +12,7 @@
 	"colorSpecular" : [0.1, 0.1, 0.1],
 	"shading" : "Phong",
 	"specularCoef" : 20,
-	"opacity" : 0.4,
+	"opacity" : 0.9,
 	"vertexColors" : true
 	}],
 	"vertices" : [

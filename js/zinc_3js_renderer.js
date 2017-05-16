@@ -508,6 +508,7 @@ Zinc.Geometry = function () {
             var v1 = _this.geometry.vertices[_this.geometry.faces[i].a];
             var v2 = _this.geometry.vertices[_this.geometry.faces[i].b];
             var v3 = _this.geometry.vertices[_this.geometry.faces[i].c];
+
             geometry.faceVertexUvs[0].push(
                 [
                     new THREE.Vector2((v1.x + offset.x)/range.x ,(v1.y + offset.y)/range.y),
@@ -655,6 +656,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
     var stereoEffectFlag = false;
     var stereoEffect = undefined;
     var centroidGEO=undefined;
+    var backcameraselected=false;
     var _this = this;
 
     this.getDownloadProgress = function() {
@@ -790,12 +792,12 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             callbackFunction(zincGeometries[i]);
         }
     }
-    
+
     this.returnNumGeometry = function(){
         return zincGeometries.length;
     }
-    
-    
+
+
     this.findCentroidGeometry = function(callbackFunction){
         callbackFunction(zincGeometries[0]);
     }
@@ -883,7 +885,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
         for (var i = 0; i < number; i++)
         {
             var modelId = nextAvailableInternalZincModelId();
-         //   alert(modelId);
+            //   alert(modelId);
             var filename = urls[i]
             var loader = new THREE.JSONLoader( true );
             var colour = Zinc.defaultMaterialColor;
@@ -949,8 +951,8 @@ Zinc.Scene = function ( containerIn, rendererIn) {
         var centerY = 0.5 * ( geometry.boundingBox.min.y + geometry.boundingBox.max.y );
         var centerZ = 0.5 * ( geometry.boundingBox.min.z + geometry.boundingBox.max.z );
         centroid = [ centerX, centerY, centerZ];
-        
-       
+
+
     }
 
 
@@ -966,14 +968,20 @@ Zinc.Scene = function ( containerIn, rendererIn) {
         if (materialIn) {
             material = materialIn;
             material.morphTargets = localTimeEnabled;
+         //  material = new THREE.MeshPhongMaterial({color: "rgb(190,100,90)", opacity: 0.8, transparent: true});
         } else {
-            
+
             material = new THREE.MeshPhongMaterial( { color: colour, morphTargets: localTimeEnabled, morphNormals: false, vertexColors: THREE.VertexColors, transparent: isTransparent, opacity: opacity });
-          
+           //  material = new THREE.MeshPhongMaterial({color: "rgb(190,100,90)", opacity: 1, transparent: true});
+            
+
         }
         //Removed this to not show internal faces
-        material.side = THREE.DoubleSided;
+       // material.side = THREE.BackSide;
         var mesh = undefined;
+       
+      
+
         mesh = new THREE.Mesh( geometry, material );
 
         if (geometry instanceof THREE.Geometry ) {
@@ -999,9 +1007,9 @@ Zinc.Scene = function ( containerIn, rendererIn) {
         newGeometry.mixer = mixer;
         newGeometry.clipAction = clipAction;
         newGeometry.flipped= false;
-       // newGeometry.scale.x = -1;
+        // newGeometry.scale.x = -1;
         zincGeometries.push ( newGeometry ) ;
-      
+
         if (finishCallback != undefined && (typeof finishCallback == 'function'))
             finishCallback(newGeometry);
         return newGeometry;
@@ -1113,93 +1121,93 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 videoTexture.needsUpdate = true;
                 //console.log("hi");
             }
-        //       _this.camera.position.set(centroid)
+            //       _this.camera.position.set(centroid)
             //Create a temporary mesh for the video plane
             var meshtemp= fullScene.getObjectByName("video_plane");
             meshtemp.scale.set(global_width,global_height,1);
-            
+
             meshtemp.position.copy(_this.camera.position);
             meshtemp.rotation.copy( _this.camera.rotation );
-                
-             var changeZ = document.getElementById("surface-slider").value;
+
+            var changeZ = document.getElementById("surface-slider").value;
             //TODO: this -500 should be changable
-                
+
             meshtemp.translateZ(  -800 +Number(changeZ));
-            
-       // meshtemp.position.x(-1000);
-            
+
+            // meshtemp.position.x(-1000);
+
             //meshtemp.updateMatrix();
             //var centroid ;
-            
+
             //if(centroidGEO==undefined){
-      
+
             if(_this.returnNumGeometry()==4){
                 _this.findCentroidGeometry(
-                function(modelIN){
-                    if(modelIN!=undefined){
-                        geometry = modelIN.geometry;
-                        geometry.computeBoundingBox();
+                    function(modelIN){
+                        if(modelIN!=undefined){
+                            geometry = modelIN.geometry;
+                            geometry.computeBoundingBox();
 
-                        var centerX = 0.5 * ( geometry.boundingBox.min.x + geometry.boundingBox.max.x );
-                        var centerY = 0.5 * ( geometry.boundingBox.min.y + geometry.boundingBox.max.y );
-                        var centerZ = 0.5 * ( geometry.boundingBox.min.z + geometry.boundingBox.max.z );
-                        centroidGEO = [ centerX, centerY, centerZ]
+                            var centerX = 0.5 * ( geometry.boundingBox.min.x + geometry.boundingBox.max.x );
+                            var centerY = 0.5 * ( geometry.boundingBox.min.y + geometry.boundingBox.max.y );
+                            var centerZ = 0.5 * ( geometry.boundingBox.min.z + geometry.boundingBox.max.z );
+                            centroidGEO = [ centerX, centerY, centerZ]
+                        }
+                    })
+                //}
+                //alert(centroidGEO);
+                var ifRender = true;
+                _this.forEachGeometry(
+                    function(modelIN){
+
+                        geometry = modelIN.geometry;
+                        if(modelIN.modelId==1001){ // surface
+                            if(surfacePreviousVisibility ==true){
+                                modelIN.setVisibility(true);
+                            } else{
+                                modelIN.setVisibility(false); 
+                            }
+
+                        } else if (modelIN.modelId==1002){ //bile
+                            if(bilePreviousVisibility==true){
+                                modelIN.setVisibility(true);
+                            } else{
+                                modelIN.setVisibility(false);
+                            }
+                        } else if(modelIN.modelId==1003){ //hepatic
+                            if(hepaticPreviousVisibility==true){
+                                modelIN.setVisibility(true);
+                            } else {
+                                modelIN.setVisibility(false);
+                            }
+                        } else if(modelIN.modelId == 1004){
+                            if(portalPreviousVisibility==true){
+                                modelIN.setVisibility(true);
+                            } else {
+                                modelIN.setVisibility(false);
+                            }
+                        }
+
+
+                        geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
+
+                        
+
+                        //  console.log(centerX);
+
                     }
-                })
-            //}
-            //alert(centroidGEO);
-            _this.forEachGeometry(
-            function(modelIN){
-                
-                geometry = modelIN.geometry;
-                if(modelIN.modelId==1001){ // surface
-                    if(surfacePreviousVisibility ==true){
-                        modelIN.setVisibility(true);
-                    } else{
-                         modelIN.setVisibility(false); 
-                    }
-                   
-                } else if (modelIN.modelId==1002){ //bile
-                    if(bilePreviousVisibility==true){
-                        modelIN.setVisibility(true);
-                    } else{
-                        modelIN.setVisibility(false);
-                    }
-                } else if(modelIN.modelId==1003){ //hepatic
-                    if(hepaticPreviousVisibility==true){
-                        modelIN.setVisibility(true);
-                    } else {
-                        modelIN.setVisibility(false);
-                    }
-                } else if(modelIN.modelId == 1004){
-                    if(portalPreviousVisibility==true){
-                        modelIN.setVisibility(true);
-                    } else {
-                        modelIN.setVisibility(false);
-                    }
-                }
-                
-                
-                geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
-                if(modelIN.flipped == false){
-                    var mS = (new THREE.Matrix4()).identity();
-                    //0 5 10
-                    mS.elements[0] = -1;
-                    
-                    geometry.applyMatrix(mS);
-                    geometry.scale( - 1, 1, 1 );
-                    modelIN.flipped = true;
-                }
-                
-              //  console.log(centerX);
-                
-                }
-            )
+                )
             }
-           // alert(centroid);
-           
-            
+            // alert(centroid);
+
+            if(backcameraselected==false){
+                
+                if  (document.getElementById("videoSource").length>0){
+                    alert(document.getElementById("videoSource").length);
+                }
+            }
             renderer.render( fullScene, _this.camera );
+
 
         }
     }
@@ -1411,9 +1419,9 @@ Zinc.Renderer = function (containerIn, window) {
     this.animate = function() {
         animated_id = requestAnimationFrame( _this.animate );
         //This is for updating the camera if new data is coming in
-        
+
         //current_scene.forEachGeometry(function(aaa){alert(aaa);})
-       // alert("hi");
+        // alert("hi");
 
         _this.render();
     }
@@ -1618,13 +1626,13 @@ function loadMyModel(model_name) {
 
 
         } else {
-          
+
             scene.resetView();
-        
+
 
         }
 
-      
+
         zincRenderer.setCurrentScene(scene);
         zincRenderer.addToScene(plane);
     }

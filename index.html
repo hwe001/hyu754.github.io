@@ -82,6 +82,8 @@ for the purpose of augment reality applications.
                 map : videoTexture
             });
 
+            
+          
             //create plane with video texture
             var geo = new THREE.PlaneGeometry(1, 1);
             //var mat = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
@@ -93,7 +95,7 @@ for the purpose of augment reality applications.
             plane.material.side=THREE.DoubleSide;
 
 
-
+            
             //*****************************//
             //   ZINC GL initialization    //
             //*****************************//
@@ -115,7 +117,7 @@ for the purpose of augment reality applications.
             //loadMyModel("skin");
             //loadMyModel("S01_bile");
             //loadMyModel("beating_heart");
-            loadLiverGroup("S01");
+            loadLiverGroup("1");
             //loadLiverGroup("S01");
             //alert(numbertest);
 
@@ -129,6 +131,10 @@ for the purpose of augment reality applications.
             //zincRenderer.addToScene(meshGlobal);
             zincRenderer.addToScene(plane);
             
+            
+          
+            
+    
             zincRenderer.animate();
 
             //var scene2 = new THREE.Scene();
