@@ -1120,7 +1120,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             if( video.readyState === video.HAVE_ENOUGH_DATA ){
                 videoTexture.needsUpdate = true;
                 //console.log("hi");
-            }
+            
             //       _this.camera.position.set(centroid)
             //Create a temporary mesh for the video plane
             var meshtemp= fullScene.getObjectByName("video_plane");
@@ -1133,7 +1133,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             //TODO: this -500 should be changable
 
             meshtemp.translateZ(  -800 +Number(changeZ));
-
+}
             // meshtemp.position.x(-1000);
 
             //meshtemp.updateMatrix();
@@ -1141,7 +1141,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
             //if(centroidGEO==undefined){
 
-            if(_this.returnNumGeometry()==10){
+            if(_this.returnNumGeometry()==4){
                 _this.findCentroidGeometry(
                     function(modelIN){
                         if(modelIN!=undefined){
@@ -1201,7 +1201,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             // alert(centroid);
 
             if(backcameraselected==false){
-
+navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
                 if  (document.getElementById('videoSource').length>1){
                     //alert(document.querySelector('select#videoSource')[1].value);
                     if(document.getElementById('videoSource')[1].value!=undefined){
