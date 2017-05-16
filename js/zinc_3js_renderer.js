@@ -1200,18 +1200,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             }
             // alert(centroid);
 
-            if(backcameraselected==false){
-                
-                if  (document.getElementById("videoSource").length>1){
-                    //alert(document.querySelector('select#videoSource')[1].value);
-                    /*
-                    document.querySelector('select#videoSource').value =document.querySelector('select#videoSource')[1].value;
-                    navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
-                    backcameraselected =true;
-                    start();
-                    */
-                }
-            }
+            
             renderer.render( fullScene, _this.camera );
 
 
