@@ -968,19 +968,19 @@ Zinc.Scene = function ( containerIn, rendererIn) {
         if (materialIn) {
             material = materialIn;
             material.morphTargets = localTimeEnabled;
-         //  material = new THREE.MeshPhongMaterial({color: "rgb(190,100,90)", opacity: 0.8, transparent: true});
+            //  material = new THREE.MeshPhongMaterial({color: "rgb(190,100,90)", opacity: 0.8, transparent: true});
         } else {
 
             material = new THREE.MeshPhongMaterial( { color: colour, morphTargets: localTimeEnabled, morphNormals: false, vertexColors: THREE.VertexColors, transparent: isTransparent, opacity: opacity });
-           //  material = new THREE.MeshPhongMaterial({color: "rgb(190,100,90)", opacity: 1, transparent: true});
-            
+            //  material = new THREE.MeshPhongMaterial({color: "rgb(190,100,90)", opacity: 1, transparent: true});
+
 
         }
         //Removed this to not show internal faces
-       // material.side = THREE.BackSide;
+        // material.side = THREE.BackSide;
         var mesh = undefined;
-       
-      
+
+
 
         mesh = new THREE.Mesh( geometry, material );
 
@@ -1191,7 +1191,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
                         geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
 
-                        
+
 
                         //  console.log(centerX);
 
@@ -1201,18 +1201,19 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             // alert(centroid);
 
             if(backcameraselected==false){
-                
+
                 if  (document.querySelector('select#videoSource').length>1){
                     //alert(document.querySelector('select#videoSource')[1].value);
-                    
-                   // document.querySelector('select#videoSource').value =document.querySelector('select#videoSource')[0].value;
-                   
-                  
-                   // start();
-                    
-                    
-                    
-                    backcameraselected =true;
+                    if(document.querySelector('select#videoSource')[1].value!=undefined){
+                        document.querySelector('select#videoSource').value =document.querySelector('select#videoSource')[1].value;
+
+
+                        start();
+                        alert(videoSelect[1]); 
+
+
+                        backcameraselected =true;
+                    }
                 }
             }
             renderer.render( fullScene, _this.camera );
