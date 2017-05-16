@@ -1141,7 +1141,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
             //if(centroidGEO==undefined){
 
-            if(_this.returnNumGeometry()==4){
+            if(_this.returnNumGeometry()==10){
                 _this.findCentroidGeometry(
                     function(modelIN){
                         if(modelIN!=undefined){
@@ -1206,6 +1206,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                   var theSelect = document.getElementById('videoSource');
                 var lastValue = theSelect.options[theSelect.options.length - 1].value;
                     backcameraselected =true;
+                    start();
                 }
             }
             renderer.render( fullScene, _this.camera );
