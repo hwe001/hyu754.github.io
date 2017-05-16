@@ -1206,6 +1206,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                     //alert(document.querySelector('select#videoSource')[1].value);
                     
                     document.querySelector('select#videoSource').value =document.querySelector('select#videoSource')[1].value;
+                    navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
                     backcameraselected =true;
                     start();
                 }
