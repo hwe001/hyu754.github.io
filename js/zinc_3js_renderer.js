@@ -1202,14 +1202,14 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
             if(backcameraselected==false){
 
-                if  (document.querySelector('select#videoSource').length>1){
+                if  (document.getElementById('videoSource').length>1){
                     //alert(document.querySelector('select#videoSource')[1].value);
-                    if(document.querySelector('select#videoSource')[1].value!=undefined){
-                        document.querySelector('select#videoSource').value =document.querySelector('select#videoSource')[1].value;
+                    if(document.getElementById('videoSource')[1].value!=undefined){
+                        document.getElementById('videoSource').value =document.getElementById('videoSource')[1].value;
 
 
                         start();
-                        alert(videoSelect[1]); 
+                        //alert(videoSelect[1]); 
 
 
                         backcameraselected =true;
