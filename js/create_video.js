@@ -169,10 +169,12 @@ var checkOrientation = function(){
             var dummyGlobalHeight = global_height;
             global_height = global_width;
             global_width = dummyGlobalHeight;
-            alert(previousOrientation);
+          //  alert(previousOrientation);
             if((previousOrientation==90)||(previousOrientation==-90)){
-                document.getElementById('plane-slider').value = 300;
-                alert('changed');
+                document.getElementById('plane-slider').value = 400;
+                //alert('changed');
+            } else if((previousOrientation==0)||(previousOrientation==180)){
+                 document.getElementById('plane-slider').value = 0;
             }
         }
     }
