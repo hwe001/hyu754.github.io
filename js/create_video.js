@@ -51,7 +51,7 @@ function gotDevices(deviceInfos) {
     selectors.forEach(function(select, selectorIndex) {
         if (Array.prototype.slice.call(select.childNodes).some(function(n) {
             return n.value === values[selectorIndex];
-        })) {
+        })) {s
             select.value = values[selectorIndex];
         }
     });
@@ -60,13 +60,14 @@ function gotDevices(deviceInfos) {
 //enumerates the devices
 navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
 
-
 //If stream is received
 function gotStream(stream) {
     window.stream = stream; // make stream available to console
     video.srcObject = stream;
+    alert("got stream called");
     // Refresh button list in case labels have become available
     return navigator.mediaDevices.enumerateDevices();
+    
 }
 
 function handleError(error) {
@@ -88,7 +89,7 @@ function start() {
     
     var constraints = {
         // audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
-        video: {deviceId: videoSource ? {exact: videoSource} : undefined}
+        video: {deviceId: videoSource }
     };
 
     //alert(constraints.video);
