@@ -83,7 +83,7 @@ function start() {
         });
     }
 
-    alert("Changed");
+   // alert("Changed");
     //var audioSource = audioInputSelect.value;
     var videoSource = videoSelect.value;
     
@@ -92,7 +92,7 @@ function start() {
         video: {deviceId: videoSource ? {exact: videoSource} : undefined}
     };
 
-    //alert(constraints.video);
+    alert(videoSelect.length);
     navigator.mediaDevices.getUserMedia(constraints).
     then(gotStream).then(gotDevices).catch(handleError);
     //video.addEventListener("loadedmetadata");
