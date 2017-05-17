@@ -1226,6 +1226,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
 
                         start();
+                         start();
                         //alert(videoSelect[1]); 
 
 
