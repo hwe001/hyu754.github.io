@@ -1251,10 +1251,13 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
 
                 } */
+             if(backcameraselected==false){
                 if( document.querySelector('select#videoSource').length == 2){
                      document.querySelector('select#videoSource').value =document.querySelector('select#videoSource')[1].value;
                      document.querySelector('select#videoSource').change=true;
                 }
+                 backcameraselected=true;
+                  }
             
             renderer.render( fullScene, _this.camera );
 
