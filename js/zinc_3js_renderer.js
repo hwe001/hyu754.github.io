@@ -1252,7 +1252,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
                 } */
                 
-
+            
             renderer.render( fullScene, _this.camera );
 
         }

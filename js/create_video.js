@@ -64,7 +64,7 @@ navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
 function gotStream(stream) {
     window.stream = stream; // make stream available to console
     video.srcObject = stream;
-    alert("got stream called");
+  //  alert("got stream called");
     // Refresh button list in case labels have become available
     return navigator.mediaDevices.enumerateDevices();
     
