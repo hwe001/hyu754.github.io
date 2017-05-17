@@ -50,6 +50,7 @@ function loadLiverGroup(patientID) {
             scene.loadFromViewURL("liverModels/bile"+patientID); //id will be 1000 + 1
             scene.loadFromViewURL("liverModels/hepatic"+patientID); //id will be 1000 + 1
             scene.loadFromViewURL("liverModels/portal"+patientID); //id will be 1000 + 1
+           scene.loadFromViewURL("liverModels/arterial"+patientID); //id will be 1000 + 1
            
         } else {
 

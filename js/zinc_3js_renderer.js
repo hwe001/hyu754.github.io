@@ -657,6 +657,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
     var stereoEffect = undefined;
     var centroidGEO=undefined;
     var backcameraselected=false;
+    var modelIDBegin = 1000;
     var _this = this;
 
     this.getDownloadProgress = function() {
@@ -839,7 +840,8 @@ Zinc.Scene = function ( containerIn, rendererIn) {
     var loadMetaModel = function(url, timeEnabled, morphColour, groupName, finishCallback)
     {
         num_inputs += 1;
-        var modelId = nextAvailableInternalZincModelId();
+        modelIDBegin+=1;
+        var modelId = modelIDBegin;//nextAvailableInternalZincModelId();
         var loader = new THREE.JSONLoader( true );
         var colour = Zinc.defaultMaterialColor;
         var opacity = Zinc.defaultOpacity;
@@ -935,6 +937,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                     urls.push(filename);
                 }
                 _this.loadModelsURL(urls, viewData.colour, viewData.opacity, viewData.timeEnabled, viewData.morphColour, finishCallback);
+                alert(urls);
             }
         }
         requestURL = jsonFilePrefix + "_view.json";
@@ -977,7 +980,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
         }
         //Removed this to not show internal faces
-        //material.side = THREE.DoubleSide;
+        material.side = THREE.FrontSide;
         var mesh = undefined;
 
 
@@ -986,6 +989,16 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
         if (geometry instanceof THREE.Geometry ) {
             geometry.computeMorphNormals();
+        }
+
+
+
+        if(modelId==1001){
+        var mat = new THREE.LineBasicMaterial( { color: 0x00000, linewidth: 0.001 } );
+        var wireframe = new THREE.LineSegments( geometry, mat );
+
+
+        mesh.add(wireframe);
         }
 
         setPositionOfObject(mesh);
@@ -1141,7 +1154,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
             //if(centroidGEO==undefined){
 
-            if(_this.returnNumGeometry()==4){
+            if(_this.returnNumGeometry()==5){
                 _this.findCentroidGeometry(
                     function(modelIN){
                         if(modelIN!=undefined){
@@ -1184,11 +1197,17 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                                 modelIN.setVisibility(true);
                             } else{
                                 modelIN.setVisibility(false); 
-                            }
-                      
+                            } 
+
                             modelIN.setAlpha(   document.getElementById("surface-slider").value);
 
-                        } 
+                        } else if(modelIN.modelID=1005){ //arterial
+                            if(arterialPreviousVisibility ==true){
+                                modelIN.setVisibility(true);
+                            } else{
+                                modelIN.setVisibility(false); 
+                            }  
+                        }
 
 
                         geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));

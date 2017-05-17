@@ -3,6 +3,7 @@ var surfacePreviousVisibility=true;
 var hepaticPreviousVisibility=true;
 var portalPreviousVisibility=true;
 var bilePreviousVisibility=true;
+var arterialPreviousVisibility=true;
 
 //When the open button is pressed
 function openNav(){
@@ -98,6 +99,53 @@ function hepaticVisibility(){
         document.getElementById("hepatic_button").style.backgroundColor =" #4CAF50";
                                        
     }
+
+
+}
+
+
+//Function for arterial visibility
+function arterialVisibility(){
+
+
+    if(arterialPreviousVisibility==true){
+        arterialPreviousVisibility=false;
+    } else{
+        arterialPreviousVisibility=true;
+    }
+
+    if(arterialPreviousVisibility==false){           
+        document.getElementById("arterial_button").style.backgroundColor ="darkgreen";
+                                        
+    } else{
+        document.getElementById("arterial_button").style.backgroundColor =" #4CAF50";
+                                       
+    }
+
+
+}
+
+
+//Function to show all geometries
+function allVisibility(){
+
+
+   if(surfacePreviousVisibility==false){
+       surfacePreviousVisibility=true;
+   }
+     if(hepaticPreviousVisibility==false){
+       hepaticPreviousVisibility=true;
+   }
+     if(portalPreviousVisibility==false){
+       portalPreviousVisibility=true;
+   }
+     if(bilePreviousVisibility==false){
+       bilePreviousVisibility=true;
+   }
+     if(arterialPreviousVisibility==false){
+       arterialPreviousVisibility=true;
+   }
+   
 
 
 }
