@@ -73,6 +73,7 @@ function handleError(error) {
     console.log('navigator.getUserMedia error: ', error);
 }
 
+//switch value for videoSelect
 
 function start() {
     if (window.stream) {
@@ -101,6 +102,7 @@ function start() {
         global_height=this.videoHeight;
     
     }
+  
     /*
     video.onloadedmetadata = function() {
         console.log('width is', this.videoWidth);
@@ -153,7 +155,7 @@ function start() {
 }
 
 videoSelect.onchange = start;
-checkOrientation();
+//checkOrientation();
 start();
 
 //Function for resizing the image plane in Zinc if the orientation is changed

@@ -658,6 +658,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
     var centroidGEO=undefined;
     var backcameraselected=false;
     var modelIDBegin = 1000;
+    var startBuffer =0;
     var _this = this;
 
     this.getDownloadProgress = function() {
@@ -1230,8 +1231,9 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 )
             }
             // alert(centroid);
-
+            if(startBuffer==6){
             if(backcameraselected==false){
+                  alert( videoSelect.length);
                // navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
                 if  ((document.getElementById('videoSource').length==2)&&(_this.returnNumGeometry()==5)){
                     //alert(document.querySelector('select#videoSource')[1].value);
@@ -1246,9 +1248,12 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                     }
                 }
             }
+                startBuffer=startBuffer+1;
+            } else {
+                startBuffer=startBuffer+1;
+            }
 
             renderer.render( fullScene, _this.camera );
-
 
         }
     }
