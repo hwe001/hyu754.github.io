@@ -1243,7 +1243,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
                         start();
 
-
+                        alert("two devices");
                         backcameraselected =true;
                     } 
                 } else if((document.getElementById('videoSource').length==1)){
@@ -1251,6 +1251,8 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
 
                         start();
+                    alert("one device");
+                         backcameraselected =true;
                 }
             }
                 startBuffer=startBuffer+1;
