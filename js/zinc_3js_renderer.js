@@ -1144,7 +1144,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 //Create a temporary mesh for the video plane
 
                 //  meshtemp.translateZ(  -800 );
-               // alert("yes");
+                // alert("yes");
             }
 
             var meshtemp= fullScene.getObjectByName("video_plane");
@@ -1232,7 +1232,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 )
             }
             // alert(centroid);
-          /*
+            /*
                 if(backcameraselected==false){
                    // alert( videoSelect.length);
                    // navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
@@ -1241,7 +1241,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                         if(document.getElementById('videoSource')[1].value!=undefined){
                             document.getElementById('videoSource').value =document.getElementById('videoSource')[1].value;
 
-                            
+
  document.getElementById('videoSource').changed;
 
                             alert("two devices");
@@ -1251,17 +1251,18 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
 
                 } */
-             if(backcameraselected==false){
+            if(backcameraselected==false){
                 if( document.querySelector('select#videoSource').length == 2){
                     var dummyVar =  document.querySelector('select#videoSource').value[0];
-                     document.querySelector('select#videoSource').value[0] =document.querySelector('select#videoSource')[1].value;
+                    document.querySelector('select#videoSource').value[0] =document.querySelector('select#videoSource')[1].value;
                     document.querySelector('select#videoSource')[1].value=dummyVar;
                     // document.querySelector('select#videoSource').change=true;
                     start();
+                    alert("switched");
                 }
-                 backcameraselected=true;
-                  }
-            
+                backcameraselected=true;
+            }
+
             renderer.render( fullScene, _this.camera );
 
         }
