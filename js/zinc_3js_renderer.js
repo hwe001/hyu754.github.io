@@ -1232,7 +1232,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 )
             }
             // alert(centroid);
-          
+          /*
                 if(backcameraselected==false){
                    // alert( videoSelect.length);
                    // navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
@@ -1250,7 +1250,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                     } 
 
 
-                } 
+                } */
                 
 
             renderer.render( fullScene, _this.camera );
