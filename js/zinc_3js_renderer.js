@@ -1232,32 +1232,35 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             }
             // alert(centroid);
             if(startBuffer==6){
-            if(backcameraselected==false){
-                  alert( videoSelect.length);
-               navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
-                if  ((document.getElementById('videoSource').length==2)&&(_this.returnNumGeometry()==5)){
-                    //alert(document.querySelector('select#videoSource')[1].value);
-                    if(document.getElementById('videoSource')[1].value!=undefined){
-                        document.getElementById('videoSource').value =document.getElementById('videoSource')[1].value;
+                if(backcameraselected==false){
+                    alert( videoSelect.length);
+                    navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
+                    if  ((document.getElementById('videoSource').length==2)&&(_this.returnNumGeometry()==5)){
+                        //alert(document.querySelector('select#videoSource')[1].value);
+                        if(document.getElementById('videoSource')[1].value!=undefined){
+                            document.getElementById('videoSource').value =document.getElementById('videoSource')[1].value;
 
 
-                        start();
 
-                        alert("two devices");
+
+                            alert("two devices");
+                            backcameraselected =true;
+                        } 
+                    } else if((document.getElementById('videoSource').length==1)){
+                        document.getElementById('videoSource').value =document.getElementById('videoSource')[0].value;
+
+
+                        //start();
+                        alert("one device");
                         backcameraselected =true;
-                    } 
-                } else if((document.getElementById('videoSource').length==1)){
-                    document.getElementById('videoSource').value =document.getElementById('videoSource')[0].value;
+                    }
 
-
-                        start();
-                    alert("one device");
-                         backcameraselected =true;
+ start();  
                 }
-            }
                 startBuffer=startBuffer+1;
             } else {
                 startBuffer=startBuffer+1;
+                  // start();  
             }
 
             renderer.render( fullScene, _this.camera );
