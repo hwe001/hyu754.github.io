@@ -1144,7 +1144,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 //Create a temporary mesh for the video plane
 
                 //  meshtemp.translateZ(  -800 );
-                alert("yes");
+               // alert("yes");
             }
 
             var meshtemp= fullScene.getObjectByName("video_plane");
@@ -1234,7 +1234,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             // alert(centroid);
           
                 if(backcameraselected==false){
-                    alert( videoSelect.length);
+                   // alert( videoSelect.length);
                     navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
                     if  ((document.getElementById('videoSource').length==2)&&(_this.returnNumGeometry()==5)){
                         //alert(document.querySelector('select#videoSource')[1].value);
@@ -1244,7 +1244,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
 
 
-                            alert("two devices");
+                          //  alert("two devices");
                             backcameraselected =true;
                         } 
                     } else if((document.getElementById('videoSource').length==1)){
@@ -1252,7 +1252,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
 
                         //start();
-                        alert("one device");
+                     //   alert("one device");
                         backcameraselected =true;
                     }
 
