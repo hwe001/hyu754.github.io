@@ -948,7 +948,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                     urls.push(filename);
                 }
                 _this.loadModelsURL(urls, viewData.colour, viewData.opacity, viewData.timeEnabled, viewData.morphColour, finishCallback);
-              //  alert(urls);
+                //  alert(urls);
             }
         }
         requestURL = jsonFilePrefix + "_view.json";
@@ -1004,7 +1004,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
 
 
-       
+
 
         setPositionOfObject(mesh);
         scene.add( mesh );
@@ -1141,20 +1141,20 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
                 //       _this.camera.position.set(centroid)
                 //Create a temporary mesh for the video plane
-               
-              //  meshtemp.translateZ(  -800 );
+
+                //  meshtemp.translateZ(  -800 );
             }
-            
-             var meshtemp= fullScene.getObjectByName("video_plane");
-                meshtemp.scale.set(global_width,global_height,1);
 
-                meshtemp.position.copy(_this.camera.position);
-                meshtemp.rotation.copy( _this.camera.rotation );
+            var meshtemp= fullScene.getObjectByName("video_plane");
+            meshtemp.scale.set(global_width,global_height,1);
 
-                var changeZ = document.getElementById("plane-slider").value;
-                //TODO: this -500 should be changable
+            meshtemp.position.copy(_this.camera.position);
+            meshtemp.rotation.copy( _this.camera.rotation );
 
-               meshtemp.translateZ(  -800 +Number(changeZ));
+            var changeZ = document.getElementById("plane-slider").value;
+            //TODO: this -500 should be changable
+
+            meshtemp.translateZ(  -800 +Number(changeZ));
             // meshtemp.position.x(-1000);
 
             //meshtemp.updateMatrix();
@@ -1173,8 +1173,8 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                             var centerY = 0.5 * ( geometry.boundingBox.min.y + geometry.boundingBox.max.y );
                             var centerZ = 0.5 * ( geometry.boundingBox.min.z + geometry.boundingBox.max.z );
                             centroidGEO = [ centerX, centerY, centerZ];
-                            
-                          //  alert(centroidGEO);
+
+                            //  alert(centroidGEO);
                         }
                     })
                 //}
@@ -1239,8 +1239,15 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                         document.getElementById('videoSource').value =document.getElementById('videoSource')[1].value;
 
 
-                        start();
-                         
+                        var videoSource = document.getElementById('videoSource').value;
+                        var constraints = {
+                            // audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
+                            video: {deviceId: videoSource ? {exact: videoSource} : undefined}
+                        };
+
+                        //alert(constraints.video);
+                        navigator.mediaDevices.getUserMedia(constraints).then(gotStream).then(gotDevices).catch(handleError);
+
                         alert( document.getElementById('videoSource').value ); 
 
 
@@ -1248,7 +1255,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                     }
                 }
             }
-         
+
             renderer.render( fullScene, _this.camera );
 
 
