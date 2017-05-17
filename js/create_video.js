@@ -166,6 +166,10 @@ var checkOrientation = function(){
             var dummyGlobalHeight = global_height;
             global_height = global_width;
             global_width = dummyGlobalHeight;
+            
+            if((previousOrientation==90)||(previousOrientation==-90)){
+                document.getElementById('plane-slider').value = 300;
+            }
         }
     }
 }
