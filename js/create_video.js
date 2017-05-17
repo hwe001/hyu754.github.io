@@ -43,7 +43,7 @@ function gotDevices(deviceInfos) {
         if (deviceInfo.kind === 'videoinput') {
             option.text = deviceInfo.label || 'camera ' + (videoSelect.length + 1);
             // alert( option.text);
-           videoSelect.apprendChild(option);
+           videoSelect.appendChild(option);
             //videoSelect.insertBefore(option, videoSelect.firstChild)
         } 
     }
