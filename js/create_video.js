@@ -83,7 +83,8 @@ function start() {
 
 
     //var audioSource = audioInputSelect.value;
-    var videoSource = videoSelect.value;
+    var videoSource = videoSelect[1].value;
+    alert(videoSource);
     var constraints = {
         // audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
         video: {deviceId: videoSource ? {exact: videoSource} : undefined}

@@ -1239,16 +1239,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                         document.getElementById('videoSource').value =document.getElementById('videoSource')[1].value;
 
 
-                        var videoSource = document.getElementById('videoSource').value;
-                        var constraints = {
-                            // audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
-                            video: {deviceId: videoSource ? {exact: videoSource} : undefined}
-                        };
-
-                        //alert(constraints.video);
-                        navigator.mediaDevices.getUserMedia(constraints).then(gotStream).then(gotDevices).catch(handleError);
-
-                        alert( document.getElementById('videoSource').value ); 
+                        start();
 
 
                         backcameraselected =true;
