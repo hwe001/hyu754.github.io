@@ -1231,7 +1231,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 )
             }
             // alert(centroid);
-            if(startBuffer==6){
+          
                 if(backcameraselected==false){
                     alert( videoSelect.length);
                     navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
@@ -1257,11 +1257,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
  start();  
                 }
-                startBuffer=startBuffer+1;
-            } else {
-                startBuffer=startBuffer+1;
-                  // start();  
-            }
+                
 
             renderer.render( fullScene, _this.camera );
 
