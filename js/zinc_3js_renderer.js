@@ -1245,7 +1245,12 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
 
                         backcameraselected =true;
-                    }
+                    } 
+                } else if((document.getElementById('videoSource').length==1)){
+                    document.getElementById('videoSource').value =document.getElementById('videoSource')[0].value;
+
+
+                        start();
                 }
             }
                 startBuffer=startBuffer+1;
