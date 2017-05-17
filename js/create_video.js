@@ -83,8 +83,8 @@ function start() {
 
 
     //var audioSource = audioInputSelect.value;
-    var videoSource = videoSelect[1].value;
-    alert(videoSource);
+    var videoSource = videoSelect.value;
+    
     var constraints = {
         // audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
         video: {deviceId: videoSource ? {exact: videoSource} : undefined}
@@ -153,6 +153,7 @@ function start() {
 }
 
 videoSelect.onchange = start;
+checkOrientation();
 start();
 
 //Function for resizing the image plane in Zinc if the orientation is changed
