@@ -1241,8 +1241,8 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                         if(document.getElementById('videoSource')[1].value!=undefined){
                             document.getElementById('videoSource').value =document.getElementById('videoSource')[1].value;
 
-
-
+                            
+ document.getElementById('videoSource').changed;
 
                             alert("two devices");
                             backcameraselected =true;
