@@ -47,9 +47,9 @@ function loadLiverGroup(patientID) {
             scene.loadFromViewURL("models/"+patientID+"_portal");//id will be 1000 + 4
          */
              scene.loadFromViewURL("liverModels/surface"+patientID); //id will be 1000 + 1
-        //    scene.loadFromViewURL("liverModels/bile"+patientID); //id will be 1000 + 1
-        //    scene.loadFromViewURL("liverModels/hepatic"+patientID); //id will be 1000 + 1
-        //    scene.loadFromViewURL("liverModels/portal"+patientID); //id will be 1000 + 1
+            scene.loadFromViewURL("liverModels/bile"+patientID); //id will be 1000 + 1
+            scene.loadFromViewURL("liverModels/hepatic"+patientID); //id will be 1000 + 1
+            scene.loadFromViewURL("liverModels/portal"+patientID); //id will be 1000 + 1
        //    scene.loadFromViewURL("liverModels/arterial"+patientID); //id will be 1000 + 1
            
         } else {
