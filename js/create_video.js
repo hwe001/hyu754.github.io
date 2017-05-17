@@ -170,6 +170,7 @@ var checkOrientation = function(){
             
             if((previousOrientation==90)||(previousOrientation==-90)){
                 document.getElementById('plane-slider').value = 300;
+                alert('changed');
             }
         }
     }
