@@ -44,8 +44,8 @@ function gotDevices(deviceInfos) {
             option.text = deviceInfo.label || 'camera ' + (videoSelect.length + 1);
             
             // alert( option.text);
-           //videoSelect.appendChild(option);
-            videoSelect.insertBefore(option, videoSelect.firstChild)
+           videoSelect.appendChild(option);
+           // videoSelect.insertBefore(option, videoSelect.firstChild)
         } 
     }
     /*
