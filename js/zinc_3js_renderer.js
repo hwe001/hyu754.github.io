@@ -1136,10 +1136,11 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 meshtemp.position.copy(_this.camera.position);
                 meshtemp.rotation.copy( _this.camera.rotation );
 
-                var changeZ = document.getElementById("plane-slider").value;
+               // var changeZ = document.getElementById("plane-slider").value;
                 //TODO: this -500 should be changable
 
-                meshtemp.translateZ(  -800 +Number(changeZ));
+              //  meshtemp.translateZ(  -800 +Number(changeZ));
+                meshtemp.translateZ(  -800 );
             }
             // meshtemp.position.x(-1000);
 
@@ -1159,6 +1160,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                             var centerY = 0.5 * ( geometry.boundingBox.min.y + geometry.boundingBox.max.y );
                             var centerZ = 0.5 * ( geometry.boundingBox.min.z + geometry.boundingBox.max.z );
                             centroidGEO = [ centerX, centerY, centerZ]
+                          //  alert(centroidGEO);
                         }
                     })
                 //}
