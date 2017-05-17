@@ -89,7 +89,7 @@ function start() {
     
     var constraints = {
         // audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
-        video: {deviceId: videoSource }
+        video: {deviceId: videoSource ? {exact: videoSource} : undefined}
     };
 
     //alert(constraints.video);
