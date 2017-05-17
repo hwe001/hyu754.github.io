@@ -993,13 +993,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
 
 
-        if(modelId==1001){
-        var mat = new THREE.LineBasicMaterial( { color: 0x00000, linewidth: 0.001 } );
-        var wireframe = new THREE.LineSegments( geometry, mat );
-
-
-        mesh.add(wireframe);
-        }
+       
 
         setPositionOfObject(mesh);
         scene.add( mesh );
