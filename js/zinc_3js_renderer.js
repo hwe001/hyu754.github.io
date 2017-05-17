@@ -1159,13 +1159,14 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                             var centerX = 0.5 * ( geometry.boundingBox.min.x + geometry.boundingBox.max.x );
                             var centerY = 0.5 * ( geometry.boundingBox.min.y + geometry.boundingBox.max.y );
                             var centerZ = 0.5 * ( geometry.boundingBox.min.z + geometry.boundingBox.max.z );
-                            centroidGEO = [ centerX, centerY, centerZ]
+                            centroidGEO = [ centerX, centerY, centerZ];
+                            
                           //  alert(centroidGEO);
                         }
                     })
                 //}
                 //alert(centroidGEO);
-                var ifRender = true;
+
                 _this.forEachGeometry(
                     function(modelIN){
 
@@ -1219,14 +1220,14 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
             if(backcameraselected==false){
                 navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
-                if  (document.getElementById('videoSource').length>1){
+                if  ((document.getElementById('videoSource').length==2)&&(_this.returnNumGeometry()==5)){
                     //alert(document.querySelector('select#videoSource')[1].value);
                     if(document.getElementById('videoSource')[1].value!=undefined){
                         document.getElementById('videoSource').value =document.getElementById('videoSource')[1].value;
 
 
                         start();
-                         start();
+                         
                         //alert(videoSelect[1]); 
 
 
@@ -1234,6 +1235,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                     }
                 }
             }
+         
             renderer.render( fullScene, _this.camera );
 
 
