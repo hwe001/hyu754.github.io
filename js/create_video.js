@@ -43,16 +43,14 @@ function gotDevices(deviceInfos) {
         if (deviceInfo.kind === 'videoinput') {
             option.text = deviceInfo.label || 'camera ' + (videoSelect.length + 1);
             // alert( option.text);
-            //videoSelect.prependChild(option);
-            videoSelect.insertBefore(option, videoSelect.firstChild)
-        } else {
-            console.log('Some other kind of source/device: ', deviceInfo);
-        }
+           videoSelect.apprendChild(option);
+            //videoSelect.insertBefore(option, videoSelect.firstChild)
+        } 
     }
     selectors.forEach(function(select, selectorIndex) {
         if (Array.prototype.slice.call(select.childNodes).some(function(n) {
             return n.value === values[selectorIndex];
-        })) {s
+        })) {
             select.value = values[selectorIndex];
         }
     });
@@ -90,7 +88,8 @@ function start() {
     
     var constraints = {
         // audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
-        video: {deviceId: videoSource ? {exact: videoSource} : undefined}
+        video: {deviceId: videoSource ? {exact: videoSource} : undefined},
+        
     };
 
     alert(videoSelect.length);
