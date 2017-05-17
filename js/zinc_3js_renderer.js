@@ -1251,18 +1251,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
 
                 } */
-            if(backcameraselected==false){
-                if( document.querySelector('select#videoSource').length == 2){
-                    var dummyVar =  document.querySelector('select#videoSource').value[0];
-                    document.querySelector('select#videoSource').value[0] =document.querySelector('select#videoSource')[1].value;
-                    document.querySelector('select#videoSource')[1].value=dummyVar;
-                    // document.querySelector('select#videoSource').change=true;
-                    start();
-                    alert("switched");
-                }
-                backcameraselected=true;
-            }
-
+           
             renderer.render( fullScene, _this.camera );
 
         }

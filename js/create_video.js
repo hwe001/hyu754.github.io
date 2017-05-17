@@ -43,7 +43,7 @@ function gotDevices(deviceInfos) {
         if (deviceInfo.kind === 'videoinput') {
             option.text = deviceInfo.label || 'camera ' + (videoSelect.length + 1);
             // alert( option.text);
-            videoSelect.appendChild(option);
+            videoSelect.prependChild(option);
         } else {
             console.log('Some other kind of source/device: ', deviceInfo);
         }
