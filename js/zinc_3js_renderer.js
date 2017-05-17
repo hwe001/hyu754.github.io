@@ -1235,7 +1235,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
           
                 if(backcameraselected==false){
                    // alert( videoSelect.length);
-                    navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
+                   // navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
                     if  ((document.getElementById('videoSource').length==2)&&(_this.returnNumGeometry()==5)){
                         //alert(document.querySelector('select#videoSource')[1].value);
                         if(document.getElementById('videoSource')[1].value!=undefined){
@@ -1244,7 +1244,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
 
 
-                          //  alert("two devices");
+                            alert("two devices");
                             backcameraselected =true;
                         } 
                     } 
