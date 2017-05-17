@@ -1144,6 +1144,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 //Create a temporary mesh for the video plane
 
                 //  meshtemp.translateZ(  -800 );
+                alert("yes");
             }
 
             var meshtemp= fullScene.getObjectByName("video_plane");
@@ -1256,7 +1257,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                     }
 
  start();  
-                }
+                } 
                 
 
             renderer.render( fullScene, _this.camera );
