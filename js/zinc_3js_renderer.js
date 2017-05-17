@@ -937,7 +937,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                     urls.push(filename);
                 }
                 _this.loadModelsURL(urls, viewData.colour, viewData.opacity, viewData.timeEnabled, viewData.morphColour, finishCallback);
-                alert(urls);
+              //  alert(urls);
             }
         }
         requestURL = jsonFilePrefix + "_view.json";
@@ -1136,11 +1136,11 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 meshtemp.position.copy(_this.camera.position);
                 meshtemp.rotation.copy( _this.camera.rotation );
 
-               // var changeZ = document.getElementById("plane-slider").value;
+                var changeZ = document.getElementById("plane-slider").value;
                 //TODO: this -500 should be changable
 
-              //  meshtemp.translateZ(  -800 +Number(changeZ));
-                meshtemp.translateZ(  -800 );
+               meshtemp.translateZ(  -800 +Number(changeZ));
+              //  meshtemp.translateZ(  -800 );
             }
             // meshtemp.position.x(-1000);
 
