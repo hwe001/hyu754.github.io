@@ -42,18 +42,13 @@ function gotDevices(deviceInfos) {
 
         if (deviceInfo.kind === 'videoinput') {
             option.text = deviceInfo.label || 'camera ' + (videoSelect.length + 1);
+            
             // alert( option.text);
            videoSelect.appendChild(option);
             //videoSelect.insertBefore(option, videoSelect.firstChild)
         } 
     }
-    selectors.forEach(function(select, selectorIndex) {
-        if (Array.prototype.slice.call(select.childNodes).some(function(n) {
-            return n.value === values[selectorIndex];
-        })) {
-            select.value = values[selectorIndex];
-        }
-    });
+  
 }
 
 //enumerates the devices
