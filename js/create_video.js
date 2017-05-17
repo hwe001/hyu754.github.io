@@ -83,7 +83,7 @@ function start() {
         });
     }
 
-
+    alert("Changed");
     //var audioSource = audioInputSelect.value;
     var videoSource = videoSelect.value;
     
@@ -157,7 +157,7 @@ function start() {
 
 videoSelect.onchange = start;
 //checkOrientation();
-//start();
+start();
 
 //Function for resizing the image plane in Zinc if the orientation is changed
 var checkOrientation = function(){
