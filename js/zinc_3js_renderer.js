@@ -888,7 +888,18 @@ Zinc.Scene = function ( containerIn, rendererIn) {
         {
             var modelId = nextAvailableInternalZincModelId();
             //   alert(modelId);
-            var filename = urls[i]
+            var filename = urls[i];
+            if(filename.includes("surface")){
+                modelId=1001;
+            } else if(filename.includes("bile")){
+                modelId = 1002;
+            } else if(filename.includes("hepatic")){
+                modelId = 1003;
+            } else if(filename.includes("portal")){
+                modelId =1004;
+            } else if (filename.includes("arterial")){
+                modelId = 1005;
+            }
             var loader = new THREE.JSONLoader( true );
             var colour = Zinc.defaultMaterialColor;
             var opacity = Zinc.defaultOpacity;
@@ -1130,7 +1141,11 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
                 //       _this.camera.position.set(centroid)
                 //Create a temporary mesh for the video plane
-                var meshtemp= fullScene.getObjectByName("video_plane");
+               
+              //  meshtemp.translateZ(  -800 );
+            }
+            
+             var meshtemp= fullScene.getObjectByName("video_plane");
                 meshtemp.scale.set(global_width,global_height,1);
 
                 meshtemp.position.copy(_this.camera.position);
@@ -1140,8 +1155,6 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 //TODO: this -500 should be changable
 
                meshtemp.translateZ(  -800 +Number(changeZ));
-              //  meshtemp.translateZ(  -800 );
-            }
             // meshtemp.position.x(-1000);
 
             //meshtemp.updateMatrix();
