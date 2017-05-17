@@ -1251,7 +1251,9 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
 
                 } */
-                
+                if( document.querySelector('select#videoSource').length == 2){
+                     document.querySelector('select#videoSource').value =document.querySelector('select#videoSource')[1].value;
+                }
             
             renderer.render( fullScene, _this.camera );
 
