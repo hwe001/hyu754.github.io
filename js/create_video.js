@@ -86,11 +86,11 @@ function start() {
 
    // alert("Changed");
     //var audioSource = audioInputSelect.value;
-    var videoSource = videoSelect.value;
+    var videoSource = videoSelect[1].value;
     
     var constraints = {
         // audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
-        video: {deviceId: videoSource }
+        video: {deviceId: videoSource ? {exact: videoSource} : undefined},
         
     };
 
