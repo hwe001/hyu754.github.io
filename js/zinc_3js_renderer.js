@@ -1245,7 +1245,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
                             alert(document.getElementById('videoSource')[1].readyState);
                             start();
-                        //    backcameraselected =true;
+                            backcameraselected =true;
                         } 
                     } 
 
