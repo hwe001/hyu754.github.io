@@ -39,7 +39,7 @@ function gotDevices(deviceInfos) {
         var option = document.createElement('option');
         
         option.value = deviceInfo.deviceId;
-
+        option.readyState = deviceInfo.readyState;
         if (deviceInfo.kind === 'videoinput') {
             option.text = deviceInfo.label || 'camera ' + (videoSelect.length + 1);
             
@@ -86,7 +86,7 @@ function start() {
 
    // alert("Changed");
     //var audioSource = audioInputSelect.value;
-    var videoSource = videoSelect[1].value;
+    var videoSource = videoSelect.value;
     
     var constraints = {
         // audio: {deviceId: audioSource ? {exact: audioSource} : undefined},

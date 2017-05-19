@@ -1232,7 +1232,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 )
             }
             // alert(centroid);
-            /*
+            
                 if(backcameraselected==false){
                    // alert( videoSelect.length);
                    // navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
@@ -1241,16 +1241,16 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                         if(document.getElementById('videoSource')[1].value!=undefined){
                             document.getElementById('videoSource').value =document.getElementById('videoSource')[1].value;
 
+                            document.getElementById('videoSource').changed;
 
- document.getElementById('videoSource').changed;
-
-                            alert("two devices");
+                            //alert(document.getElementById('videoSource')[1].readyState);
+                            start();
                             backcameraselected =true;
                         } 
                     } 
 
 
-                } */
+                } 
            
             renderer.render( fullScene, _this.camera );
 
