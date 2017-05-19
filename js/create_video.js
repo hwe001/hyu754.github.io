@@ -48,14 +48,14 @@ function gotDevices(deviceInfos) {
            // videoSelect.insertBefore(option, videoSelect.firstChild)
         } 
     }
-    /*
+    
     selectors.forEach(function(select, selectorIndex) {
         if (Array.prototype.slice.call(select.childNodes).some(function(n) {
             return n.value === values[selectorIndex];
         })) {
             select.value = values[selectorIndex];
         }
-    });*/
+    });
 }
 
 //enumerates the devices
