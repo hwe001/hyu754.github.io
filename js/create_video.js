@@ -94,7 +94,7 @@ function start() {
         
     };
 
-    alert(videoSelect.length);
+    //alert(videoSelect.length);
     navigator.mediaDevices.getUserMedia(constraints).
     then(gotStream).then(gotDevices).catch(handleError);
     //video.addEventListener("loadedmetadata");
