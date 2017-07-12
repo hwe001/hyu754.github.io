@@ -132,18 +132,24 @@ function allVisibility(){
 
    if(surfacePreviousVisibility==false){
        surfacePreviousVisibility=true;
+       document.getElementById("surface_button").style.backgroundColor =" #4CAF50";                   
    }
      if(hepaticPreviousVisibility==false){
        hepaticPreviousVisibility=true;
+         document.getElementById("hepatic_button").style.backgroundColor =" #4CAF50";
    }
      if(portalPreviousVisibility==false){
        portalPreviousVisibility=true;
+         document.getElementById("portal_button").style.backgroundColor =" #4CAF50";
    }
      if(bilePreviousVisibility==false){
        bilePreviousVisibility=true;
+         document.getElementById("bile_button").style.backgroundColor =" #4CAF50";
+         
    }
      if(arterialPreviousVisibility==false){
        arterialPreviousVisibility=true;
+         document.getElementById("arterial_button").style.backgroundColor =" #4CAF50";
    }
    
 
