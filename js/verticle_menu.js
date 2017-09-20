@@ -1,9 +1,9 @@
 //global flags for visibilitiy, they are all visible at start of program
-var surfacePreviousVisibility=true;
-var hepaticPreviousVisibility=true;
-var portalPreviousVisibility=true;
-var bilePreviousVisibility=true;
-var arterialPreviousVisibility=true;
+var surfacePreviousVisibility = true;
+var hepaticPreviousVisibility = true;
+var portalPreviousVisibility = true;
+var bilePreviousVisibility = true;
+var arterialPreviousVisibility = true;
 
 //Global flags for visibility of different groups
 var strahlerPreviousGroup2 = true;
@@ -15,7 +15,7 @@ var strahlerPreviousGroup7 = true;
 var strahlerPreviousGroup8 = true;
 
 //When the open button is pressed
-function openNav(){
+function openNav() {
     document.getElementById("mySidenav").style.width = "290px";
     document.getElementById("menu_button").style.width = "0%";
 
@@ -29,18 +29,27 @@ function closeNav(){
 
 /*Functions for strahler groups*/
 
+
+
+//Function for arterial visibility
 function strahlerGroup2Visibility(){
+
+
     if(strahlerPreviousGroup2==true){
-        strahlerPreviousGroup2 = false;
-    } else {
-        strahlerPreviousGroup2 = true;
-    }
-    
-    if(strahlerPreviousGroup2 == false){
-        document.getElementById("strahlerGroup2").style.backgroundColor = "darkgreen";
+        strahlerPreviousGroup2=false;
     } else{
-        document.getElementById("strahlerGroup2").style.backgroundcolor =" #4CAF50";
+        strahlerPreviousGroup2=true;
     }
+
+    if(strahlerPreviousGroup2==false){           
+        document.getElementById("strahlerGroup2").style.backgroundColor ="darkgreen";
+                                        
+    } else{
+        document.getElementById("strahlerGroup2").style.backgroundColor =" #4CAF50";
+                                       
+    }
+
+
 }
 
 function strahlerGroup3Visibility(){
@@ -50,10 +59,12 @@ function strahlerGroup3Visibility(){
         strahlerPreviousGroup3 = true;
     }
     
-    if(strahlerPreviousGroup3 == false){
-        document.getElementById("strahlerGroup3").style.backgroundColor = "darkgreen";
+   if(strahlerPreviousGroup3==false){           
+        document.getElementById("strahlerGroup3").style.backgroundColor ="darkgreen";
+                                        
     } else{
-        document.getElementById("strahlerGroup3").style.backgroundcolor = "#4CAF50";
+        document.getElementById("strahlerGroup3").style.backgroundColor =" #4CAF50";
+                                       
     }
 }
 
@@ -64,10 +75,10 @@ function strahlerGroup4Visibility(){
         strahlerPreviousGroup4 = true;
     }
     
-    if(strahlerPreviousGroup4 == false){
+    if(strahlerPreviousGroup4==false){
         document.getElementById("strahlerGroup4").style.backgroundColor = "darkgreen";
     } else{
-        document.getElementById("strahlerGroup4").style.backgroundcolor = "#4CAF50";
+        document.getElementById("strahlerGroup4").style.backgroundColor = "#4CAF50";
     }
 }
 
@@ -81,7 +92,7 @@ function strahlerGroup5Visibility(){
     if(strahlerPreviousGroup5 == false){
         document.getElementById("strahlerGroup5").style.backgroundColor = "darkgreen";
     } else{
-        document.getElementById("strahlerGroup5").style.backgroundcolor = "#4CAF50";
+        document.getElementById("strahlerGroup5").style.backgroundColor = "#4CAF50";
     }
 }
 
@@ -96,7 +107,7 @@ function strahlerGroup6Visibility(){
     if(strahlerPreviousGroup6 == false){
         document.getElementById("strahlerGroup6").style.backgroundColor = "darkgreen";
     } else{
-        document.getElementById("strahlerGroup6").style.backgroundcolor = "#4CAF50";
+        document.getElementById("strahlerGroup6").style.backgroundColor = "#4CAF50";
     }
 }
 
@@ -112,7 +123,7 @@ function strahlerGroup7Visibility(){
     if(strahlerPreviousGroup7 == false){
         document.getElementById("strahlerGroup7").style.backgroundColor = "darkgreen";
     } else{
-        document.getElementById("strahlerGroup7").style.backgroundcolor = "#4CAF50";
+        document.getElementById("strahlerGroup7").style.backgroundColor = "#4CAF50";
     }
 }
 
@@ -126,8 +137,45 @@ function strahlerGroup8Visibility(){
     if(strahlerPreviousGroup8 == false){
         document.getElementById("strahlerGroup8").style.backgroundColor = "darkgreen";
     } else{
-        document.getElementById("strahlerGroup8").style.backgroundcolor = "#4CAF50";
+        document.getElementById("strahlerGroup8").style.backgroundColor = "#4CAF50";
     }
+}
+
+
+
+
+function showAllVisibilityStrahler(){
+    if(strahlerPreviousGroup2==false){
+       strahlerPreviousGroup2=true;
+         document.getElementById("strahlerGroup2").style.backgroundColor =" #4CAF50";
+   }
+    
+    if(strahlerPreviousGroup3==false){
+       strahlerPreviousGroup3=true;
+         document.getElementById("strahlerGroup3").style.backgroundColor =" #4CAF50";
+   }
+    
+    if(strahlerPreviousGroup4==false){
+       strahlerPreviousGroup4=true;
+         document.getElementById("strahlerGroup4").style.backgroundColor =" #4CAF50";
+   }
+    if(strahlerPreviousGroup5==false){
+       strahlerPreviousGroup5=true;
+         document.getElementById("strahlerGroup5").style.backgroundColor =" #4CAF50";
+   }
+    if(strahlerPreviousGroup6==false){
+       strahlerPreviousGroup6=true;
+         document.getElementById("strahlerGroup6").style.backgroundColor =" #4CAF50";
+   }
+    if(strahlerPreviousGroup7==false){
+       strahlerPreviousGroup7=true;
+         document.getElementById("strahlerGroup7").style.backgroundColor =" #4CAF50";
+   }
+    if(strahlerPreviousGroup8==false){
+       strahlerPreviousGroup8=true;
+         document.getElementById("strahlerGroup8").style.backgroundColor =" #4CAF50";
+   }
+   
 }
 
 

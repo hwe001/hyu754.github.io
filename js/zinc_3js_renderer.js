@@ -993,7 +993,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
         }
         //Removed this to not show internal faces
-        material.side = THREE.FrontSide;
+        material.side = THREE.DoubleSide;
         var mesh = undefined;
 
 
@@ -1164,7 +1164,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
             //if(centroidGEO==undefined){
           //  alert(_this.returnNumGeometry())
-            if(_this.returnNumGeometry()==7){
+            if(_this.returnNumGeometry()==8){
                 _this.findCentroidGeometry(
                     function(modelIN){
                        if(modelIN!=undefined){
@@ -1317,6 +1317,14 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                         } else{
                             modelIN.setVisibility(false);
                         }
+
+                        if(modelIN.transformationApplied == false){
+                            geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
+                            modelIN.transformationApplied  = true
+                        }
+                    }else if (modelIN.modelId==1008){ 
+                        
+                      
 
                         if(modelIN.transformationApplied == false){
                             geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));

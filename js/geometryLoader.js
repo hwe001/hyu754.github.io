@@ -110,12 +110,13 @@ function loadStrahlerGroup() {
            */
             
          //  scene.loadFromViewURL("liverModels/strahler15");
+           
             for ( var i =2; i <= 8; i ++ ) {
                 scene.loadFromViewURL("liverModels/strahlerGroup"+i.toString()); 
                // alert(i);
                 
             }
-           
+            scene.loadFromViewURL("liverModels/strahlerGroup0");
             
             
             
