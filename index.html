@@ -25,15 +25,24 @@ for the purpose of augment reality applications.
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
-            <p1>Geometry visibility </p1> 
+            <p1>Strahler Groups </p1> 
             <div class="btn-group">
-
+           <!--  
                 <button class="button" id="surface_button" onclick="surfaceVisibility()">Surface</button>
                 <button class="button" id ="hepatic_button" onclick="hepaticVisibility()">Hepatic</button>
                 <button class="button" id ="portal_button" onclick="portalVisibility()">Portal</button>
                 <button class="button" id ="bile_button" onclick="bileVisibility()">Bile</button>
                 <button class="button" id ="arterial_button" onclick="arterialVisibility()">Arterial</button>
                 <button class="button" id ="showall_button" onclick="allVisibility()">Show All</button>
+            -->
+                <button class="button" id="strahlerGroup2" onclick = "strahlerGroup2Visibility()">Group 2</button>
+                <button class="button" id="strahlerGroup3" onclick = "strahlerGroup3Visibility()">Group 3</button>
+                <button class="button" id="strahlerGroup4" onclick = "strahlerGroup4Visibility()">Group 4</button>
+                <button class="button" id="strahlerGroup5" onclick = "strahlerGroup5Visibility()">Group 5</button>
+                <button class="button" id="strahlerGroup6" onclick = "strahlerGroup6Visibility()">Group 6</button>
+                <button class="button" id="strahlerGroup7" onclick = "strahlerGroup7Visibility()">Group 7</button>
+                <button class="button" id="strahlerGroup8" onclick = "strahlerGroup8Visibility()">Group 8</button>
+                <button class="button" id="showAllGroups" onclick = "showAllVisibility()">Show All </button>
                 
             </div>
 
@@ -126,7 +135,8 @@ for the purpose of augment reality applications.
             //loadMyModel("skin");
     
         
-            loadLiverGroup("15");
+           // loadLiverGroup("15");
+            loadStrahlerGroup();
             //loadLiverGroup("S01");
             //alert(numbertest);
 

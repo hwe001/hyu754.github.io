@@ -5,6 +5,15 @@ var portalPreviousVisibility=true;
 var bilePreviousVisibility=true;
 var arterialPreviousVisibility=true;
 
+//Global flags for visibility of different groups
+var strahlerPreviousGroup2 = true;
+var strahlerPreviousGroup3 = true;
+var strahlerPreviousGroup4 = true;
+var strahlerPreviousGroup5 = true;
+var strahlerPreviousGroup6 = true;
+var strahlerPreviousGroup7 = true;
+var strahlerPreviousGroup8 = true;
+
 //When the open button is pressed
 function openNav(){
     document.getElementById("mySidenav").style.width = "290px";
@@ -17,6 +26,113 @@ function closeNav(){
     document.getElementById("mySidenav").style.width="0px";
     document.getElementById("menu_button").style.width = "150px";
 }
+
+/*Functions for strahler groups*/
+
+function strahlerGroup2Visibility(){
+    if(strahlerPreviousGroup2==true){
+        strahlerPreviousGroup2 = false;
+    } else {
+        strahlerPreviousGroup2 = true;
+    }
+    
+    if(strahlerPreviousGroup2 == false){
+        document.getElementById("strahlerGroup2").style.backgroundColor = "darkgreen";
+    } else{
+        document.getElementById("strahlerGroup2").style.backgroundcolor =" #4CAF50";
+    }
+}
+
+function strahlerGroup3Visibility(){
+    if(strahlerPreviousGroup3==true){
+        strahlerPreviousGroup3 = false;
+    } else {
+        strahlerPreviousGroup3 = true;
+    }
+    
+    if(strahlerPreviousGroup3 == false){
+        document.getElementById("strahlerGroup3").style.backgroundColor = "darkgreen";
+    } else{
+        document.getElementById("strahlerGroup3").style.backgroundcolor = "#4CAF50";
+    }
+}
+
+function strahlerGroup4Visibility(){
+    if(strahlerPreviousGroup4==true){
+        strahlerPreviousGroup4 = false;
+    } else {
+        strahlerPreviousGroup4 = true;
+    }
+    
+    if(strahlerPreviousGroup4 == false){
+        document.getElementById("strahlerGroup4").style.backgroundColor = "darkgreen";
+    } else{
+        document.getElementById("strahlerGroup4").style.backgroundcolor = "#4CAF50";
+    }
+}
+
+function strahlerGroup5Visibility(){
+    if(strahlerPreviousGroup5==true){
+        strahlerPreviousGroup5 = false;
+    } else {
+        strahlerPreviousGroup5 = true;
+    }
+    
+    if(strahlerPreviousGroup5 == false){
+        document.getElementById("strahlerGroup5").style.backgroundColor = "darkgreen";
+    } else{
+        document.getElementById("strahlerGroup5").style.backgroundcolor = "#4CAF50";
+    }
+}
+
+
+function strahlerGroup6Visibility(){
+    if(strahlerPreviousGroup6==true){
+        strahlerPreviousGroup6 = false;
+    } else {
+        strahlerPreviousGroup6 = true;
+    }
+    
+    if(strahlerPreviousGroup6 == false){
+        document.getElementById("strahlerGroup6").style.backgroundColor = "darkgreen";
+    } else{
+        document.getElementById("strahlerGroup6").style.backgroundcolor = "#4CAF50";
+    }
+}
+
+
+
+function strahlerGroup7Visibility(){
+    if(strahlerPreviousGroup7==true){
+        strahlerPreviousGroup7 = false;
+    } else {
+        strahlerPreviousGroup7 = true;
+    }
+    
+    if(strahlerPreviousGroup7 == false){
+        document.getElementById("strahlerGroup7").style.backgroundColor = "darkgreen";
+    } else{
+        document.getElementById("strahlerGroup7").style.backgroundcolor = "#4CAF50";
+    }
+}
+
+function strahlerGroup8Visibility(){
+    if(strahlerPreviousGroup8==true){
+        strahlerPreviousGroup8 = false;
+    } else {
+        strahlerPreviousGroup8 = true;
+    }
+    
+    if(strahlerPreviousGroup8 == false){
+        document.getElementById("strahlerGroup8").style.backgroundColor = "darkgreen";
+    } else{
+        document.getElementById("strahlerGroup8").style.backgroundcolor = "#4CAF50";
+    }
+}
+
+
+
+
 
 
 //Function for surface visibility
