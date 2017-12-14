@@ -37,7 +37,7 @@ for the purpose of augment reality applications.
             
             <span id = "loadingPercentage"> </span>
             </div>
-        <div style="display:none;" id="myDiv" class="animate-bottom">
+        <div style="display:none;" id="myDiv" >
         <nav class="c-circle-menu js-menu">
           <button class="c-circle-menu__toggle js-menu-toggle">
             <span>Toggle</span>
@@ -222,16 +222,16 @@ for the purpose of augment reality applications.
         
             function loadingScreen(){
                 
-                setTimeout(showPage,8000);
+                setTimeout(showPage,1000);
             }
 
             function showPage(){
                 
                 document.getElementById("loader").style.display = "none";
                 
-                document.body.appendChild( container );
-              document.getElementById("myDiv").style.display = "height:100%";
-                
+               
+              document.getElementById("myDiv").style.display = "block";
+                 document.body.appendChild( container );
                  
             }
         </script>
