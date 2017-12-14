@@ -12,6 +12,7 @@ for the purpose of augment reality applications.
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
         <link rel="stylesheet" type="text/css" href="css/verticle_menu.css">
         <link rel="stylesheet" href="css/circle-menu.css">
+        <link rel="stylesheet" href="css/loading-spin.css">
         <script type="text/javascript" src="js/verticle_menu.js"> </script>
 
         <script src="js/three.min.js"></script>
@@ -21,46 +22,54 @@ for the purpose of augment reality applications.
         <script src="js/src/circleMenu.js"></script>
     </head>
 
-    <body style="height:100%">
+   
+
+
+    
+
+    <body onload ="loadingScreen()" style="height:100%">
+            <div class="loader" id = "loader"></div>
+        <div style="display:none;" id="myDiv" class="animate-bottom">
         <nav class="c-circle-menu js-menu">
-  <button class="c-circle-menu__toggle js-menu-toggle">
-    <span>Toggle</span>
-  </button>
-  <ul class="c-circle-menu__items">
-    <li class="c-circle-menu__item">
-      <a href="#" class="c-circle-menu__link">
-        <img src="img/house.svg" alt="">
-      </a>
-    </li>
-    <li class="c-circle-menu__item">
-      <a href="#" class="c-circle-menu__link">
-        <img src="img/photo.svg" alt="">
-      </a>
-    </li>
-    <li class="c-circle-menu__item">
-      <a href="#" class="c-circle-menu__link">
-        <img src="img/pin.svg" alt="">
-      </a>
-    </li>
-    <li class="c-circle-menu__item">
-      <a href="#" class="c-circle-menu__link">
-        <img src="img/search.svg" alt="">
-      </a>
-    </li>
-    <li class="c-circle-menu__item">
-      <a href="#" class="c-circle-menu__link">
-        <img src="img/tools.svg" alt="">
-      </a>
-    </li>
-  </ul>
-  <div class="c-circle-menu__mask js-menu-mask"></div>
-</nav>
+          <button class="c-circle-menu__toggle js-menu-toggle">
+            <span>Toggle</span>
+          </button>
+          <ul class="c-circle-menu__items">
+            <li class="c-circle-menu__item">
+              <a href="#" class="c-circle-menu__link">
+                <img src="img/house.svg" alt="">
+              </a>
+            </li>
+            <li class="c-circle-menu__item">
+              <a href="#" class="c-circle-menu__link">
+                <img src="img/photo.svg" alt="">
+              </a>
+            </li>
+            <li class="c-circle-menu__item">
+              <a href="#" class="c-circle-menu__link">
+                <img src="img/pin.svg" alt="">
+              </a>
+            </li>
+            <li class="c-circle-menu__item">
+              <a href="#" class="c-circle-menu__link">
+                <img src="img/search.svg" alt="">
+              </a>
+            </li>
+            <li class="c-circle-menu__item">
+              <a href="#" class="c-circle-menu__link">
+                <img src="img/circle.bmp" alt="">
+              </a>
+            </li>
+              
+          </ul>
+          <div class="c-circle-menu__mask js-menu-mask"></div>
+        </nav>
         
 
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
-            <p1>Strahler Groups </p1> 
+            <p1>Liver segments</p1> 
             <div class="btn-group">
            <!--  
                 <button class="button" id="surface_button" onclick="surfaceVisibility()">Surface</button>
@@ -105,7 +114,7 @@ for the purpose of augment reality applications.
 
         </div>
 
-
+        
         <button class="block_button" id="menu_button" onclick="openNav()">Menu</button>
 
         <!--
@@ -122,13 +131,12 @@ for the purpose of augment reality applications.
 
 -->
         <!--Creating a selector for the video source-->
-
-
+        
         <script src= "js/create_video.js"></script>
 
         <script>
             var el = '.js-menu';
-var myMenu = cssCircleMenu(el);
+            var myMenu = cssCircleMenu(el);
             //*********************************//
             //   Create video texture and plane//
             //*********************************//
@@ -158,7 +166,8 @@ var myMenu = cssCircleMenu(el);
             var currentPatient = undefined;
 
             container = document.createElement( 'div' );
-            document.body.appendChild( container );
+            
+            
             container.style.height = "100%"
 
 
@@ -189,17 +198,34 @@ var myMenu = cssCircleMenu(el);
             //zincRenderer.addToScene(meshGlobal);
             zincRenderer.addToScene(plane);
             
-            
+            zincRenderer.animate();
           
             
     
-            zincRenderer.animate();
+            
 
             //var scene2 = new THREE.Scene();
 
 
 
         </script>
+</div>
+        <script>
+        
+                    function loadingScreen(){
+                setTimeout(showPage,3000);
+            }
 
+            function showPage(){
+                
+                document.getElementById("loader").style.display = "none";
+                document.getElementById("myDiv").style.display = "block";
+                document.body.appendChild( container );
+              
+                
+                 
+            }
+        </script>
+            
     </body>
 </html>
