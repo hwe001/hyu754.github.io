@@ -888,10 +888,10 @@ Zinc.Scene = function ( containerIn, rendererIn) {
         num_inputs += number;
         for (var i = 0; i < number; i++)
         {
-            var modelId = nextAvailableInternalZincModelId();
+            var modelId = 0;//nextAvailableInternalZincModelId();
             //   alert(modelId);
             var filename = urls[i];
-            if(filename.includes("surface")){
+/*            if(filename.includes("surface")){
                 modelId=1001;
             } else if(filename.includes("bile")){
                 modelId = 1002;
@@ -901,7 +901,39 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 modelId =1004;
             } else if (filename.includes("arterial")){
                 modelId = 1005;
+            }*/
+            groupName='';
+            if(filename.includes("strahlerGroup2")){
+                
+                modelId = 1001;
+                groupName = "strahlerGroup2";
+            } else if(filename.includes("strahlerGroup3")){
+                modelId = 1002;
+                groupName = "strahlerGroup3";
+            } else if(filename.includes("strahlerGroup4")){
+                modelId = 1003;
+                groupName = "strahlerGroup4";
+            } else if(filename.includes("strahlerGroup5")){
+                modelId = 1004;
+                groupName = "strahlerGroup5";
+            } else if(filename.includes("strahlerGroup6")){
+                modelId = 1005;
+                groupName = "strahlerGroup6";
+                
+            } else if(filename.includes("strahlerGroup7")){
+                modelId = 1006;
+                groupName = "strahlerGroup7";
+            } else if(filename.includes("strahlerGroup8")){
+                modelId = 1007;
+                groupName = "strahlerGroup8";
+            } else if(filename.includes("strahlerGroup0")){
+                modelId = 1000;
+                groupName = "strahlerBase";
             }
+            
+            
+            
+             
             var loader = new THREE.JSONLoader( true );
             var colour = Zinc.defaultMaterialColor;
             var opacity = Zinc.defaultOpacity;
@@ -916,7 +948,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             if (morphColour != undefined && morphColour[i] != undefined)
                 localMorphColour = morphColour[i] ? true: false;
 
-            loader.load( filename, meshloader(modelId, colour, opacity, localTimeEnabled, localMorphColour, undefined, 
+            loader.load( filename, meshloader(modelId, colour, opacity, localTimeEnabled, localMorphColour, groupName, 
                                               finishCallback), _this.onProgress(i), _this.onError); 
         }
     }
@@ -1164,7 +1196,9 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
             //if(centroidGEO==undefined){
           //  alert(_this.returnNumGeometry())
-            if(_this.returnNumGeometry()==8){
+            
+            if(_this.returnNumGeometry()==NUM_GEOMETRY){
+            
                 _this.findCentroidGeometry(
                     function(modelIN){
                        if(modelIN!=undefined){
@@ -1185,72 +1219,16 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
                 _this.forEachGeometry(
                     function(modelIN){
-
+                    
                         geometry = modelIN.geometry;
-                        /*
-                        if (modelIN.modelId==1002){ //bile
-                            if(bilePreviousVisibility==true){
-                                modelIN.setVisibility(true);
-                            } else{
-                                modelIN.setVisibility(false);
-                            }
-                            
-                            if(modelIN.transformationApplied == false){
-                                 geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
-                                modelIN.transformationApplied  = true
-                            }
-                        } else if(modelIN.modelId==1003){ //hepatic
-                            if(hepaticPreviousVisibility==true){
-                                modelIN.setVisibility(true);
-                            } else {
-                                modelIN.setVisibility(false);
-                            }
-                            if(modelIN.transformationApplied == false){
-                                 geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
-                                modelIN.transformationApplied  = true
-                            }
-                        } else if(modelIN.modelId == 1004){
-                            if(portalPreviousVisibility==true){
-                                modelIN.setVisibility(true);
-                            } else {
-                                modelIN.setVisibility(false);
-                            }
-                            if(modelIN.transformationApplied == false){
-                                 geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
-                                modelIN.transformationApplied  = true
-                            }
-                        } else if(modelIN.modelId==1009){ // surface
-                            if(surfacePreviousVisibility ==true){
-                                modelIN.setVisibility(true);
-                            } else{
-                                modelIN.setVisibility(false); 
-                            } 
-                            if(modelIN.transformationApplied == false){
-                                 geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
-                                modelIN.transformationApplied  = true
-                            }
-                            modelIN.setAlpha(   document.getElementById("surface-slider").value);
-
-                        } else if(modelIN.modelID=1008){ //entire_mesh
-                            if(arterialPreviousVisibility ==true){
-                                modelIN.setVisibility(true);
-                            } else{
-                                modelIN.setVisibility(false); 
-                            }  
-                           if(modelIN.transformationApplied == false){
-                                 geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
-                               modelIN.transformationApplied  = true
-                            }
-                        } 
-                        */
-                        
+                       
                     if (modelIN.modelId==1001){ 
                         if(strahlerPreviousGroup2==true){
                             modelIN.setVisibility(true);
                         } else{
                             modelIN.setVisibility(false);
                         }
-
+                        //alert(modelIN.groupName);
                         if(modelIN.transformationApplied == false){
                             geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
                             modelIN.transformationApplied  = true
@@ -1322,7 +1300,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                             geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
                             modelIN.transformationApplied  = true
                         }
-                    }else if (modelIN.modelId==1008){ 
+                    }else if (modelIN.modelId==1000){ 
                         
                       
 

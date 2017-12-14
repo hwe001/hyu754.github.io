@@ -11,16 +11,51 @@ for the purpose of augment reality applications.
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
         <link rel="stylesheet" type="text/css" href="css/verticle_menu.css">
+        <link rel="stylesheet" href="css/circle-menu.css">
         <script type="text/javascript" src="js/verticle_menu.js"> </script>
 
         <script src="js/three.min.js"></script>
         <script src="js/zinc_threejs_control.js"></script>
         <script src="js/zinc_3js_renderer.js"></script>
         <script src="js/geometryLoader.js"></script>
+        <script src="js/src/circleMenu.js"></script>
     </head>
 
     <body style="height:100%">
-
+        <nav class="c-circle-menu js-menu">
+  <button class="c-circle-menu__toggle js-menu-toggle">
+    <span>Toggle</span>
+  </button>
+  <ul class="c-circle-menu__items">
+    <li class="c-circle-menu__item">
+      <a href="#" class="c-circle-menu__link">
+        <img src="img/house.svg" alt="">
+      </a>
+    </li>
+    <li class="c-circle-menu__item">
+      <a href="#" class="c-circle-menu__link">
+        <img src="img/photo.svg" alt="">
+      </a>
+    </li>
+    <li class="c-circle-menu__item">
+      <a href="#" class="c-circle-menu__link">
+        <img src="img/pin.svg" alt="">
+      </a>
+    </li>
+    <li class="c-circle-menu__item">
+      <a href="#" class="c-circle-menu__link">
+        <img src="img/search.svg" alt="">
+      </a>
+    </li>
+    <li class="c-circle-menu__item">
+      <a href="#" class="c-circle-menu__link">
+        <img src="img/tools.svg" alt="">
+      </a>
+    </li>
+  </ul>
+  <div class="c-circle-menu__mask js-menu-mask"></div>
+</nav>
+        
 
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -92,6 +127,8 @@ for the purpose of augment reality applications.
         <script src= "js/create_video.js"></script>
 
         <script>
+            var el = '.js-menu';
+var myMenu = cssCircleMenu(el);
             //*********************************//
             //   Create video texture and plane//
             //*********************************//
@@ -137,6 +174,7 @@ for the purpose of augment reality applications.
     
         
            // loadLiverGroup("15");
+            var NUM_GEOMETRY = 8;
             loadStrahlerGroup();
             //loadLiverGroup("S01");
             //alert(numbertest);
