@@ -28,7 +28,15 @@ for the purpose of augment reality applications.
     
 
     <body onload ="loadingScreen()" style="height:100%">
-            <div class="loader" id = "loader"></div>
+        
+        <div id = "loader">
+        
+        <div class="loader" >
+            
+        </div>
+            
+            <span id = "loadingPercentage"> </span>
+            </div>
         <div style="display:none;" id="myDiv" class="animate-bottom">
         <nav class="c-circle-menu js-menu">
           <button class="c-circle-menu__toggle js-menu-toggle">
@@ -212,8 +220,9 @@ for the purpose of augment reality applications.
 </div>
         <script>
         
-                    function loadingScreen(){
-                setTimeout(showPage,3000);
+            function loadingScreen(){
+                
+                setTimeout(showPage,8000);
             }
 
             function showPage(){
