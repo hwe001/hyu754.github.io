@@ -38,7 +38,7 @@ for the purpose of augment reality applications.
             <span id = "loadingPercentage"> </span>
             </div>
         <div style="display:none;" id="myDiv" >
-        <nav class="c-circle-menu js-menu">
+        <nav class="c-circle-menu js-menu" style="display:none;">
           <button class="c-circle-menu__toggle js-menu-toggle">
             <span>Toggle</span>
           </button>
@@ -77,7 +77,21 @@ for the purpose of augment reality applications.
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
-            <p1>Liver segments</p1> 
+            
+            <p1>Surface groups</p1>
+            <div class = "btn-group">
+            
+                <button class="button" id="strahlerGroup2" onclick = "strahlerGroup2Visibility()">Group 2</button>
+                <button class="button" id="strahlerGroup3" onclick = "strahlerGroup3Visibility()">Group 3</button>
+                <button class="button" id="strahlerGroup4" onclick = "strahlerGroup4Visibility()">Group 4</button>
+                <button class="button" id="strahlerGroup5" onclick = "strahlerGroup5Visibility()">Group 5</button>
+                <button class="button" id="strahlerGroup6" onclick = "strahlerGroup6Visibility()">Group 6</button>
+                <button class="button" id="strahlerGroup7" onclick = "strahlerGroup7Visibility()">Group 7</button>
+                <button class="button" id="strahlerGroup8" onclick = "strahlerGroup8Visibility()">Group 8</button>
+                <button class="button" id="showAllGroups" onclick = "showAllVisibilityStrahler()">Show All </button>
+            
+            </div>
+            <p1>Vessels groups</p1> 
             <div class="btn-group">
            <!--  
                 <button class="button" id="surface_button" onclick="surfaceVisibility()">Surface</button>
@@ -124,6 +138,7 @@ for the purpose of augment reality applications.
 
         
         <button class="block_button" id="menu_button" onclick="openNav()">Menu</button>
+        
 
         <!--
 <span onclick="openNav()" style="font-size:40px;">Menu</span>
@@ -144,7 +159,7 @@ for the purpose of augment reality applications.
 
         <script>
             var el = '.js-menu';
-            var myMenu = cssCircleMenu(el);
+           // var myMenu = cssCircleMenu(el);
             //*********************************//
             //   Create video texture and plane//
             //*********************************//
@@ -186,13 +201,15 @@ for the purpose of augment reality applications.
 
             Zinc.defaultMaterialColor = 0xFFFF9C
             zincRenderer.initialiseVisualisation();
+            
             //loadMyModel("deforming_heart");
             //loadMyModel("skin");
     
         
            // loadLiverGroup("15");
-            var NUM_GEOMETRY = 8;
-            loadStrahlerGroup();
+            var NUM_GEOMETRY= 3;
+            var LIVER_STRING_PRE= 'S';
+            loadSurfaceGroup(LIVER_STRING_PRE,NUM_GEOMETRY);
             //loadLiverGroup("S01");
             //alert(numbertest);
 
@@ -205,6 +222,7 @@ for the purpose of augment reality applications.
             // jloader.load('./models/S01_surface_1.json', loadGeometryThreeJS);
             //zincRenderer.addToScene(meshGlobal);
             zincRenderer.addToScene(plane);
+          
             
             zincRenderer.animate();
           

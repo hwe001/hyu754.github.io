@@ -902,34 +902,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             } else if (filename.includes("arterial")){
                 modelId = 1005;
             }*/
-            groupName='';
-            if(filename.includes("strahlerGroup2")){
-                
-                modelId = 1001;
-                groupName = "strahlerGroup2";
-            } else if(filename.includes("strahlerGroup3")){
-                modelId = 1002;
-                groupName = "strahlerGroup3";
-            } else if(filename.includes("strahlerGroup4")){
-                modelId = 1003;
-                groupName = "strahlerGroup4";
-            } else if(filename.includes("strahlerGroup5")){
-                modelId = 1004;
-                groupName = "strahlerGroup5";
-            } else if(filename.includes("strahlerGroup6")){
-                modelId = 1005;
-                groupName = "strahlerGroup6";
-                
-            } else if(filename.includes("strahlerGroup7")){
-                modelId = 1006;
-                groupName = "strahlerGroup7";
-            } else if(filename.includes("strahlerGroup8")){
-                modelId = 1007;
-                groupName = "strahlerGroup8";
-            } else if(filename.includes("strahlerGroup0")){
-                modelId = 1000;
-                groupName = "strahlerBase";
-            }
+            
             
             
             
@@ -948,6 +921,39 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             if (morphColour != undefined && morphColour[i] != undefined)
                 localMorphColour = morphColour[i] ? true: false;
 
+            
+            
+            color = 0x0000ff;
+            groupName='';
+            if(filename.includes(LIVER_STRING_PRE+"2")){
+                
+                modelId = 1001;
+                groupName = LIVER_STRING_PRE+"2";
+                color = 0x0000ff;
+               
+            } else if(filename.includes(LIVER_STRING_PRE+"3")){
+                modelId = 1002;
+                groupName = LIVER_STRING_PRE+"3"
+            } else if(filename.includes(LIVER_STRING_PRE+"4")){
+                modelId = 1003;
+                groupName = LIVER_STRING_PRE+"4";
+            } else if(filename.includes("strahlerGroup5")){
+                modelId = 1004;
+                groupName = "strahlerGroup5";
+            } else if(filename.includes("strahlerGroup6")){
+                modelId = 1005;
+                groupName = "strahlerGroup6";
+                
+            } else if(filename.includes("strahlerGroup7")){
+                modelId = 1006;
+                groupName = "strahlerGroup7";
+            } else if(filename.includes("strahlerGroup8")){
+                modelId = 1007;
+                groupName = "strahlerGroup8";
+            } else if(filename.includes("strahlerGroup0")){
+                modelId = 1000;
+                groupName = "strahlerBase";
+            }
             loader.load( filename, meshloader(modelId, colour, opacity, localTimeEnabled, localMorphColour, groupName, 
                                               finishCallback), _this.onProgress(i), _this.onError); 
         }
@@ -1024,6 +1030,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
 
         }
+        
         //Removed this to not show internal faces
         material.side = THREE.DoubleSide;
         var mesh = undefined;
@@ -1210,6 +1217,8 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                             var centerY = 0.5 * ( geometry.boundingBox.min.y + geometry.boundingBox.max.y );
                             var centerZ = 0.5 * ( geometry.boundingBox.min.z + geometry.boundingBox.max.z );
                             centroidGEO = [ centerX, centerY, centerZ];
+                           //centroidGEO = [ 0, 0, 0];
+                          // alert(centroidGEO);
 
                             //  alert(centroidGEO);
                         }
@@ -1232,6 +1241,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                         if(modelIN.transformationApplied == false){
                             geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
                             modelIN.transformationApplied  = true
+                            alert("translated");
                         }
                     }else if (modelIN.modelId==1002){ 
                         if(strahlerPreviousGroup3==true){

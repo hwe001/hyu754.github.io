@@ -83,7 +83,7 @@ This function will load strahler groups from 2-8
 Assuming there are files strahlerGroup$i_1, where $i = 2...8
 and also strahlerGroup$i_view.json
 */
-function loadStrahlerGroup() {
+function loadVesselGroup(LIVER_STRING_PRE,NUM_GEOMETRY) {
    // if (currentPatient != patientID) {
         var scene = zincRenderer.getSceneByName("Default")
 
@@ -111,12 +111,12 @@ function loadStrahlerGroup() {
             
          //  scene.loadFromViewURL("liverModels/strahler15");
            
-            for ( var i =2; i <= 8; i ++ ) {
-                scene.loadFromViewURL("liverModels/strahlerGroup"+i.toString()); 
+            for ( var i =2; i <= NUM_GEOMETRY; i ++ ) {
+                scene.loadFromViewURL("liverModels/"+LIVER_STRING_PRE+i.toString()); 
                // alert(i);
                 
             }
-            scene.loadFromViewURL("liverModels/strahlerGroup0");
+           // scene.loadFromViewURL("liverModels/"+LIVER_STRING_PRE+"0");
             
             
             
@@ -138,3 +138,58 @@ function loadStrahlerGroup() {
   //  }
 }
 
+
+function loadSurfaceGroup(LIVER_STRING_PRE,NUM_GEOMETRY) {
+   // if (currentPatient != patientID) {
+        var scene = zincRenderer.getSceneByName("Default")
+
+        if (scene == undefined) {
+
+            scene = zincRenderer.createScene("Default");
+
+           
+           // scene.loadFromViewURL("models/"+"flipped"); 
+         /*
+            scene.loadFromViewURL("models/"+patientID+"_surface"); //id will be 1000 + 1
+            scene.loadFromViewURL("models/"+patientID+"_bile"); // //id will be 1000 + 2
+            scene.loadFromViewURL("models/"+patientID+"_hepatic_vein");//id will be 1000 + 3
+            scene.loadFromViewURL("models/"+patientID+"_portal");//id will be 1000 + 4
+         */
+            
+            
+           /* 
+             scene.loadFromViewURL("liverModels/surface"+patientID); //id will be 1000 + 1
+            scene.loadFromViewURL("liverModels/bile"+patientID); //id will be 1000 + 1
+            scene.loadFromViewURL("liverModels/hepatic"+patientID); //id will be 1000 + 1
+           scene.loadFromViewURL("liverModels/portal"+patientID); //id will be 1000 + 1
+           scene.loadFromViewURL("liverModels/arterial"+patientID); //id will be 1000 + 1
+           */
+            
+         //  scene.loadFromViewURL("liverModels/strahler15");
+           
+            for ( var i =2; i <2+ NUM_GEOMETRY; i ++ ) {
+                scene.loadFromViewURL("liverModels/"+LIVER_STRING_PRE+i.toString()); 
+               // alert(i);
+                
+            }
+           // scene.loadFromViewURL("liverModels/"+LIVER_STRING_PRE+"0");
+            
+            
+            
+            
+        } else {
+
+            scene.resetView();
+
+
+        }
+
+
+        zincRenderer.setCurrentScene(scene);
+       
+        zincRenderer.addToScene(plane);
+        
+         var current_scene = zincRenderer.getCurrentScene();
+        
+  //  }
+}
