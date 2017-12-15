@@ -1259,7 +1259,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                         if(modelIN.transformationApplied == false){
                             geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
                             modelIN.transformationApplied  = true
-                            alert("translated");
+                            
                         }
                     }else if (modelIN.modelId==1002){ 
                         if(strahlerPreviousGroup3==true){
