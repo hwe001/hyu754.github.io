@@ -205,11 +205,21 @@ for the purpose of augment reality applications.
             //loadMyModel("deforming_heart");
             //loadMyModel("skin");
     
-        
+            initialize_scene();
            // loadLiverGroup("15");
-            var NUM_GEOMETRY= 3;
-            var LIVER_STRING_PRE= 'S';
-            loadSurfaceGroup(LIVER_STRING_PRE,NUM_GEOMETRY);
+            var NUM_GEOMETRY_SURFACE= 3;
+            var LIVER_SURF_STRING_PRE = 'S';
+            loadSurfaceGroup('S',NUM_GEOMETRY_SURFACE);
+            
+            var NUM_GEOMETRY_VESSELS = 4;
+            var LIVER_VESSEL_STRING_PRE= 'vessel_';
+            loadVesselGroup('vessel_',NUM_GEOMETRY_VESSELS);
+            
+            var NUM_GEOMETRY = NUM_GEOMETRY_SURFACE+NUM_GEOMETRY_VESSELS;
+            
+            
+            
+            
             //loadLiverGroup("S01");
             //alert(numbertest);
 

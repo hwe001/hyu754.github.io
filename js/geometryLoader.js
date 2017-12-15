@@ -77,20 +77,33 @@ function loadLiverGroup(patientID) {
     }
 }
 
+function initialize_scene(){
+     // if (currentPatient != patientID) {
+        var scene = zincRenderer.getSceneByName("Default")
 
+        if (scene == undefined) {
+
+            scene = zincRenderer.createScene("Default");
+        }   else {
+
+            scene.resetView();
+
+
+        }
+    
+    zincRenderer.setCurrentScene(scene);
+       
+        zincRenderer.addToScene(plane);
+        
+         var current_scene = zincRenderer.getCurrentScene();
+}
 /*
 This function will load strahler groups from 2-8
 Assuming there are files strahlerGroup$i_1, where $i = 2...8
 and also strahlerGroup$i_view.json
 */
 function loadVesselGroup(LIVER_STRING_PRE,NUM_GEOMETRY) {
-   // if (currentPatient != patientID) {
-        var scene = zincRenderer.getSceneByName("Default")
-
-        if (scene == undefined) {
-
-            scene = zincRenderer.createScene("Default");
-
+  
            
            // scene.loadFromViewURL("models/"+"flipped"); 
          /*
@@ -110,42 +123,28 @@ function loadVesselGroup(LIVER_STRING_PRE,NUM_GEOMETRY) {
            */
             
          //  scene.loadFromViewURL("liverModels/strahler15");
-           
-            for ( var i =2; i <= NUM_GEOMETRY; i ++ ) {
+            var scene = zincRenderer.getSceneByName("Default")
+            for ( var i =2; i <1+ NUM_GEOMETRY; i ++ ) {
                 scene.loadFromViewURL("liverModels/"+LIVER_STRING_PRE+i.toString()); 
                // alert(i);
                 
             }
-           // scene.loadFromViewURL("liverModels/"+LIVER_STRING_PRE+"0");
+           scene.loadFromViewURL("liverModels/"+LIVER_STRING_PRE+"0");
             
             
             
             
-        } else {
-
-            scene.resetView();
-
-
-        }
-
-
-        zincRenderer.setCurrentScene(scene);
        
-        zincRenderer.addToScene(plane);
+
+
         
-         var current_scene = zincRenderer.getCurrentScene();
         
   //  }
 }
 
 
 function loadSurfaceGroup(LIVER_STRING_PRE,NUM_GEOMETRY) {
-   // if (currentPatient != patientID) {
-        var scene = zincRenderer.getSceneByName("Default")
 
-        if (scene == undefined) {
-
-            scene = zincRenderer.createScene("Default");
 
            
            // scene.loadFromViewURL("models/"+"flipped"); 
@@ -166,7 +165,7 @@ function loadSurfaceGroup(LIVER_STRING_PRE,NUM_GEOMETRY) {
            */
             
          //  scene.loadFromViewURL("liverModels/strahler15");
-           
+            var scene = zincRenderer.getSceneByName("Default")
             for ( var i =2; i <2+ NUM_GEOMETRY; i ++ ) {
                 scene.loadFromViewURL("liverModels/"+LIVER_STRING_PRE+i.toString()); 
                // alert(i);
@@ -177,19 +176,8 @@ function loadSurfaceGroup(LIVER_STRING_PRE,NUM_GEOMETRY) {
             
             
             
-        } else {
+      
 
-            scene.resetView();
-
-
-        }
-
-
-        zincRenderer.setCurrentScene(scene);
-       
-        zincRenderer.addToScene(plane);
-        
-         var current_scene = zincRenderer.getCurrentScene();
         
   //  }
 }

@@ -925,18 +925,18 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             
             color = 0x0000ff;
             groupName='';
-            if(filename.includes(LIVER_STRING_PRE+"2")){
+            if(filename.includes(LIVER_SURF_STRING_PRE+"2")){
                 
                 modelId = 1001;
-                groupName = LIVER_STRING_PRE+"2";
+                groupName = LIVER_SURF_STRING_PRE+"2";
                 color = 0x0000ff;
                
-            } else if(filename.includes(LIVER_STRING_PRE+"3")){
+            } else if(filename.includes(LIVER_SURF_STRING_PRE+"3")){
                 modelId = 1002;
-                groupName = LIVER_STRING_PRE+"3"
-            } else if(filename.includes(LIVER_STRING_PRE+"4")){
+                groupName = LIVER_SURF_STRING_PRE+"3"
+            } else if(filename.includes(LIVER_SURF_STRING_PRE+"4")){
                 modelId = 1003;
-                groupName = LIVER_STRING_PRE+"4";
+                groupName = LIVER_SURF_STRING_PRE+"4";
             } else if(filename.includes("strahlerGroup5")){
                 modelId = 1004;
                 groupName = "strahlerGroup5";
@@ -953,6 +953,24 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             } else if(filename.includes("strahlerGroup0")){
                 modelId = 1000;
                 groupName = "strahlerBase";
+            }
+            
+            
+             if(filename.includes(LIVER_VESSEL_STRING_PRE+"2")){
+                
+                modelId = 2001;
+                groupName = LIVER_VESSEL_STRING_PRE+"2";
+                color = 0x0000ff;
+               
+            } else if(filename.includes(LIVER_VESSEL_STRING_PRE+"3")){
+                modelId = 2002;
+                groupName = LIVER_VESSEL_STRING_PRE+"3"
+            } else if(filename.includes(LIVER_VESSEL_STRING_PRE+"4")){
+                modelId = 2003;
+                groupName = LIVER_VESSEL_STRING_PRE+"4";
+            }else if(filename.includes(LIVER_VESSEL_STRING_PRE+"0")){
+                modelId = 2000;
+                groupName = LIVER_VESSEL_STRING_PRE+"0";
             }
             loader.load( filename, meshloader(modelId, colour, opacity, localTimeEnabled, localMorphColour, groupName, 
                                               finishCallback), _this.onProgress(i), _this.onError); 
@@ -1203,9 +1221,9 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
             //if(centroidGEO==undefined){
           //  alert(_this.returnNumGeometry())
-            
+            console.log(_this.returnNumGeometry()   );
             if(_this.returnNumGeometry()==NUM_GEOMETRY){
-            
+               
                 _this.findCentroidGeometry(
                     function(modelIN){
                        if(modelIN!=undefined){
@@ -1310,7 +1328,32 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                             geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
                             modelIN.transformationApplied  = true
                         }
-                    }else if (modelIN.modelId==1000){ 
+                    }else if (modelIN.modelId==2001){ 
+                        
+                      
+
+                        if(modelIN.transformationApplied == false){
+                            geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
+                            modelIN.transformationApplied  = true
+                        }
+                    }else if (modelIN.modelId==2002){ 
+                        
+                      
+
+                        if(modelIN.transformationApplied == false){
+                            geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
+                            modelIN.transformationApplied  = true
+                        }
+                    }else if (modelIN.modelId==2003){ 
+                        
+                      
+
+                        if(modelIN.transformationApplied == false){
+                            geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
+                            modelIN.transformationApplied  = true
+                        }
+                    }
+                        else if (modelIN.modelId==2000){ 
                         
                       
 
