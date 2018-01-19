@@ -656,7 +656,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
     var errorDownload = false;
     var stereoEffectFlag = false;
     var stereoEffect = undefined;
-    var centroidGEO=undefined;
+    var centroidGEO=[0,0,0];
     var backcameraselected=false;
     var modelIDBegin = 1000;
     var startBuffer =0;
@@ -1234,7 +1234,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                             var centerX = 0.5 * ( geometry.boundingBox.min.x + geometry.boundingBox.max.x );
                             var centerY = 0.5 * ( geometry.boundingBox.min.y + geometry.boundingBox.max.y );
                             var centerZ = 0.5 * ( geometry.boundingBox.min.z + geometry.boundingBox.max.z );
-                            centroidGEO = [ centerX, centerY, centerZ];
+                            //centroidGEO = [ centerX, centerY, centerZ];
                            //centroidGEO = [ 0, 0, 0];
                           // alert(centroidGEO);
 
@@ -1242,8 +1242,27 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                         }
                     })
                 //}
-               // alert(centroidGEO);
+                
+                
+                //Find the sum of the centroids of each geometry
+                centroidGEO=[0,0,0]
+                _this.forEachGeometry(
+                    function(modelIN){
+                        geometry = modelIN.geometry;
+                            geometry.computeBoundingBox();
 
+                            var centerX = 0.5 * ( geometry.boundingBox.min.x + geometry.boundingBox.max.x );
+                            var centerY = 0.5 * ( geometry.boundingBox.min.y + geometry.boundingBox.max.y );
+                            var centerZ = 0.5 * ( geometry.boundingBox.min.z + geometry.boundingBox.max.z );
+                        centroidGEO[0] += centerX/NUM_GEOMETRY;
+                        centroidGEO[1] += centerY/NUM_GEOMETRY;
+                        centroidGEO[2] += centerZ/NUM_GEOMETRY;
+                        
+                    }
+                )
+
+                
+                //alert(centroidGEO);
                 _this.forEachGeometry(
                     function(modelIN){
                     
