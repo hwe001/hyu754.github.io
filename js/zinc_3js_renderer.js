@@ -925,30 +925,36 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             
             color = 0x0000ff;
             groupName='';
-            if(filename.includes(LIVER_SURF_STRING_PRE+"2")){
+            
+            if(filename.includes(LIVER_SURF_STRING_PRE+"1")){
                 
                 modelId = 1001;
+                groupName = LIVER_SURF_STRING_PRE+"1";
+                color = 0x0000ff;
+            } else            if(filename.includes(LIVER_SURF_STRING_PRE+"2")){
+                
+                modelId = 1002;
                 groupName = LIVER_SURF_STRING_PRE+"2";
                 color = 0x0000ff;
                
             } else if(filename.includes(LIVER_SURF_STRING_PRE+"3")){
-                modelId = 1002;
+                modelId = 1003;
                 groupName = LIVER_SURF_STRING_PRE+"3"
             } else if(filename.includes(LIVER_SURF_STRING_PRE+"4")){
-                modelId = 1003;
+                modelId = 1004;
                 groupName = LIVER_SURF_STRING_PRE+"4";
             } else if(filename.includes("strahlerGroup5")){
-                modelId = 1004;
+                modelId = 1005;
                 groupName = "strahlerGroup5";
             } else if(filename.includes("strahlerGroup6")){
-                modelId = 1005;
+                modelId = 1006;
                 groupName = "strahlerGroup6";
                 
             } else if(filename.includes("strahlerGroup7")){
-                modelId = 1006;
+                modelId = 1007;
                 groupName = "strahlerGroup7";
             } else if(filename.includes("strahlerGroup8")){
-                modelId = 1007;
+                modelId = 1008;
                 groupName = "strahlerGroup8";
             } else if(filename.includes("strahlerGroup0")){
                 modelId = 1000;
@@ -1210,7 +1216,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             meshtemp.position.copy(_this.camera.position);
             meshtemp.rotation.copy( _this.camera.rotation );
 
-            var changeZ = document.getElementById("plane-slider").value;
+            var changeZ = text.planeSize;//document.getElementById("plane-slider").value;
             //TODO: this -500 should be changable
 
             meshtemp.translateZ(  -800 +Number(changeZ));

@@ -157,31 +157,14 @@ for the purpose of augment reality applications.
         <!--Creating a selector for the video source-->
         
         <script src= "js/create_video.js"></script>
+        <script type="text/javascript" src="js/createDATGUI.js"></script>
 
         <script>
             //circle menu
             //var el = '.js-menu';            
            // var myMenu = cssCircleMenu(el);
             
-            var gui = new dat.GUI({
-                height : 5*32 - 1
-            })
-            var FizzyText = function() {
-              this.message = 'dat.gui';
-              this.speed = 0.8;
-              this.displayOutline = false;
-              this.explode = function() {};
-              // Define render logic ...
-            };
-            //Add some elements to dat.gui
-            var params = {
-                integration:  1000
-            }
-             var text = new FizzyText();
-             gui.add(text, 'message');
-              gui.add(text, 'speed', -5, 5);
-              gui.add(text, 'displayOutline');
-              gui.add(text, 'explode');
+            
             //gui.add(params,'integration')
             //*********************************//
             //   Create video texture and plane//
@@ -230,7 +213,7 @@ for the purpose of augment reality applications.
     
             initialize_scene();
            // loadLiverGroup("15");
-            var NUM_GEOMETRY_SURFACE= 3;
+            var NUM_GEOMETRY_SURFACE= 4;
             var LIVER_SURF_STRING_PRE = 'S';
             loadSurfaceGroup('S',NUM_GEOMETRY_SURFACE);
             

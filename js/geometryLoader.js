@@ -166,7 +166,7 @@ function loadSurfaceGroup(LIVER_STRING_PRE,NUM_GEOMETRY) {
             
          //  scene.loadFromViewURL("liverModels/strahler15");
             var scene = zincRenderer.getSceneByName("Default")
-            for ( var i =2; i <2+ NUM_GEOMETRY; i ++ ) {
+            for ( var i =1; i <1+ NUM_GEOMETRY; i ++ ) {
                 scene.loadFromViewURL("liverModels/"+LIVER_STRING_PRE+i.toString()); 
                // alert(i);
                 
