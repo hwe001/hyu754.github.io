@@ -181,3 +181,11 @@ function loadSurfaceGroup(LIVER_STRING_PRE,NUM_GEOMETRY) {
         
   //  }
 }
+
+//Just load a singular geometry with a geometry 'geometry_string'
+function loadGeometry(geometry_string) {
+    var scene = zincRenderer.getSceneByName("Default")
+    scene.loadFromViewURL("liverModels/"+geometry_string); 
+    
+
+}

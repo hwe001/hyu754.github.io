@@ -20,7 +20,7 @@ this.seg5 = true;
 this.seg6 = true;
 this.seg7 = true;
 this.seg8 = true;
-
+this.alpha = 0.7;
 // Define render logic ...
 };
 
@@ -48,14 +48,15 @@ var gui = new dat.GUI();
 
 //Create different folders
 var segmentFolder = gui.addFolder('Liver Segments');
-segmentFolder.add(segmentText,'seg1')
+/*segmentFolder.add(segmentText,'seg1')
 segmentFolder.add(segmentText,'seg2')
 segmentFolder.add(segmentText,'seg3')
 segmentFolder.add(segmentText,'seg4')
 segmentFolder.add(segmentText,'seg5')
 segmentFolder.add(segmentText,'seg6')
 segmentFolder.add(segmentText,'seg7')
-segmentFolder.add(segmentText,'seg8')
+segmentFolder.add(segmentText,'seg8')*/
+segmentFolder.add(segmentText, 'alpha', 0.0, 1.0);
 
 
 

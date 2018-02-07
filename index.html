@@ -81,7 +81,7 @@ for the purpose of augment reality applications.
             
             <p1>Surface groups</p1>
             <div class = "btn-group">
-            
+                <button class="button" id="strahlerGroup1" onclick = "strahlerGroup1Visibility()">Group 1</button>
                 <button class="button" id="strahlerGroup2" onclick = "strahlerGroup2Visibility()">Group 2</button>
                 <button class="button" id="strahlerGroup3" onclick = "strahlerGroup3Visibility()">Group 3</button>
                 <button class="button" id="strahlerGroup4" onclick = "strahlerGroup4Visibility()">Group 4</button>
@@ -94,23 +94,23 @@ for the purpose of augment reality applications.
             </div>
             <p1>Vessels groups</p1> 
             <div class="btn-group">
-           <!--  
-                <button class="button" id="surface_button" onclick="surfaceVisibility()">Surface</button>
+             
+                <!--<button class="button" id="surface_button" onclick="surfaceVisibility()">Surface</button>-->
                 <button class="button" id ="hepatic_button" onclick="hepaticVisibility()">Hepatic</button>
                 <button class="button" id ="portal_button" onclick="portalVisibility()">Portal</button>
                 <button class="button" id ="bile_button" onclick="bileVisibility()">Bile</button>
                 <button class="button" id ="arterial_button" onclick="arterialVisibility()">Arterial</button>
                 <button class="button" id ="showall_button" onclick="allVisibility()">Show All</button>
-            -->
+            
               
-                <button class="button" id="strahlerGroup2" onclick = "strahlerGroup2Visibility()">Group 2</button>
+<!--                <button class="button" id="strahlerGroup2" onclick = "strahlerGroup2Visibility()">Group 2</button>
                 <button class="button" id="strahlerGroup3" onclick = "strahlerGroup3Visibility()">Group 3</button>
                 <button class="button" id="strahlerGroup4" onclick = "strahlerGroup4Visibility()">Group 4</button>
                 <button class="button" id="strahlerGroup5" onclick = "strahlerGroup5Visibility()">Group 5</button>
                 <button class="button" id="strahlerGroup6" onclick = "strahlerGroup6Visibility()">Group 6</button>
                 <button class="button" id="strahlerGroup7" onclick = "strahlerGroup7Visibility()">Group 7</button>
                 <button class="button" id="strahlerGroup8" onclick = "strahlerGroup8Visibility()">Group 8</button>
-                <button class="button" id="showAllGroups" onclick = "showAllVisibilityStrahler()">Show All </button>
+                <button class="button" id="showAllGroups" onclick = "showAllVisibilityStrahler()">Show All </button>-->
                 
             </div>
 
@@ -213,13 +213,18 @@ for the purpose of augment reality applications.
     
             initialize_scene();
            // loadLiverGroup("15");
-            var NUM_GEOMETRY_SURFACE= 4;
+            var NUM_GEOMETRY_SURFACE= 8;
             var LIVER_SURF_STRING_PRE = 'S';
             loadSurfaceGroup('S',NUM_GEOMETRY_SURFACE);
             
             var NUM_GEOMETRY_VESSELS = 4;
+/*            var LIVER_VESSEL_STRING_PRE= 'vessel_';
+            loadVesselGroup('vessel_',NUM_GEOMETRY_VESSELS);*/
             var LIVER_VESSEL_STRING_PRE= 'vessel_';
-            loadVesselGroup('vessel_',NUM_GEOMETRY_VESSELS);
+            loadGeometry('vessel_hepatic')
+            loadGeometry('vessel_portal')
+            loadGeometry('vessel_bile')
+            loadGeometry('vessel_arterial')
             
             var NUM_GEOMETRY = NUM_GEOMETRY_SURFACE+NUM_GEOMETRY_VESSELS;
             

@@ -709,10 +709,10 @@ Zinc.Scene = function ( containerIn, rendererIn) {
         _this.camera = new THREE.PerspectiveCamera( 40, container.clientWidth / container.clientHeight, 0.0, 10.0);
 
         _this.ambient = new THREE.AmbientLight( 0x202020 );
-        //scene.add( _this.ambient );
+        scene.add( _this.ambient );
 
         _this.directionalLight = new THREE.DirectionalLight( 0x777777  );
-        //scene.add( _this.directionalLight );
+        scene.add( _this.directionalLight );
 
         zincCameraControls = new ZincCameraControls( _this.camera, rendererIn.domElement, rendererIn, scene )
         zincCameraControls.setDirectionalLight(_this.directionalLight);
@@ -930,12 +930,12 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 
                 modelId = 1001;
                 groupName = LIVER_SURF_STRING_PRE+"1";
-                color = 0x0000ff;
-            } else            if(filename.includes(LIVER_SURF_STRING_PRE+"2")){
+                
+            } else  if(filename.includes(LIVER_SURF_STRING_PRE+"2")){
                 
                 modelId = 1002;
                 groupName = LIVER_SURF_STRING_PRE+"2";
-                color = 0x0000ff;
+                
                
             } else if(filename.includes(LIVER_SURF_STRING_PRE+"3")){
                 modelId = 1003;
@@ -943,7 +943,20 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             } else if(filename.includes(LIVER_SURF_STRING_PRE+"4")){
                 modelId = 1004;
                 groupName = LIVER_SURF_STRING_PRE+"4";
-            } else if(filename.includes("strahlerGroup5")){
+            }else if(filename.includes(LIVER_SURF_STRING_PRE+"5")){
+                modelId = 1005;
+                groupName = LIVER_SURF_STRING_PRE+"5";
+            }else if(filename.includes(LIVER_SURF_STRING_PRE+"6")){
+                modelId = 1006;
+                groupName = LIVER_SURF_STRING_PRE+"6";
+            }else if(filename.includes(LIVER_SURF_STRING_PRE+"7")){
+                modelId = 1007;
+                groupName = LIVER_SURF_STRING_PRE+"7";
+            }else if(filename.includes(LIVER_SURF_STRING_PRE+"8")){
+                modelId = 1008;
+                groupName = LIVER_SURF_STRING_PRE+"8";
+            }
+           /* } else if(filename.includes("strahlerGroup5")){
                 modelId = 1005;
                 groupName = "strahlerGroup5";
             } else if(filename.includes("strahlerGroup6")){
@@ -959,24 +972,24 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             } else if(filename.includes("strahlerGroup0")){
                 modelId = 1000;
                 groupName = "strahlerBase";
-            }
+            }*/
             
             
-             if(filename.includes(LIVER_VESSEL_STRING_PRE+"2")){
+             if(filename.includes(LIVER_VESSEL_STRING_PRE+"hepatic")){
                 
                 modelId = 2001;
-                groupName = LIVER_VESSEL_STRING_PRE+"2";
+                groupName = LIVER_VESSEL_STRING_PRE+"hepatic";
                 color = 0x0000ff;
                
-            } else if(filename.includes(LIVER_VESSEL_STRING_PRE+"3")){
+            } else if(filename.includes(LIVER_VESSEL_STRING_PRE+"portal")){
                 modelId = 2002;
-                groupName = LIVER_VESSEL_STRING_PRE+"3"
-            } else if(filename.includes(LIVER_VESSEL_STRING_PRE+"4")){
+                groupName = LIVER_VESSEL_STRING_PRE+"portal"
+            } else if(filename.includes(LIVER_VESSEL_STRING_PRE+"bile")){
                 modelId = 2003;
-                groupName = LIVER_VESSEL_STRING_PRE+"4";
-            }else if(filename.includes(LIVER_VESSEL_STRING_PRE+"0")){
+                groupName = LIVER_VESSEL_STRING_PRE+"bile";
+            }else if(filename.includes(LIVER_VESSEL_STRING_PRE+"arterial")){
                 modelId = 2000;
-                groupName = LIVER_VESSEL_STRING_PRE+"0";
+                groupName = LIVER_VESSEL_STRING_PRE+"arterial";
             }
             loader.load( filename, meshloader(modelId, colour, opacity, localTimeEnabled, localMorphColour, groupName, 
                                               finishCallback), _this.onProgress(i), _this.onError); 
@@ -1047,6 +1060,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             material = materialIn;
             material.morphTargets = localTimeEnabled;
             //  material = new THREE.MeshPhongMaterial({color: "rgb(190,100,90)", opacity: 0.8, transparent: true});
+            
         } else {
 
             material = new THREE.MeshPhongMaterial( { color: colour, morphTargets: localTimeEnabled, morphNormals: false, vertexColors: THREE.VertexColors, transparent: isTransparent, opacity: opacity });
@@ -1055,6 +1069,12 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
         }
         
+/*        var geo = new THREE.EdgesGeometry( geometry ); // or WireframeGeometry( geometry )
+
+        var mat = new THREE.LineBasicMaterial( { color: 0xf0000f, linewidth: 2 } );
+
+        var wireframe = new THREE.LineSegments( geo, mat );
+        scene.add( wireframe );*/
         //Removed this to not show internal faces
         material.side = THREE.DoubleSide;
         var mesh = undefined;
@@ -1275,11 +1295,12 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                         geometry = modelIN.geometry;
                        
                     if (modelIN.modelId==1001){ 
-                        if(strahlerPreviousGroup2==true){
+                        if(strahlerPreviousGroup1==true){
                             modelIN.setVisibility(true);
                         } else{
                             modelIN.setVisibility(false);
                         }
+                        modelIN.setAlpha(segmentText.alpha)
                         //alert(modelIN.groupName);
                         if(modelIN.transformationApplied == false){
                             geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
@@ -1287,67 +1308,83 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                             
                         }
                     }else if (modelIN.modelId==1002){ 
-                        if(strahlerPreviousGroup3==true){
+                        if(strahlerPreviousGroup2==true){
                             modelIN.setVisibility(true);
                         } else{
                             modelIN.setVisibility(false);
                         }
-
+                        modelIN.setAlpha(segmentText.alpha)
+                        
                         if(modelIN.transformationApplied == false){
                             geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
                             modelIN.transformationApplied  = true
                         }
                     }else if (modelIN.modelId==1003){ 
-                        if(strahlerPreviousGroup4==true){
+                        if(strahlerPreviousGroup3==true){
                             modelIN.setVisibility(true);
                         } else{
                             modelIN.setVisibility(false);
                         }
-
+                        modelIN.setAlpha(segmentText.alpha)
                         if(modelIN.transformationApplied == false){
                             geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
                             modelIN.transformationApplied  = true
                         }
                     }else if (modelIN.modelId==1004){ 
-                        if(strahlerPreviousGroup5==true){
+                        if(strahlerPreviousGroup4==true){
                             modelIN.setVisibility(true);
                         } else{
                             modelIN.setVisibility(false);
                         }
-
+                        modelIN.setAlpha(segmentText.alpha)
                         if(modelIN.transformationApplied == false){
                             geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
                             modelIN.transformationApplied  = true
                         }
                     }else if (modelIN.modelId==1005){ 
-                        if(strahlerPreviousGroup6==true){
+                        if(strahlerPreviousGroup5==true){
                             modelIN.setVisibility(true);
                         } else{
                             modelIN.setVisibility(false);
                         }
-
+                        modelIN.setAlpha(segmentText.alpha)
                         if(modelIN.transformationApplied == false){
                             geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
                             modelIN.transformationApplied  = true
                         }
                     }else if (modelIN.modelId==1006){ 
-                        if(strahlerPreviousGroup7==true){
+                        if(strahlerPreviousGroup6==true){
                             modelIN.setVisibility(true);
                         } else{
                             modelIN.setVisibility(false);
                         }
-
+                        modelIN.setAlpha(segmentText.alpha)
                         if(modelIN.transformationApplied == false){
                             geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
                             modelIN.transformationApplied  = true
                         }
                     }
                         else if (modelIN.modelId==1007){ 
+                        if(strahlerPreviousGroup7==true){
+                            modelIN.setVisibility(true);
+                        } else{
+                            modelIN.setVisibility(false);
+                        }
+                        modelIN.setAlpha(segmentText.alpha)
+                        
+
+                        if(modelIN.transformationApplied == false){
+                            geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
+                            modelIN.transformationApplied  = true
+                        }
+                    }else if (modelIN.modelId==1008){ 
                         if(strahlerPreviousGroup8==true){
                             modelIN.setVisibility(true);
                         } else{
                             modelIN.setVisibility(false);
                         }
+                        
+                        modelIN.setAlpha(segmentText.alpha)
 
                         if(modelIN.transformationApplied == false){
                             geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));

@@ -6,6 +6,7 @@ var bilePreviousVisibility = true;
 var arterialPreviousVisibility = true;
 
 //Global flags for visibility of different groups
+var strahlerPreviousGroup1 = true;
 var strahlerPreviousGroup2 = true;
 var strahlerPreviousGroup3 = true;
 var strahlerPreviousGroup4 = true;
@@ -31,7 +32,25 @@ function closeNav(){
 
 
 
-//Function for arterial visibility
+function strahlerGroup1Visibility(){
+
+
+    if(strahlerPreviousGroup1==true){
+        strahlerPreviousGroup1=false;
+    } else{
+        strahlerPreviousGroup1=true;
+    }
+
+    if(strahlerPreviousGroup1==false){           
+        document.getElementById("strahlerGroup1").style.backgroundColor ="darkgreen";
+                                        
+    } else{
+        document.getElementById("strahlerGroup1").style.backgroundColor =" #4CAF50";
+                                       
+    }
+
+
+}
 function strahlerGroup2Visibility(){
 
 
@@ -145,6 +164,10 @@ function strahlerGroup8Visibility(){
 
 
 function showAllVisibilityStrahler(){
+      if(strahlerPreviousGroup1==false){
+       strahlerPreviousGroup1=true;
+         document.getElementById("strahlerGroup1").style.backgroundColor =" #4CAF50";
+   }
     if(strahlerPreviousGroup2==false){
        strahlerPreviousGroup2=true;
          document.getElementById("strahlerGroup2").style.backgroundColor =" #4CAF50";
