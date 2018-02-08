@@ -90,8 +90,8 @@ function start() {
 
    // alert("Changed");
     //var audioSource = audioInputSelect.value;
-    //var videoSource = videoSelect.value;
-    var videoSource = text.camera_type.deviceId;
+    var videoSource = videoSelect.value;
+    //var videoSource = text.camera_type.deviceId;
     //alert(videoSource)
     var constraints = {
         // audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
@@ -165,7 +165,7 @@ videoSelect.onchange = start;
 
 //cameraFolder.add(text, 'camera_type', [ 'pizza', 'chrome', 'hooray' ] ).onChange = start;
 //checkOrientation();
-//start();
+start();
 
 //Function for resizing the image plane in Zinc if the orientation is changed
 var checkOrientation = function(){
