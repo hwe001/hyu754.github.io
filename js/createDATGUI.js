@@ -61,7 +61,7 @@ segmentFolder.add(segmentText, 'alpha', 0.0, 1.0);
 
 
 
-var portalFolder = gui.addFolder('Portal Vein');
+/*var portalFolder = gui.addFolder('Portal Vein');
 
 
 var hepaticFolder = gui.addFolder('Hepatic Vein');
@@ -72,7 +72,7 @@ portalFolder.add(hepaticText,'hep4')
 portalFolder.add(hepaticText,'hep5')
 portalFolder.add(hepaticText,'hep6')
 portalFolder.add(hepaticText,'hep7')
-portalFolder.add(hepaticText,'hep8')
+portalFolder.add(hepaticText,'hep8')*/
 
 var cameraFolder = gui.addFolder('Camera settings')
 

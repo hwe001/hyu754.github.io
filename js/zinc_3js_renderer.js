@@ -1392,15 +1392,23 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                         }
                     }else if (modelIN.modelId==2001){ 
                         
-                      
-
+                        if(hepaticPreviousVisibility==true){
+                            modelIN.setVisibility(true);
+                        } else{
+                            modelIN.setVisibility(false);
+                        }
+                        
                         if(modelIN.transformationApplied == false){
                             geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
                             modelIN.transformationApplied  = true
                         }
                     }else if (modelIN.modelId==2002){ 
                         
-                      
+                       if(portalPreviousVisibility==true){
+                            modelIN.setVisibility(true);
+                        } else{
+                            modelIN.setVisibility(false);
+                        }
 
                         if(modelIN.transformationApplied == false){
                             geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
@@ -1408,7 +1416,11 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                         }
                     }else if (modelIN.modelId==2003){ 
                         
-                      
+                       if(bilePreviousVisibility==true){
+                            modelIN.setVisibility(true);
+                        } else{
+                            modelIN.setVisibility(false);
+                        }
 
                         if(modelIN.transformationApplied == false){
                             geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
@@ -1417,7 +1429,11 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                     }
                         else if (modelIN.modelId==2000){ 
                         
-                      
+                       if(arterialPreviousVisibility==true){
+                            modelIN.setVisibility(true);
+                        } else{
+                            modelIN.setVisibility(false);
+                        }
 
                         if(modelIN.transformationApplied == false){
                             geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
@@ -1458,7 +1474,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 if(backcameraselected==false){
                    // alert( videoSelect.length);
                    // navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
-                    if  ((document.getElementById('videoSource').length==2)&&(_this.returnNumGeometry()==5)){
+                    if  ((document.getElementById('videoSource').length==2)){//&&(_this.returnNumGeometry()==5)
                         //alert(document.querySelector('select#videoSource')[1].value);
                         if(document.getElementById('videoSource')[1].value!=undefined){
                             document.getElementById('videoSource').value =document.getElementById('videoSource')[1].value;
@@ -1476,6 +1492,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 } 
            
             renderer.render( fullScene, _this.camera );
+            this.updateDirectionalLight();
 
         }
     }
