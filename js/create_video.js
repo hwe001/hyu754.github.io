@@ -22,8 +22,10 @@ var surface_material_video = new THREE.MeshBasicMaterial ({
     map : videoTexture
 });
 
+//var videoSelect = document.querySelector('select#videoSource');
 var videoSelect = document.querySelector('select#videoSource');
 var selectors=[videoSelect];
+var video_devices=[];
 //Gets devices
 function gotDevices(deviceInfos) {
     var values = selectors.map(function(select) {
@@ -45,10 +47,12 @@ function gotDevices(deviceInfos) {
             
             // alert( option.text);
            videoSelect.appendChild(option);
+            video_devices.push(deviceInfo);
+       
            // videoSelect.insertBefore(option, videoSelect.firstChild)
         } 
     }
-    
+
     selectors.forEach(function(select, selectorIndex) {
         if (Array.prototype.slice.call(select.childNodes).some(function(n) {
             return n.value === values[selectorIndex];
@@ -86,8 +90,9 @@ function start() {
 
    // alert("Changed");
     //var audioSource = audioInputSelect.value;
-    var videoSource = videoSelect.value;
-    
+    //var videoSource = videoSelect.value;
+    var videoSource = text.camera_type.deviceId;
+    //alert(videoSource)
     var constraints = {
         // audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
         video: {deviceId: videoSource ? {exact: videoSource} : undefined},
@@ -157,8 +162,10 @@ function start() {
 }
 
 videoSelect.onchange = start;
+
+//cameraFolder.add(text, 'camera_type', [ 'pizza', 'chrome', 'hooray' ] ).onChange = start;
 //checkOrientation();
-start();
+//start();
 
 //Function for resizing the image plane in Zinc if the orientation is changed
 var checkOrientation = function(){
@@ -173,10 +180,12 @@ var checkOrientation = function(){
             global_width = dummyGlobalHeight;
           //  alert(previousOrientation);
             if((previousOrientation==90)||(previousOrientation==-90)){
-                document.getElementById('plane-slider').value = 400;
+                //document.getElementById('plane-slider').value = 400;
+                text.planeSize = 400;
                 //alert('changed');
             } else if((previousOrientation==0)||(previousOrientation==180)){
-                 document.getElementById('plane-slider').value = 0;
+                 //document.getElementById('plane-slider').value = 0;
+                text.planeSize = 0;
             }
         }
     }
@@ -185,5 +194,5 @@ var checkOrientation = function(){
  window.addEventListener("orientationchange", checkOrientation, false);
 
 
-
+videoSource_defined = false;
 

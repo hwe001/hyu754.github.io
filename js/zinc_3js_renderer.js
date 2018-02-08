@@ -1440,7 +1440,24 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             }
             // alert(centroid);
             
-                if(backcameraselected==false){
+            //Adding video selector alert(video_devices)
+            if (video_devices.length && (videoSource_defined==false)){
+                videoSource_defined = true
+                //alert(video_devices[0].deviceId);
+                var video_dict={};
+                for (i =0; i<video_devices.length;i++){
+                   video_dict[video_devices[i].label]=video_devices[i]
+/*                        key:video_devices[i].label,
+                        value:video_devices[i]*/
+                       
+                }
+                //alert(video_dict)
+                cameraFolder.add(text, 'camera_type', video_dict ).onChange(start)
+                text.camera_type = video_devices[video_devices.length-1].label
+                start()
+            } 
+            //alert(video_devices.text)
+              /*  if(backcameraselected==false){
                    // alert( videoSelect.length);
                    // navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
                     if  ((document.getElementById('videoSource').length==2)&&(_this.returnNumGeometry()==5)){
@@ -1452,13 +1469,14 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
                             //alert(document.getElementById('videoSource')[1].readyState);
                             start();
+                            
                             backcameraselected =true;
                         } 
                     } 
 
 
                 } 
-           
+           */
             renderer.render( fullScene, _this.camera );
 
         }

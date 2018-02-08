@@ -7,6 +7,7 @@ this.speed = 0.8;
 this.displayOutline = false;
 this.showPortal = false;
 this.planeSize = 1;
+this.camera_type = '';
 this.explode = function() {};
 // Define render logic ...
 };
@@ -76,3 +77,6 @@ portalFolder.add(hepaticText,'hep8')
 var cameraFolder = gui.addFolder('Camera settings')
 
 cameraFolder.add(text, 'planeSize', -1000, 1000);
+camera_selector_set = false
+//alert(video_devices)
+// cameraFolder.add(text, 'camera_type',  [video_devices[1] ] ).onChange(start);
