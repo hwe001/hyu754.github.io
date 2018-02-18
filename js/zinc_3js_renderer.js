@@ -1471,7 +1471,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 start()
             } */
             //alert(video_devices.text)
-                if(backcameraselected==false){
+                if(0){
                    // alert( videoSelect.length);
                    // navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
                     if  ((document.getElementById('videoSource').length==2)){//&&(_this.returnNumGeometry()==5)

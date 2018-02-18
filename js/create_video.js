@@ -47,7 +47,7 @@ function gotDevices(deviceInfos) {
             
             // alert( option.text);
            videoSelect.appendChild(option);
-            video_devices.push(deviceInfo);
+            //video_devices.push(deviceInfo);
        
            // videoSelect.insertBefore(option, videoSelect.firstChild)
         } 
