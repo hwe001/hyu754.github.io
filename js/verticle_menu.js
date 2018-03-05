@@ -14,6 +14,7 @@ var strahlerPreviousGroup5 = true;
 var strahlerPreviousGroup6 = true;
 var strahlerPreviousGroup7 = true;
 var strahlerPreviousGroup8 = true;
+var strahlerPreviousGroup9 = true;
 
 //When the open button is pressed
 function openNav() {

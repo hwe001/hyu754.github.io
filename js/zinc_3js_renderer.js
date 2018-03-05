@@ -955,6 +955,9 @@ Zinc.Scene = function ( containerIn, rendererIn) {
             }else if(filename.includes(LIVER_SURF_STRING_PRE+"8")){
                 modelId = 1008;
                 groupName = LIVER_SURF_STRING_PRE+"8";
+            }else if(filename.includes(LIVER_SURF_STRING_PRE+"9")){
+                modelId = 1009;
+                groupName = LIVER_SURF_STRING_PRE+"9";
             }
            /* } else if(filename.includes("strahlerGroup5")){
                 modelId = 1005;
@@ -1092,7 +1095,13 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 
 
         setPositionOfObject(mesh);
+        
+        
+        
+        
         scene.add( mesh );
+        
+        
         var newGeometry = new Zinc.Geometry();
         var mixer = new THREE.AnimationMixer(mesh);
         var clipAction = undefined;
@@ -1249,7 +1258,11 @@ Zinc.Scene = function ( containerIn, rendererIn) {
           //  alert(_this.returnNumGeometry())
             console.log(_this.returnNumGeometry()   );
             if(_this.returnNumGeometry()==NUM_GEOMETRY){
-               
+                
+                
+              
+                
+                
                 _this.findCentroidGeometry(
                     function(modelIN){
                        if(modelIN!=undefined){
@@ -1305,6 +1318,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                         if(modelIN.transformationApplied == false){
                             geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
                             modelIN.transformationApplied  = true
+               
                             
                         }
                     }else if (modelIN.modelId==1002){ 
@@ -1379,6 +1393,19 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                         }
                     }else if (modelIN.modelId==1008){ 
                         if(strahlerPreviousGroup8==true){
+                            modelIN.setVisibility(true);
+                        } else{
+                            modelIN.setVisibility(false);
+                        }
+                        
+                        modelIN.setAlpha(segmentText.alpha)
+
+                        if(modelIN.transformationApplied == false){
+                            geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
+                            modelIN.transformationApplied  = true
+                        }
+                    }else if (modelIN.modelId==1009){ 
+                        if(strahlerPreviousGroup9==true){
                             modelIN.setVisibility(true);
                         } else{
                             modelIN.setVisibility(false);
