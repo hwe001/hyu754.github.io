@@ -161,6 +161,21 @@ function strahlerGroup8Visibility(){
     }
 }
 
+function strahlerGroup9Visibility(){
+    if(strahlerPreviousGroup9==true){
+        strahlerPreviousGroup9 = false;
+    } else {
+        strahlerPreviousGroup9 = true;
+    }
+    
+    if(strahlerPreviousGroup9 == false){
+        document.getElementById("strahlerGroup9").style.backgroundColor = "darkgreen";
+    } else{
+        document.getElementById("strahlerGroup9").style.backgroundColor = "#4CAF50";
+    }
+}
+
+
 
 
 
@@ -198,6 +213,10 @@ function showAllVisibilityStrahler(){
     if(strahlerPreviousGroup8==false){
        strahlerPreviousGroup8=true;
          document.getElementById("strahlerGroup8").style.backgroundColor =" #4CAF50";
+   }
+     if(strahlerPreviousGroup9==false){
+       strahlerPreviousGroup9=true;
+         document.getElementById("strahlerGroup9").style.backgroundColor =" #4CAF50";
    }
    
 }
