@@ -30,7 +30,7 @@ var loadGeometryThreeJS = function(geometry){
 //The input will be the patient ID: i.e. S01
 //It is assumed that in the foler ./models there exists
 // model_name_{bile,portal,hepatic,surface}_{1,view}.JSON 
-function loadLiverGroup(patientID) {
+function loadLiverGroup(patientID,patient_file_dir) {
     if (currentPatient != patientID) {
         var scene = zincRenderer.getSceneByName(patientID)
 
@@ -55,7 +55,7 @@ function loadLiverGroup(patientID) {
            scene.loadFromViewURL("liverModels/portal"+patientID); //id will be 1000 + 1
            scene.loadFromViewURL("liverModels/arterial"+patientID); //id will be 1000 + 1
            */
-           scene.loadFromViewURL("liverModels/strahler"+patientID); 
+           scene.loadFromViewURL(patient_file_dir+"/strahler"+patientID); 
             
             
             
@@ -102,7 +102,7 @@ This function will load strahler groups from 2-8
 Assuming there are files strahlerGroup$i_1, where $i = 2...8
 and also strahlerGroup$i_view.json
 */
-function loadVesselGroup(LIVER_STRING_PRE,NUM_GEOMETRY) {
+function loadVesselGroup(LIVER_STRING_PRE,NUM_GEOMETRY,patient_file_dir) {
   
            
            // scene.loadFromViewURL("models/"+"flipped"); 
@@ -125,11 +125,11 @@ function loadVesselGroup(LIVER_STRING_PRE,NUM_GEOMETRY) {
          //  scene.loadFromViewURL("liverModels/strahler15");
             var scene = zincRenderer.getSceneByName("Default")
             for ( var i =2; i <1+ NUM_GEOMETRY; i ++ ) {
-                scene.loadFromViewURL("liverModels/"+LIVER_STRING_PRE+i.toString()); 
+                scene.loadFromViewURL(patient_file_dir+"/"+LIVER_STRING_PRE+i.toString()); 
                // alert(i);
                 
             }
-           scene.loadFromViewURL("liverModels/"+LIVER_STRING_PRE+"0");
+           scene.loadFromViewURL(patient_file_dir+"/"+LIVER_STRING_PRE+"0");
             
             
             
@@ -143,7 +143,7 @@ function loadVesselGroup(LIVER_STRING_PRE,NUM_GEOMETRY) {
 }
 
 
-function loadSurfaceGroup(LIVER_STRING_PRE,NUM_GEOMETRY) {
+function loadSurfaceGroup(LIVER_STRING_PRE,NUM_GEOMETRY,patient_file_dir) {
 
 
            
@@ -167,7 +167,7 @@ function loadSurfaceGroup(LIVER_STRING_PRE,NUM_GEOMETRY) {
          //  scene.loadFromViewURL("liverModels/strahler15");
             var scene = zincRenderer.getSceneByName("Default")
             for ( var i =1; i <1+ NUM_GEOMETRY; i ++ ) {
-                scene.loadFromViewURL("liverModels/"+LIVER_STRING_PRE+i.toString()); 
+                scene.loadFromViewURL(patient_file_dir+"/"+LIVER_STRING_PRE+i.toString()); 
                // alert(i);
                 
             }
@@ -183,9 +183,9 @@ function loadSurfaceGroup(LIVER_STRING_PRE,NUM_GEOMETRY) {
 }
 
 //Just load a singular geometry with a geometry 'geometry_string'
-function loadGeometry(geometry_string) {
+function loadGeometry(geometry_string,patient_file_dir) {
     var scene = zincRenderer.getSceneByName("Default")
-    scene.loadFromViewURL("liverModels/"+geometry_string); 
+    scene.loadFromViewURL(patient_file_dir+"/"+geometry_string); 
     
 
 }

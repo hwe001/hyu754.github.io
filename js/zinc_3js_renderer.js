@@ -982,7 +982,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 
                 modelId = 2001;
                 groupName = LIVER_VESSEL_STRING_PRE+"hepatic";
-                color = 0x0000ff;
+                color = 0xa00aaa;
                
             } else if(filename.includes(LIVER_VESSEL_STRING_PRE+"portal")){
                 modelId = 2002;
@@ -994,6 +994,19 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                 modelId = 2000;
                 groupName = LIVER_VESSEL_STRING_PRE+"arterial";
             }
+            
+            
+            for (var i_ = 1; i_ <=NUM_TUMOURS;i_++){
+                if(filename.includes(TUMOUR_STRING_PRE+i_.toString())){
+                
+                    modelId = 3000+i_;
+                    //alert(modelId)
+                    groupName = LIVER_VESSEL_STRING_PRE+i_.toString();
+                    //color = 0xa00aaa;
+
+                }
+            }
+            
             loader.load( filename, meshloader(modelId, colour, opacity, localTimeEnabled, localMorphColour, groupName, 
                                               finishCallback), _this.onProgress(i), _this.onError); 
         }
@@ -1466,6 +1479,18 @@ Zinc.Scene = function ( containerIn, rendererIn) {
                             geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
                             modelIN.transformationApplied  = true
                         }
+                    } else {
+                       
+                        for (var i_ = 1; i_ <=NUM_TUMOURS;i_++){
+                            
+                            if(modelIN.modelId == 3000+i_){
+                                if(modelIN.transformationApplied == false){
+                                    geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-centroidGEO[0],-centroidGEO[1],-centroidGEO[2]));
+                                    modelIN.transformationApplied  = true
+                                }
+                            }
+                        }
+                    
                     }
 
 

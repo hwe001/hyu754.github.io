@@ -21,7 +21,7 @@ this.seg5 = true;
 this.seg6 = true;
 this.seg7 = true;
 this.seg8 = true;
-this.alpha = 0.99;
+this.alpha = 0.65;
 // Define render logic ...
 };
 
