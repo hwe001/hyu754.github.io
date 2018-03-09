@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<!--
+This html document is a modified version of the Simple Zinc WebGL Demo
+The difference is that the js webRTC is used for integration of camera frames
+for the purpose of augment reality applications.
+12/05/2017
+-->
+<html lang="en" style="height:100%">
+    <head>
+        <title>WebRTC liver augmentation</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="css/verticle_menu.css">
+        <link rel="stylesheet" href="css/circle-menu.css">
+        <link rel="stylesheet" href="css/loading-spin.css">
+        <script type="text/javascript" src="js/verticle_menu.js"> </script>
+        <script type="text/javascript" src="js/dat.gui.min.js"></script>
+        
+        <script src="js/three.min.js"></script>
+        <script src="js/zinc_threejs_control.js"></script>
+        <script src="js/zinc_3js_renderer.js"></script>
+        <script src="js/geometryLoader.js"></script>
+        <script src="js/src/circleMenu.js"></script>
+    </head>
+
+   
+
+
+    
+
+    <body onload ="loadingScreen()" style="height:100%">
+        
+        <div id = "loader">
+        
+        <div class="loader" >
+            
+        </div>
+            
+            <span id = "loadingPercentage"> </span>
+            </div>
+        <div style="display:none;" id="myDiv" >
+        <nav class="c-circle-menu js-menu" style="display:none;">
+          <button class="c-circle-menu__toggle js-menu-toggle">
+            <span>Toggle</span>
+          </button>
+          <ul class="c-circle-menu__items">
+            <li class="c-circle-menu__item">
+              <a href="#" class="c-circle-menu__link">
+                <img src="img/house.svg" alt="">
+              </a>
+            </li>
+            <li class="c-circle-menu__item">
+              <a href="#" class="c-circle-menu__link">
+                <img src="img/photo.svg" alt="">
+              </a>
+            </li>
+            <li class="c-circle-menu__item">
+              <a href="#" class="c-circle-menu__link">
+                <img src="img/pin.svg" alt="">
+              </a>
+            </li>
+            <li class="c-circle-menu__item">
+              <a href="#" class="c-circle-menu__link">
+                <img src="img/search.svg" alt="">
+              </a>
+            </li>
+            <li class="c-circle-menu__item">
+              <a href="#" class="c-circle-menu__link">
+                <img src="img/circle.bmp" alt="">
+              </a>
+            </li>
+              
+          </ul>
+          <div class="c-circle-menu__mask js-menu-mask"></div>
+        </nav>
+        
+
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+            
+            <p1>Surface groups</p1>
+            <div class = "btn-group">
+                <button class="button" id="strahlerGroup1" onclick = "strahlerGroup1Visibility()">Group 1</button>
+                <button class="button" id="strahlerGroup2" onclick = "strahlerGroup2Visibility()">Group 2</button>
+                <button class="button" id="strahlerGroup3" onclick = "strahlerGroup3Visibility()">Group 3</button>
+                <button class="button" id="strahlerGroup4" onclick = "strahlerGroup4Visibility()">Group 4</button>
+                <button class="button" id="strahlerGroup5" onclick = "strahlerGroup5Visibility()">Group 5</button>
+                <button class="button" id="strahlerGroup6" onclick = "strahlerGroup6Visibility()">Group 6</button>
+                <button class="button" id="strahlerGroup7" onclick = "strahlerGroup7Visibility()">Group 7</button>
+                <button class="button" id="strahlerGroup8" onclick = "strahlerGroup8Visibility()">Group 8</button>
+                <button class="button" id="strahlerGroup9" onclick = "strahlerGroup9Visibility()">Group 9</button>
+                <button class="button" id="showAllGroups" onclick = "showAllVisibilityStrahler()">Show All </button>
+            
+            </div>
+            <p1>Vessels groups</p1> 
+            <div class="btn-group">
+             
+                <!--<button class="button" id="surface_button" onclick="surfaceVisibility()">Surface</button>-->
+                <button class="button" id ="hepatic_button" onclick="hepaticVisibility()">Hepatic</button>
+                <button class="button" id ="portal_button" onclick="portalVisibility()">Portal</button>
+                <!--<button class="button" id ="bile_button" onclick="bileVisibility()">Bile</button>-->
+                <button class="button" id ="arterial_button" onclick="arterialVisibility()">Arterial</button>
+                <button class="button" id ="showall_button" onclick="allVisibility()">Show All</button>
+            
+              
+<!--                <button class="button" id="strahlerGroup2" onclick = "strahlerGroup2Visibility()">Group 2</button>
+                <button class="button" id="strahlerGroup3" onclick = "strahlerGroup3Visibility()">Group 3</button>
+                <button class="button" id="strahlerGroup4" onclick = "strahlerGroup4Visibility()">Group 4</button>
+                <button class="button" id="strahlerGroup5" onclick = "strahlerGroup5Visibility()">Group 5</button>
+                <button class="button" id="strahlerGroup6" onclick = "strahlerGroup6Visibility()">Group 6</button>
+                <button class="button" id="strahlerGroup7" onclick = "strahlerGroup7Visibility()">Group 7</button>
+                <button class="button" id="strahlerGroup8" onclick = "strahlerGroup8Visibility()">Group 8</button>
+                <button class="button" id="showAllGroups" onclick = "showAllVisibilityStrahler()">Show All </button>-->
+                
+            </div>
+
+<!--            <div class = "slidernav">
+                <p1>Camera plane size </p1> 
+
+                <input id="plane-slider" type="range" value="0.3" min="-1000" max="1000" step="0.05" />
+            </div>
+            
+            <div class = "slidernav">
+                <p1>Surface transparency </p1> 
+
+                <input id="surface-slider" type="range" value="0.8" min="0" max="1" step="0.05" />
+            </div>-->
+
+            <div class="select">
+                <label for="videoSource" style="color:white;font-size:25px;font-family:sans-serif;">Video source: </label>
+                <select id="videoSource"></select>
+            </div>
+
+
+
+
+
+        </div>
+
+        
+        <button class="block_button" id="menu_button" onclick="openNav()">Menu</button>
+        
+
+        <!--
+<span onclick="openNav()" style="font-size:40px;">Menu</span>
+<button name="Reset View" value="OK" type="button" onclick="resetView()">Reset View</button>
+<button name="View All" value="OK" type="button" onclick="viewAll()">View All</button>
+<button name="Jaw" value="jaw" type="button" onclick="loadMyModel(this.value)">Jaw</button>
+<button name="Beating Heart" value="beating_heart" type="button" onclick="loadMyModel(this.value)">Beating Heart</button>
+<button name="foot" value="newfoot" type="button" onclick="loadMyModel(this.value)">Foot</button>
+<button name="skin" value="skin" type="button" onclick="loadMyModel(this.value)">Skin</button>
+<button name="materials" value="materials" type="button" onclick="loadMyModel(this.value)">materials</button>
+<button name="deforming_heart" value="deforming_heart" type="button" onclick="loadMyModel(this.value)">Deforming heart</button>
+<button name="liver surface" value = "liver_surface" type = "button" onclick="alert('model not loaded')">liver surface</button>
+
+-->
+        <!--Creating a selector for the video source-->
+        
+        <script src= "js/create_video.js"></script>
+        <script type="text/javascript" src="js/createDATGUI.js"></script>
+
+        <script>
+            //circle menu
+            //var el = '.js-menu';            
+           // var myMenu = cssCircleMenu(el);
+            
+            
+            //gui.add(params,'integration')
+            //*********************************//
+            //   Create video texture and plane//
+            //*********************************//
+            //creates new texture for the plane
+            var videoTexture = new THREE.Texture(video);
+            var surface_material_video = new THREE.MeshBasicMaterial ({
+                map : videoTexture
+            });
+
+            
+          
+            //create plane with video texture
+            var geo = new THREE.PlaneGeometry(1, 1);
+            //var mat = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
+
+            surface_material_video.depthTest = false;
+            surface_material_video.depthWrite=false;
+            var plane = new THREE.Mesh(geo, surface_material_video);
+            plane.name="video_plane";
+            plane.material.side=THREE.DoubleSide;
+
+
+            
+            //*****************************//
+            //   ZINC GL initialization    //
+            //*****************************//
+            var currentPatient = undefined;
+
+            container = document.createElement( 'div' );
+            
+            
+            container.style.height = "100%"
+
+
+
+            zincRenderer = new Zinc.Renderer(container, window);
+
+
+
+            Zinc.defaultMaterialColor = 0xFFFF9C
+            zincRenderer.initialiseVisualisation();
+            
+            //loadMyModel("deforming_heart");
+            //loadMyModel("skin");
+    
+            initialize_scene();
+           // loadLiverGroup("15");
+            var NUM_GEOMETRY_SURFACE= 9;
+            var LIVER_SURF_STRING_PRE = 'S';
+            loadSurfaceGroup('S',NUM_GEOMETRY_SURFACE);
+            
+            var NUM_GEOMETRY_VESSELS = 3;
+/*            var LIVER_VESSEL_STRING_PRE= 'vessel_';
+            loadVesselGroup('vessel_',NUM_GEOMETRY_VESSELS);*/
+            var LIVER_VESSEL_STRING_PRE= 'vessel_';
+            loadGeometry('vessel_hepatic')
+            loadGeometry('vessel_portal')
+            //loadGeometry('vessel_bile')
+            loadGeometry('vessel_arterial')
+            
+            var NUM_GEOMETRY = NUM_GEOMETRY_SURFACE+NUM_GEOMETRY_VESSELS;
+            
+            
+            
+            
+            //loadLiverGroup("S01");
+            //alert(numbertest);
+
+
+            //Loading the current scene
+            var current_scene = zincRenderer.getCurrentScene();
+            // current_scene.setStereoEffectEnable(true);
+            //current_scene.loadFromViewURL("models/"+"newfoot");
+
+            // jloader.load('./models/S01_surface_1.json', loadGeometryThreeJS);
+            //zincRenderer.addToScene(meshGlobal);
+            zincRenderer.addToScene(plane);
+          
+            
+            zincRenderer.animate();
+          
+            
+    
+            
+
+            //var scene2 = new THREE.Scene();
+
+
+
+        </script>
+</div>
+        <script>
+        
+            function loadingScreen(){
+                
+                setTimeout(showPage,1000);
+            }
+
+            function showPage(){
+                
+                document.getElementById("loader").style.display = "none";
+                
+               
+              document.getElementById("myDiv").style.display = "block";
+                 document.body.appendChild( container );
+                 
+            }
+        </script>
+            
+    </body>
+</html>

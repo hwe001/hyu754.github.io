@@ -1,0 +1,165 @@
+/************************************
+*                                   *
+*      Slide bar tutorial           *
+*                                   *                
+*************************************/
+
+/*
+Style for all P tages
+*/
+
+
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0;
+    left: 0;
+    background-color: darkslategrey; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    text-align: center;
+}
+
+.sidenav p{
+   /* padding: 8px 8px 8px 32px;*/
+    text-decoration: none;
+    font-size:24px;
+    color:aliceblue;
+    display:block;
+    font-family:sans-serif;
+    transition:0.2s;
+}
+.sidenav p1{
+    text-decoration: none;
+    font-size:24px;
+    color:aliceblue;
+    display:block;
+    font-family:sans-serif;
+    transition:0.2s;
+}
+.sidenav a{
+    text-decoration: none;
+    color:bisque;
+    
+    /*padding: 8px 8px 8px 32px;*/
+}
+
+
+
+.sidenav p:hover, .offcanvas p:focus{
+    color:darkslategrey;
+}
+
+.sidenav .closebtn{
+    position:absolute;
+    top:0;
+    right:24px;
+    font-size:36px;
+    margin-left:50px;
+}
+
+.slidernav{
+    text-decoration: none;
+    color:bisque;
+    margin: 40px;
+    text-decoration: none;
+    font-size:25px;
+    color:aliceblue;
+    display:block;
+    font-family:sans-serif;
+    transition:0.2s;
+}
+
+#surface-slider{
+    padding: 8px 8px 8px 8px;
+    
+}
+/*On smaller screens change the style of the sidenav less pading and smaller font size*/
+
+@media screen and (max-height:450px){
+    .sidenav{padding-top:15px};
+    .sidenav a{font-size:18px};
+    .sidenav p{font-size:18px};
+}
+
+
+/*
+body {
+font-family: Monospace;
+background-color: #EE0;
+color: #fff;
+margin: 0px;
+overflow: hidden;
+}
+*/
+/* unused
+#info {
+    color: #fff;
+    position: absolute;
+    top: 10px;
+    width: 100%;
+    text-align: center;
+    z-index: 100;
+    display:block;
+}
+
+
+#info a, .button { color: #f00; font-weight: bold; text-decoration: underline; cursor: pointer }
+
+#test{
+    position:absolute;
+    z-index: 5;
+    
+}
+*/
+
+.block_button{
+    border: none;
+    color: white;
+    background-color: deepskyblue;
+    padding: 15px 32px;
+    text-align: center;
+    width:150px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    position:absolute;
+    transition: 0.5s;
+}
+
+
+.btn-group .button {
+    background-color: #1CAF50; /* Green */
+   
+    border: 0.5px solid darkblue;
+    color: floralwhite;
+    padding: 2px 0px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width:100px;
+    cursor: pointer;
+    
+    float: middle;
+}
+
+
+
+.btn-group .button:hover {
+    background-color: #3e8e41;
+}
+
+
+.select{
+    font-size:20px;
+    color:white;
+    font-family:sans-serif;
+    width = 10px;
+}
+
+
+
