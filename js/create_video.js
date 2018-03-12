@@ -98,7 +98,7 @@ function start() {
         video: {deviceId: videoSource ? {exact: videoSource} : undefined},
         
     };
-
+    video.playsInline = true;
     //alert(videoSelect.length);
     navigator.mediaDevices.getUserMedia(constraints).
     then(gotStream).then(gotDevices).catch(handleError);
