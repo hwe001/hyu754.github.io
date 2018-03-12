@@ -14,7 +14,7 @@ var previousOrientation = window.orientation;
 //Video initialization etc
 var video = document.createElement('video');
 video.autoplay=true;
-
+video.playsInline = true;
 
 
 var videoTexture = new THREE.Texture(video);
@@ -98,7 +98,7 @@ function start() {
         video: {deviceId: videoSource ? {exact: videoSource} : undefined},
         
     };
-    video.playsInline = true;
+    
     //alert(videoSelect.length);
     navigator.mediaDevices.getUserMedia(constraints).
     then(gotStream).then(gotDevices).catch(handleError);
