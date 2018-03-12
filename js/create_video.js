@@ -15,7 +15,8 @@ var previousOrientation = window.orientation;
 var video = document.createElement('video');
 video.autoplay=true;
 video.playsInline = true;
-
+video.setAttribute("playsinline", true);
+video.setAttribute("controls", true);
 
 var videoTexture = new THREE.Texture(video);
 var surface_material_video = new THREE.MeshBasicMaterial ({
