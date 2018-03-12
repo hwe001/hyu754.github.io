@@ -94,6 +94,8 @@ function start() {
     var videoSource = videoSelect.value;
     //var videoSource = text.camera_type.deviceId;
     //alert(videoSource)
+    video.setAttribute("playsinline", true);
+    video.setAttribute("controls", true);
     var constraints = {
         // audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
         video: {deviceId: videoSource ? {exact: videoSource} : undefined},
@@ -160,8 +162,7 @@ function start() {
     //video.Height =1000; 
     console.log(video.width);
     console.log(video.height);
-    video.setAttribute("playsinline", true);
-    video.setAttribute("controls", true);
+    
 }
 
 videoSelect.onchange = start;
