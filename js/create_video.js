@@ -160,6 +160,8 @@ function start() {
     //video.Height =1000; 
     console.log(video.width);
     console.log(video.height);
+    video.setAttribute("playsinline", true);
+    video.setAttribute("controls", true);
 }
 
 videoSelect.onchange = start;
