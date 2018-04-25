@@ -171,6 +171,9 @@
                     element_selected_.appendChild(inputObj_);
                     element_selected_.appendChild(labelObj_);
                     element_selected_.appendChild(br);
+			setTimeout(function(){
+			    console.log("THIS IS");
+			}, 100);
        
                     
                 }
@@ -187,7 +190,7 @@
                  zincRenderer.setCurrentScene(scene);
                 zincRenderer.viewAll();
                  zincRenderer.animate();
-              }, 6000);
+              }, 2000);
             
             
 			
