@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" style="height:100%">
+	<head>
+		<title>Basic Mesh WebGL Demo</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				font-family: Monospace;
+				background-color: #000;
+				color: #fff;
+				margin: 0px;
+				overflow: hidden;
+			}
+			#info {
+				color: #fff;
+				position: absolute;
+				top: 10px;
+				width: 100%;
+				text-align: center;
+				z-index: 100;
+				display:block;
+			}
+            
+            .sidenav {
+                height: 100%; /* Full-height: remove this if you want "auto" height */
+                width: 260px; /* Set the width of the sidebar */
+                position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+                z-index: 1; /* Stay on top */
+                top: 0; /* Stay at the top */
+                left: 0;
+                background-color: #aaa; /* Black */
+                overflow-x: hidden; /* Disable horizontal scroll */
+                overflow-y: scroll; 
+                
+                
+            }
+
+            /* The navigation menu links */
+            .sidenav a {
+                
+                padding: 6px 8px 6px 16px;
+                text-decoration: none;
+                font-size: 25px;
+                color: #818181;
+                 display:block;
+                
+            
+            }
+            
+            .sidenav #muscle{
+                
+                height: 25%;
+                overflow-y: scroll; 
+              
+                
+            }
+            
+            .sidenav #bone{
+                
+                height: 25%;
+                overflow-y: scroll; 
+              
+                
+            }
+            
+            .sidenav label {
+                
+            
+                 float: left;
+             
+                
+                
+              
+                
+            }
+      
+            
+
+
+        
+            
+            
+            /* The navigation menu links */
+            .sidenav button {
+                padding: 6px 8px 6px 16px;
+                text-decoration: none;
+                font-size: 25px;
+                color: #818181;
+        
+                
+            }
+
+
+            
+            
+            
+	
+		</style>
+	</head>
+
+	<body style="height:100%">
+		
+		
+        <div class="sidenav">
+            <a href="#">Skin</a>
+            <p id="skin"></p> 
+            
+            <a href="#">Muscle</a>
+            <p id="muscle"></p> 
+            
+            <a href="#">Bone</a>
+            <p id="skeleton"></p> 
+            
+            
+            
+            <a href="#">Organ</a>
+            <p id="organ"></p> 
+
+            
+            <button name="View All" value="OK" type="button" onclick="viewAll()">View All</button>
+        </div>
+        
+        
+		<script src="js/three.min.js"></script>
+		<script src="js/zinc_threejs_control.js"></script>
+		<script src="js/zinc_3js_renderer.js"></script>
+		<script>	
+			container = document.createElement( 'div' );
+			document.body.appendChild( container );
+			container.style.height = "100%"
+
+			var zincRenderer = new Zinc.Renderer(container, window);
+			zincRenderer.initialiseVisualisation();
+			var scene = zincRenderer.createScene("BasicMesh");
+            
+            //Read in .json
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open('GET', 'geo_list.json');
+            xmlhttp.responseType = 'json';
+            xmlhttp.send();
+            
+            xmlhttp.onload = function() {
+                var geometries_info = xmlhttp.response;
+                //add check box
+                
+                
+                
+                
+                for (var i =0; i < geometries_info.length; i++){
+                    geo_info_ = geometries_info[i]
+                    //console.log(geo_info_['file_dir'])
+                    scene.loadViewURL('/geo/'+geo_info_['group_name']+'_view.json');
+                    scene.loadMetadataURL('/geo/'+geo_info_['group_name']+'_metadata.json');
+                    
+                    var inputObj_ = document.createElement("INPUT");
+                    inputObj_.setAttribute("type","checkbox");
+                    inputObj_.setAttribute("id",i);
+                    inputObj_.setAttribute("onchange","checkBoxChanged(this)");
+                    inputObj_.setAttribute("checked","true");
+                    console.log(geo_info_['geo_type'])
+                    var element_selected_ = document.getElementById(geo_info_['geo_type'])
+                    var labelObj_ = document.createElement("LABEL");  
+                    
+                    var text_ = document.createTextNode(geo_info_['group_name']);
+                    var br = document.createElement("br");
+                 
+                    labelObj_.appendChild(text_);
+                    //labelObj_.appendChild(inputObj_);
+                    //spanObj_.createTextNode(geo_info_['group_name']);
+                    element_selected_.appendChild(inputObj_);
+                    element_selected_.appendChild(labelObj_);
+                    element_selected_.appendChild(br);
+       
+                    
+                }
+                
+               
+                
+              
+            }
+            
+            
+                 
+            
+            setTimeout(function(){
+                 zincRenderer.setCurrentScene(scene);
+                zincRenderer.viewAll();
+                 zincRenderer.animate();
+              }, 2000);
+            
+            
+			
+            
+            
+            
+            function checkBoxChanged(element){
+                console.log(element.id);
+                element_id=Number(element.id)+1001;
+       
+                scene.forEachGeometry(
+                    function(modelIn){
+                        if(element_id == modelIn.modelId){
+                        
+                            modelIn.setVisibility(element.checked);
+                            
+                        }  
+                    }
+                )
+            }
+			function viewAll()
+			{
+				zincRenderer.viewAll();
+                
+                
+			}
+		</script>
+	</body>
+</html>
