@@ -1,9 +1,1 @@
-[
-   {
-      "MorphColours" : false,
-      "MorphNormals" : false,
-      "MorphVertices" : false,
-      "Type" : "Surfaces",
-      "URL" : "geo/adductor_1.json"
-   }
-]
+[{"URL": "geo/adductor_1.json", "MorphNormals": false, "GroupName": "adductor", "MorphColours": false, "Type": "Surfaces", "MorphVertices": false}]

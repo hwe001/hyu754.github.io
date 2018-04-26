@@ -1,9 +1,1 @@
-[
-   {
-      "MorphColours" : false,
-      "MorphNormals" : false,
-      "MorphVertices" : false,
-      "Type" : "Surfaces",
-      "URL" : "geo/surface_1.json"
-   }
-]
+[{"URL": "geo/surface_1.json", "MorphNormals": false, "GroupName": "surface", "MorphColours": false, "Type": "Surfaces", "MorphVertices": false}]

@@ -695,10 +695,10 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 	setupCamera = function() {
 		_this.camera = new THREE.PerspectiveCamera( 40, container.clientWidth / container.clientHeight, 0.0, 10.0);
 		  
-		_this.ambient = new THREE.AmbientLight( 0x202020 );
+		_this.ambient = new THREE.AmbientLight( 0x002020 );
 		//scene.add( _this.ambient );
 	
-		_this.directionalLight = new THREE.DirectionalLight( 0x777777  );
+		_this.directionalLight = new THREE.DirectionalLight( 0xF6ECEA    );
 		//scene.add( _this.directionalLight );
 	
 		zincCameraControls = new ZincCameraControls( _this.camera, rendererIn.domElement, rendererIn, scene )

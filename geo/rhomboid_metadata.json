@@ -1,9 +1,1 @@
-[
-   {
-      "MorphColours" : false,
-      "MorphNormals" : false,
-      "MorphVertices" : false,
-      "Type" : "Surfaces",
-      "URL" : "geo/rhomboid_1.json"
-   }
-]
+[{"URL": "geo/rhomboid_1.json", "MorphNormals": false, "GroupName": "rhomboid", "MorphColours": false, "Type": "Surfaces", "MorphVertices": false}]

@@ -24,72 +24,81 @@
             
             .sidenav {
                 height: 100%; /* Full-height: remove this if you want "auto" height */
-                width: 260px; /* Set the width of the sidebar */
+                width: 20%; /* Set the width of the sidebar */
                 position: fixed; /* Fixed Sidebar (stay in place on scroll) */
                 z-index: 1; /* Stay on top */
                 top: 0; /* Stay at the top */
                 left: 0;
                 background-color: #aaa; /* Black */
                 overflow-x: hidden; /* Disable horizontal scroll */
-                overflow-y: scroll; 
-                
-                
+                overflow-y: scroll;        
             }
 
             /* The navigation menu links */
-            .sidenav a {
-                
+            .sidenav a {                
                 padding: 6px 8px 6px 16px;
                 text-decoration: none;
                 font-size: 25px;
                 color: #818181;
-                 display:block;
-                
-            
+                 display:block;        
             }
             
-            .sidenav #muscle{
-                
+            .sidenav #muscle{      
                 height: 25%;
-                overflow-y: scroll; 
-              
-                
+                overflow-y: scroll;  
             }
             
-            .sidenav #bone{
-                
-                height: 25%;
-                overflow-y: scroll; 
-              
-                
-            }
             
-            .sidenav label {
-                
             
-                 float: left;
-             
-                
-                
-              
-                
+        
+            
+            .sidenav label {                 
+                 float: left;             
             }
       
-            
+  
 
-
-        
-            
-            
-            /* The navigation menu links */
-            .sidenav button {
-                padding: 6px 8px 6px 16px;
-                text-decoration: none;
-                font-size: 25px;
-                color: #818181;
+            .sidenav .buttonviewall {
+                background-color: #4CAF50; /* Green */
+                border: none;
+                color: white;
+                padding: 15px 32px;
+                    
+                margin: 4px 2px;
+                cursor: pointer;
         
                 
             }
+            .sidenav  .buttonshowall {
+                background-color: orange; 
+                border: none;
+                color: white;
+
+                padding: 8px 8px;
+
+                margin: 4px 2px;
+                cursor: pointer;
+
+                float: right;       
+        
+                
+            }
+            
+            .sidenav  .buttonhideall {
+                
+                background-color: cornflowerblue; 
+                border: none;
+                color: white;
+                padding: 8px 8px;
+               
+                
+                margin: 4px 2px;
+                cursor: pointer;
+                float: right;  
+        
+                
+            }
+
 
 
             
@@ -103,22 +112,42 @@
 		
 		
         <div class="sidenav">
-            <a href="#">Skin</a>
+            <a href="#">Skin
+                
+                <!--<button class="button buttonhideall">Hide</button>
+                <button class="button buttonshowall">Show</button>-->
+            </a> 
             <p id="skin"></p> 
+            <hr>
             
-            <a href="#">Muscle</a>
+            
+            <a href="#">Muscle
+                <!--<button class="button buttonhideall">Hide all</button>
+                <button class="button buttonshowall">Show all</button>-->
+            </a>
             <p id="muscle"></p> 
+            <hr>
             
-            <a href="#">Bone</a>
+            
+            <a href="#">Bone
+                <!--<button class="button buttonhideall">Hide all</button>
+                <button class="button buttonshowall">Show all</button>-->
+            </a>
             <p id="skeleton"></p> 
+            <hr>
             
             
-            
-            <a href="#">Organ</a>
+            <a href="#">Organ
+                <!--<button class="button buttonhideall">Hide all</button>
+                <button class="button buttonshowall">Show all</button>-->
+            </a>
             <p id="organ"></p> 
-
+            <hr>
             
-            <button name="View All" value="OK" type="button" onclick="viewAll()">View All</button>
+            
+            <p id="viewall"> 
+            <button name="View All" value="OK" type="button" onclick="viewAll()" class="button buttonviewall">View All</button>
+            </p>
         </div>
         
         
@@ -142,11 +171,7 @@
             
             xmlhttp.onload = function() {
                 var geometries_info = xmlhttp.response;
-                //add check box
-                
-                
-                
-                
+                //add check boxes
                 for (var i =0; i < geometries_info.length; i++){
                     geo_info_ = geometries_info[i]
                     //console.log(geo_info_['file_dir'])
@@ -155,7 +180,8 @@
                     
                     var inputObj_ = document.createElement("INPUT");
                     inputObj_.setAttribute("type","checkbox");
-                    inputObj_.setAttribute("id",i);
+                    inputObj_.setAttribute("id",geo_info_['group_name']);
+
                     inputObj_.setAttribute("onchange","checkBoxChanged(this)");
                     inputObj_.setAttribute("checked","true");
                     console.log(geo_info_['geo_type'])
@@ -166,14 +192,9 @@
                     var br = document.createElement("br");
                  
                     labelObj_.appendChild(text_);
-                    //labelObj_.appendChild(inputObj_);
-                    //spanObj_.createTextNode(geo_info_['group_name']);
                     element_selected_.appendChild(inputObj_);
                     element_selected_.appendChild(labelObj_);
                     element_selected_.appendChild(br);
-			setTimeout(function(){
-			    console.log("THIS IS");
-			}, 100);
        
                     
                 }
@@ -184,28 +205,27 @@
             }
             
             
-                 
+            zincRenderer.setCurrentScene(scene);
+            zincRenderer.animate();
             
-            setTimeout(function(){
-                 zincRenderer.setCurrentScene(scene);
-                zincRenderer.viewAll();
-                 zincRenderer.animate();
-              }, 2000);
+            //wait 2 seconds then view all
+            setTimeout(function(){zincRenderer.viewAll(); }, 2000);
             
             
 			
             
             
-            
+            //If any check box has changed it will 
             function checkBoxChanged(element){
-                console.log(element.id);
-                element_id=Number(element.id)+1001;
+         
        
                 scene.forEachGeometry(
                     function(modelIn){
-                        if(element_id == modelIn.modelId){
+                        if(element.id == modelIn.groupName){
                         
                             modelIn.setVisibility(element.checked);
+                            console.log(modelIn.groupName);
+                            console.log(element.id);
                             
                         }  
                     }

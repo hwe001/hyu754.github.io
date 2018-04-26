@@ -1,9 +1,1 @@
-[
-   {
-      "MorphColours" : false,
-      "MorphNormals" : false,
-      "MorphVertices" : false,
-      "Type" : "Surfaces",
-      "URL" : "geo/pectoralis_profundi_1.json"
-   }
-]
+[{"URL": "geo/pectoralis_profundi_1.json", "MorphNormals": false, "GroupName": "pectoralis_profundi", "MorphColours": false, "Type": "Surfaces", "MorphVertices": false}]

@@ -1,9 +1,1 @@
-[
-   {
-      "MorphColours" : false,
-      "MorphNormals" : false,
-      "MorphVertices" : false,
-      "Type" : "Surfaces",
-      "URL" : "geo/serratus_anterior_1.json"
-   }
-]
+[{"URL": "geo/serratus_anterior_1.json", "MorphNormals": false, "GroupName": "serratus_anterior", "MorphColours": false, "Type": "Surfaces", "MorphVertices": false}]

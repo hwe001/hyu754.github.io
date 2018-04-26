@@ -1,9 +1,1 @@
-[
-   {
-      "MorphColours" : false,
-      "MorphNormals" : false,
-      "MorphVertices" : false,
-      "Type" : "Surfaces",
-      "URL" : "geo/supraspinatus_1.json"
-   }
-]
+[{"URL": "geo/supraspinatus_1.json", "MorphNormals": false, "GroupName": "supraspinatus", "MorphColours": false, "Type": "Surfaces", "MorphVertices": false}]

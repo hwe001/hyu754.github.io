@@ -1,9 +1,1 @@
-[
-   {
-      "MorphColours" : false,
-      "MorphNormals" : false,
-      "MorphVertices" : false,
-      "Type" : "Surfaces",
-      "URL" : "geo/soleus_1.json"
-   }
-]
+[{"URL": "geo/soleus_1.json", "MorphNormals": false, "GroupName": "soleus", "MorphColours": false, "Type": "Surfaces", "MorphVertices": false}]

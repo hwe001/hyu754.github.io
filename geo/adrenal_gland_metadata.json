@@ -1,9 +1,1 @@
-[
-   {
-      "MorphColours" : false,
-      "MorphNormals" : false,
-      "MorphVertices" : false,
-      "Type" : "Surfaces",
-      "URL" : "geo/adrenal_gland_1.json"
-   }
-]
+[{"URL": "geo/adrenal_gland_1.json", "MorphNormals": false, "GroupName": "adrenal_gland", "MorphColours": false, "Type": "Surfaces", "MorphVertices": false}]

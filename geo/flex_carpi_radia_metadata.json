@@ -1,9 +1,1 @@
-[
-   {
-      "MorphColours" : false,
-      "MorphNormals" : false,
-      "MorphVertices" : false,
-      "Type" : "Surfaces",
-      "URL" : "geo/flex_carpi_radia_1.json"
-   }
-]
+[{"URL": "geo/flex_carpi_radia_1.json", "MorphNormals": false, "GroupName": "flex_carpi_radia", "MorphColours": false, "Type": "Surfaces", "MorphVertices": false}]
