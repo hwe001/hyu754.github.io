@@ -122,24 +122,24 @@
             
             
             <a href="#">Muscle
-                <!--<button class="button buttonhideall">Hide all</button>
-                <button class="button buttonshowall">Show all</button>-->
+                <button class="button buttonhideall" onclick="hideallFunction('muscle',true)">Hide all</button>
+                <button class="button buttonshowall" onclick="hideallFunction('muscle',false)">Show all</button>
             </a>
             <p id="muscle"></p> 
             <hr>
             
             
             <a href="#">Bone
-                <!--<button class="button buttonhideall">Hide all</button>
-                <button class="button buttonshowall">Show all</button>-->
+               <button class="button buttonhideall" onclick="hideallFunction('skeleton',true)">Hide all</button>
+                <button class="button buttonshowall" onclick="hideallFunction('skeleton',false)">Show all</button>
             </a>
             <p id="skeleton"></p> 
             <hr>
             
             
             <a href="#">Organ
-                <!--<button class="button buttonhideall">Hide all</button>
-                <button class="button buttonshowall">Show all</button>-->
+                <button class="button buttonhideall" onclick="hideallFunction('organ',true)">Hide all</button>
+                <button class="button buttonshowall" onclick="hideallFunction('organ',false)">Show all</button>
             </a>
             <p id="organ"></p> 
             <hr>
@@ -209,7 +209,7 @@
             zincRenderer.animate();
             
             //wait 2 seconds then view all
-            setTimeout(function(){zincRenderer.viewAll(); }, 2000);
+            setTimeout(function(){zincRenderer.viewAll(); }, 5000);
             
             
 			
@@ -230,6 +230,26 @@
                         }  
                     }
                 )
+            }
+            
+            //function to hide all muscle
+            function hideallFunction(geo_group,showhide_bool){
+                var muscleElement = document.getElementById(geo_group);
+                var muscles_ = muscleElement.getElementsByTagName('input');
+                for (var i =0;i < muscles_.length;i++){
+                    if(showhide_bool == true){
+                        if(muscles_[i].checked == true){
+                            muscles_[i].click();
+                        }
+                    } else {
+                        if(muscles_[i].checked == false){
+                            muscles_[i].click();
+                        }
+                    }
+                    
+                    
+                    console.log(muscles_[i]);
+                }
             }
 			function viewAll()
 			{
