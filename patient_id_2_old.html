@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en" style="height:100%">
+	<head>
+		<title>Basic Mesh WebGL Demo</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
+        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+        <script src="js/info.js"></script>
+		<style>
+			body {
+				font-family: Monospace;
+				background-color: #000;
+				color: #fff;
+				margin: 0px;
+				overflow: hidden;
+			}
+			#info {
+				color: #fff;
+				position: absolute;
+				top: 10px;
+				width: 100%;
+				text-align: center;
+				z-index: 100;
+				display:block;
+			}
+            
+            .sidenav {
+                height: 100%; /* Full-height: remove this if you want "auto" height */
+                width: auto; /* Set the width of the sidebar */
+                position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+                z-index: 1; /* Stay on top */
+                top: 0; /* Stay at the top */
+                left: 0;
+                background-color: dimgray; /* Black */
+                overflow-x: hidden; /* Disable horizontal scroll */
+             
+            }
+
+            /* The navigation menu links */
+            .sidenav a {                
+                padding: 6px 8px 6px 16px;
+                text-decoration: none;
+                font-size: 25px;
+                color: floralwhite;
+                 display:block;        
+            }
+            
+            .sidenav #muscle{      
+                height: 25%;
+                overflow-y: scroll;  
+            }
+            
+            
+            
+        
+            
+            .sidenav label {                 
+                 float: left;      
+                 
+            }
+      
+  
+
+            .sidenav .buttonviewall {
+                background-color: #4CAF50; /* Green */
+                border: none;
+                color: white;
+                padding: 15px 32px;
+                    
+                margin: 4px 17px;
+                cursor: pointer;
+        
+                
+            }
+            
+            .sidenav #infoButton {
+                 background-color: lightslategray; /* Green */
+                border: none;
+                color: white;
+                padding: 15px 4px;
+                    
+                margin: 4px 17px;
+                cursor: pointer;
+                font-size: 20px;
+        
+                
+            }
+            .sidenav  .buttonPre {
+                background-color: orange; 
+                border: none;
+                color: white;
+                padding: 8px 8px;
+                margin: 4px 2px;
+                cursor: pointer;
+                      
+        
+                
+            }
+            
+            .sidenav  .buttonPost {
+                
+                background-color: cadetblue; 
+                border: none;
+                color: white;
+                padding: 8px 8px;
+               
+                
+                margin: 4px 2px;
+                cursor: pointer;
+                
+        
+                
+            }
+            
+            .sidenav  .buttonHideall {
+                
+                background-color: mediumpurple; 
+                border: none;
+                color: white;
+                padding: 8px 8px;
+               
+                
+                margin: 4px 2px;
+                cursor: pointer;
+                
+        
+                
+            }
+            
+            .sidenav  #vessel {
+                
+                padding: 6px 16px 6px 16px;
+                text-decoration: none;
+                font-size: 15px;
+                color: powderblue;
+                display:block;  
+                
+            }
+            
+            .sidenav  #subsegments {
+                
+                padding: 6px 16px 6px 16px;
+                text-decoration: none;
+                font-size: 15px;
+                color: powderblue;
+                display:block;  
+                
+            }
+            /*#infoBox {
+                position: absolute;
+                top: 10px;
+                width: 100%;
+                text-align: center;
+                z-index: 100;
+                display:block;
+            }*/
+
+
+
+            
+            
+            
+	
+		</style>
+	</head>
+    <!--info box obtained from https://github.com/stemkoski/stemkoski.github.com/blob/master/Three.js/Infobox.html    -->
+    
+        
+	<body style="height:100%">
+		
+	
+        
+        <div class="sidenav">
+            <a href="#">Vessels   
+                
+            </a> 
+            
+            <p id="vessel"></p> 
+            <a >
+                <button class="button buttonPre" onclick="hideallFunction('vessel',true,'pre')">Pre-surgery</button>
+                <button class="button buttonPost" onclick="hideallFunction('vessel',true,'post')">Post-surgery</button>
+                <button class="button buttonHideall" onclick="hideallFunction('vessel',true,'')">Hide all</button>
+            </a> 
+            
+            
+            <hr>
+            
+            
+            <a href="#">Segments  </a>
+            <p id="subsegments"></p> 
+                <a >
+                    <button class="button buttonPre" onclick="hideallSegments('subsegments','pre')">Pre-surgery</button>
+                    <button class="button buttonPost" onclick="hideallSegments('subsegments','post')">Post-surgery</button>
+                    <button class="button buttonHideall"  onclick="hideallFunction('subsegments',true,'')">Hide all</button>
+                </a>
+            <hr>
+            
+          
+            
+<!--
+            <a href="#">Modes  </a>
+                <a >
+                    <button class="button buttonPre">Pressure</button>
+                    <button class="button buttonPost">Flow</button>
+                    
+                </a>
+            <hr>
+-->
+          
+       
+            
+            
+            <p id="viewall"> 
+            <button name="View All" value="OK" type="button" onclick="viewAll()" class="button buttonviewall">View All</button>
+            </p>
+         
+            <!--<div id="infoButton">       </div>-->
+        </div>
+        
+        
+		<script src="js2/three.min.js"></script>
+		<script src="js2/zinc_threejs_control.js"></script>
+		<script src="js2/zinc_3js_renderer.js"></script>
+		<script>	
+			container = document.createElement( 'div' );
+			document.body.appendChild( container );
+			container.style.height = "100%"
+
+			var zincRenderer = new Zinc.Renderer(container, window);
+			zincRenderer.initialiseVisualisation();
+			var scene = zincRenderer.createScene("BasicMesh");
+            
+            //Read in .json
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open('GET', 'geo_list_patient2.json');
+            xmlhttp.responseType = 'json';
+            xmlhttp.send();
+            
+            xmlhttp.onload = function() {
+                var geometries_info = xmlhttp.response;
+                //add check boxes
+                for (var i =0; i < geometries_info.length; i++){
+                    geo_info_ = geometries_info[i]
+                    //console.log(geo_info_['file_dir'])
+                    scene.loadViewURL('/geo/'+geo_info_['group_name']+'_view.json');
+                    scene.loadMetadataURL('/geo/'+geo_info_['group_name']+'_metadata.json');
+                    
+                    var inputObj_ = document.createElement("INPUT");
+                    inputObj_.setAttribute("type","checkbox");
+                    inputObj_.setAttribute("id",geo_info_['group_name']);
+
+                    inputObj_.setAttribute("onchange","checkBoxChanged(this)");
+                    inputObj_.setAttribute("checked","true");
+                    console.log(geo_info_['geo_type'])
+                    var element_selected_ = document.getElementById(geo_info_['geo_type'])
+                    var labelObj_ = document.createElement("LABEL");  
+                    
+                    var text_ = document.createTextNode(geo_info_['group_name']);
+                    var br = document.createElement("br");
+                 
+                    labelObj_.appendChild(text_);
+                    element_selected_.appendChild(inputObj_);
+                    element_selected_.appendChild(labelObj_);
+                    element_selected_.appendChild(br);
+       
+                    
+                }
+                
+               
+                
+              
+            }
+            
+            
+            zincRenderer.setCurrentScene(scene);
+            zincRenderer.animate();
+            
+            //wait 2 seconds then view all
+            setTimeout(function(){zincRenderer.viewAll(); }, 2000);
+            
+            
+			var pre_segments = ['Dividing plane','S1','S2','S3','S4','S5','S6','S7','S8'];
+            var post_segments = ['Dividing plane','S5','S6','S7','S8'];
+            
+            
+            //If any check box has changed it will 
+            function checkBoxChanged(element){
+         
+       
+                scene.forEachGeometry(
+                    function(modelIn){
+                        if(element.id == modelIn.groupName){
+                        
+                            modelIn.setVisibility(element.checked);
+                            console.log(modelIn.groupName);
+                            console.log(element.id);
+                            
+                        }  
+                    }
+                )
+            }
+            //function to hid all segments
+            function hideallSegments(geo_group,postpre){
+                var muscleElement = document.getElementById(geo_group);
+                var muscles_ = muscleElement.getElementsByTagName('input');
+                for (var i =0;i < muscles_.length;i++){
+                    if(postpre=='pre'){
+                       if(pre_segments.indexOf(muscles_[i].id)>-1){
+                            if(muscles_[i].checked == false){
+                                muscles_[i].click();
+                            }
+                        } else {
+                            if(muscles_[i].checked == true){
+                                muscles_[i].click();
+                            }
+                            
+                        }
+                    } else if(postpre =='post'){
+                        if(post_segments.indexOf(muscles_[i].id)>-1){
+                            if(muscles_[i].checked == false){
+                                muscles_[i].click();
+                            }
+                        } else {
+                            if(muscles_[i].checked == true){
+                                muscles_[i].click();
+                            }
+                            
+                        }
+                    }
+                    
+                    
+                }
+                
+            }
+            //function to hide all 
+            function hideallFunction(geo_group,showhide_bool,postpre){
+                var muscleElement = document.getElementById(geo_group);
+                var muscles_ = muscleElement.getElementsByTagName('input');
+                for (var i =0;i < muscles_.length;i++){
+                    if(postpre == 'pre'){
+                        console.log(muscles_[i].id.search('Pre'));
+                        if(muscles_[i].id.search('Pre')>-1){
+                            if(muscles_[i].checked == false){
+                                muscles_[i].click();
+                            } 
+                        } else{
+                            if(muscles_[i].checked == true){
+                                muscles_[i].click();
+                            } 
+                        }
+                    }
+                    else if (postpre == 'post'){
+                        
+                        if(muscles_[i].id.search('Post')>-1){
+                            if(muscles_[i].checked == false){
+                                muscles_[i].click();
+                            } 
+                        } else{
+                            if(muscles_[i].checked == true){
+                                muscles_[i].click();
+                            } 
+                        }
+    
+                    } else{
+                       if(showhide_bool == true){
+                            if(muscles_[i].checked == true){
+                                muscles_[i].click();
+                            }
+                        } else {
+                            if(muscles_[i].checked == false){
+                                muscles_[i].click();
+                            }
+                        }
+                     
+                    }
+                    
+                    
+                    //console.log(muscles_[i]);
+                }
+            }
+			function viewAll()
+			{
+				zincRenderer.viewAll();
+                
+                
+			}
+		</script>
+	</body>
+</html>

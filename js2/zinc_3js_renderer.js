@@ -725,6 +725,7 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 	
 	this.loadView = function(viewData)
 	{
+        viewData.farPlane=10000;
 		zincCameraControls.setDefaultCameraSettings(viewData.nearPlane, viewData.farPlane, viewData.eyePosition,
 				viewData.targetPosition, viewData.upVector);
 		zincCameraControls.resetView();
@@ -1055,6 +1056,12 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 		fullScene.add( _this.ambient );
 		fullScene.add( _this.directionalLight );
 		fullScene.add(scene);
+        
+         
+        
+        
+        
+        
 		if (additionalScenes !== undefined) {
 		    for(i = 0; i < additionalScenes.length; i++) {
 		        var sceneItem = additionalScenes[i];
@@ -1134,7 +1141,12 @@ Zinc.Renderer = function (containerIn, window) {
 	var cameraOrtho = undefined, sceneOrtho = undefined, logoSprite = undefined;
 	var sceneMap = [];
 	var additionalActiveScenes = [];
-	var _this = this;
+	
+    var legendLabels = undefined;
+    
+    var _this = this;
+    
+    
 	
 	this.initialiseVisualisation = function() {
 		renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -1259,6 +1271,9 @@ Zinc.Renderer = function (containerIn, window) {
 
 	this.animate = function() {
 		animated_id = requestAnimationFrame( _this.animate );
+        
+        
+        
 		_this.render();
 	}
 
@@ -1302,7 +1317,7 @@ Zinc.Renderer = function (containerIn, window) {
 		if (cameraOrtho == undefined) {
 			cameraOrtho = new THREE.OrthographicCamera( - container.clientWidth / 2,
 					container.clientWidth / 2, container.clientHeight / 2, - container.clientHeight / 2, 1, 10 );
-			cameraOrtho.position.z = 10;
+			cameraOrtho.position.z = -10;
 		}
 		sceneOrtho.add(object)
 	}
@@ -1317,15 +1332,147 @@ Zinc.Renderer = function (containerIn, window) {
 			logoSprite.material = material;
 			logoSprite.scale.set( imagewidth, imageheight, 1 );
 			logoSprite.position.set( (container.clientWidth- imagewidth)/2, (-container.clientHeight + imageheight)/2, 1 );
-			_this.addToOrthoScene(logoSprite)
+			_this.addToOrthoScene(logoSprite);
+            console.log("added logo");
+            //_this.addToScene(logoSprite);
 		}
 	}
 	
 	this.addLogo = function() {
 		logoSprite = new THREE.Sprite();
 		var logo = THREE.ImageUtils.loadTexture(
-				"images/abi_big_logo_transparent_small.png", undefined, createHUDSprites(logoSprite))
+				"images/abi-black-h.png", undefined, createHUDSprites(logoSprite));
 	}
+    
+    this.addColourBar = function(min_,max_,title_,units_) {
+        var lut = new THREE.Lut('rainbow', 512);
+        
+        lut.setMax( min_ );
+        lut.setMin( max_ );
+
+        legend = lut.setLegendOn();
+        var labels = lut.setLegendLabels( { 'title': title_, 'um': units_, 'ticks': 11 } );
+        
+    
+        
+        var scene_ = _this.getCurrentScene();
+        var camera_ = scene_.camera;
+       
+        
+        
+        
+        for ( var i = 0; i < Object.keys( labels[ 'ticks' ] ).length; i++ ) {
+            labels[ 'ticks' ][ i ].name = 'ticks'+i.toString();
+            labels[ 'lines' ][ i ].name = 'lines'+i.toString();
+            
+            _this.addToScene ( labels[ 'ticks' ][ i ] );
+           
+        } 
+        
+        
+        labels['title'].name = 'title';
+        
+        this.legendLabels = labels;
+        legend.name = 'legend';
+        console.log(legend.name);
+        _this.addToScene(legend);
+        _this.addToScene (labels['title']  );
+      
+        //_this.addToScene(labels);
+	}
+    
+    this.updateLegend = function(){
+        var scene_ = currentScene.getThreeJSScene();
+        
+        var legendObj = scene_.getObjectByName("legend");
+        
+        if(legendObj != undefined){
+            var titleObj = scene_.getObjectByName("title");
+            
+            /*legendObj.scale.set(10,20,1);
+            legendObj.position.copy(currentScene.camera.position);
+            legendObj.rotation.copy( currentScene.camera.rotation );
+            legendObj.translateZ(  -200 );
+            legendObj.translateX(  70 );*/
+            
+            this.rotateObjectCamera(legendObj,currentScene.camera,20,30,70,0);
+            this.rotateObjectCamera(titleObj,currentScene.camera,40,30,70,40);
+            
+            for ( var i = 0; i < Object.keys( this.legendLabels[ 'ticks' ] ).length; i++ ) {
+                var ticksObj =scene_.getObjectByName('ticks'+i.toString());
+                this.rotateObjectCamera(ticksObj,currentScene.camera,50,30,75,-55+i*8.8);
+                
+                
+                /*var linesObj =scene_.getObjectByName('lines'+i.toString());
+                this.rotateObjectCamera(linesObj,currentScene.camera,100,100,90,40-i*10);*/
+           
+            } 
+           
+        }    
+    }
+    
+    this.showLegend = function(visible_){
+        var scene_ = currentScene.getThreeJSScene();
+        
+        var legendObj = scene_.getObjectByName("legend");
+        
+        if(legendObj != undefined){
+            var titleObj = scene_.getObjectByName("title");
+            
+            /*legendObj.scale.set(10,20,1);
+            legendObj.position.copy(currentScene.camera.position);
+            legendObj.rotation.copy( currentScene.camera.rotation );
+            legendObj.translateZ(  -200 );
+            legendObj.translateX(  70 );*/
+            
+            this.rotateObjectCamera(legendObj,currentScene.camera,20,30,70,0);
+            this.rotateObjectCamera(titleObj,currentScene.camera,40,30,70,40);
+            legendObj.visible = visible_;
+            titleObj.visible=visible_;
+            for ( var i = 0; i < Object.keys( this.legendLabels[ 'ticks' ] ).length; i++ ) {
+                var ticksObj =scene_.getObjectByName('ticks'+i.toString());
+                //this.rotateObjectCamera(ticksObj,currentScene.camera,30,30,70,-55+i*8.8);
+                ticksObj.visible=visible_;
+                
+                /*var linesObj =scene_.getObjectByName('lines'+i.toString());
+                this.rotateObjectCamera(linesObj,currentScene.camera,100,100,90,40-i*10);*/
+           
+            } 
+           
+        }    
+    }
+    
+    this.deleteLegend = function(){
+        var scene_ = currentScene.getThreeJSScene();
+        
+        var legendObj = scene_.getObjectByName("legend");
+        
+        if(legendObj != undefined){
+            var titleObj = scene_.getObjectByName("title");
+            
+            /*legendObj.scale.set(10,20,1);
+            legendObj.position.copy(currentScene.camera.position);
+            legendObj.rotation.copy( currentScene.camera.rotation );
+            legendObj.translateZ(  -200 );
+            legendObj.translateX(  70 );*/
+            
+     
+            
+            scene_.remove(legendObj);
+            scene_.remove(titleObj);
+            for ( var i = 0; i < Object.keys( this.legendLabels[ 'ticks' ] ).length; i++ ) {
+                var ticksObj =scene_.getObjectByName('ticks'+i.toString());
+                //this.rotateObjectCamera(ticksObj,currentScene.camera,30,30,70,-55+i*8.8);
+                scene_.remove(ticksObj);
+                
+                /*var linesObj =scene_.getObjectByName('lines'+i.toString());
+                this.rotateObjectCamera(linesObj,currentScene.camera,100,100,90,40-i*10);*/
+           
+            } 
+           
+        }    
+    }
+    
 	
 	this.render = function() {
 		var delta = clock.getDelta();
@@ -1337,14 +1484,35 @@ Zinc.Renderer = function (containerIn, window) {
 		if (cameraOrtho != undefined && sceneOrtho != undefined) {
 			renderer.clearDepth();
 			renderer.render( sceneOrtho, cameraOrtho );
+            
 		}
     	for (key in preRenderCallbackFunctions) {
         	if (preRenderCallbackFunctions.hasOwnProperty(key)) {
         		preRenderCallbackFunctions[key].call();
         	}
     	}
+       
+        //update legend
+       this.updateLegend();
+        
+        
+      
+        
+        
+       
+        
 		currentScene.render(renderer, additionalActiveScenes);
 	}
+    
+    this.rotateObjectCamera = function(object_,camera_,scaleX_,scaleY_,shiftX_,shiftY_){
+        object_.scale.set(scaleX_,scaleY_,1);
+        object_.position.copy(camera_.position);
+        object_.rotation.copy(camera_.rotation );
+        object_.translateZ(  -200 );
+        object_.translateX(  shiftX_ );
+        object_.translateY(  shiftY_ );
+        
+    }
 	
 	this.getThreeJSRenderer = function () {
 		return renderer;
@@ -1392,7 +1560,7 @@ Zinc.Renderer = function (containerIn, window) {
 				var centreX = (boundingBox.min.x + boundingBox.max.x) / 2.0;
 				var centreY = (boundingBox.min.y + boundingBox.max.y) / 2.0;
 				var centreZ = (boundingBox.min.z + boundingBox.max.z) / 2.0;
-				var clip_factor = 4.0;
+				var clip_factor = 40.0;
 				var endingViewport = currentCamera.getViewportFromCentreAndRadius(centreX, centreY, centreZ, radius, 40, radius * clip_factor );
 				var startingViewport = currentCamera.getCurrentViewport();
 				currentCamera.cameraTransition(startingViewport, endingViewport, duration);

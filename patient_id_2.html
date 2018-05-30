@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" style="height:100%">
 	<head>
-		<title>Basic Mesh WebGL Demo</title>
+		<title>Liver Atlas</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-        <meta http-equiv="Pragma" content="no-cache" />
-        <meta http-equiv="Expires" content="0" />
         <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
         <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
-        <script src="js/info.js"></script>
+        
+        
 		<style>
 			body {
 				font-family: Monospace;
@@ -44,9 +42,18 @@
             .sidenav a {                
                 padding: 6px 8px 6px 16px;
                 text-decoration: none;
-                font-size: 25px;
+                font-size: 23px;
                 color: floralwhite;
                  display:block;        
+            }
+            
+            /* The navigation menu links */
+            .sidenav p1 {                
+                padding: 6px 8px 6px 16px;
+                text-decoration: none;
+                font-size: 25px;
+                color: floralwhite;
+                display:flex        
             }
             
             .sidenav #muscle{      
@@ -71,7 +78,7 @@
                 color: white;
                 padding: 15px 32px;
                     
-                margin: 4px 17px;
+                margin: 4px 2px;
                 cursor: pointer;
         
                 
@@ -99,6 +106,24 @@
                       
         
                 
+            }
+            
+            .sidenav  .buttonGeometryMode {
+                background-color: tomato; 
+                border: none;
+                color: white;
+                padding: 8px 8px;
+                margin: 4px 2px;
+                cursor: pointer;            
+            }
+            
+            .sidenav .buttonSimulationMode{
+                background-color: cornflowerblue; 
+                border: none;
+                color: white;
+                padding: 8px 8px;
+                margin: 4px 2px;
+                cursor: pointer;  
             }
             
             .sidenav  .buttonPost {
@@ -131,6 +156,66 @@
                 
             }
             
+            .sidenav  .buttonSimulationPressurePre {
+                
+                background-color: darkorange; 
+                border: none;
+                color: white;
+                padding: 8px 8px;
+               
+                
+                margin: 4px 2px;
+                cursor: pointer;
+                
+        
+                
+            }
+            
+            .sidenav  .buttonSimulationPressurePost {
+                
+                background-color: mediumseagreen; 
+                border: none;
+                color: white;
+                padding: 8px 8px;
+               
+                
+                margin: 4px 2px;
+                cursor: pointer;
+                
+        
+                
+            }
+            
+            .sidenav  .buttonSimulationFlowPre {
+                
+                background-color: darkorange; 
+                border: none;
+                color: white;
+                padding: 8px 8px;
+               
+                
+                margin: 4px 2px;
+                cursor: pointer;
+                
+        
+                
+            }
+            
+            .sidenav  .buttonSimulationFlowPost {
+                
+                background-color: mediumseagreen; 
+                border: none;
+                color: white;
+                padding: 8px 8px;
+               
+                
+                margin: 4px 2px;
+                cursor: pointer;
+                
+        
+                
+            }
+            
             .sidenav  #vessel {
                 
                 padding: 6px 16px 6px 16px;
@@ -150,15 +235,38 @@
                 display:block;  
                 
             }
-            /*#infoBox {
+            
+            #sidebars {
                 position: absolute;
-                top: 10px;
-                width: 100%;
-                text-align: center;
-                z-index: 100;
-                display:block;
-            }*/
+                top: 0;
+                right: 0;
+                z-index: 10;
+              }
+            
+            /*Top nav css from : https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_topnav*/
+            .sidenav .topnav a {
+              float: left;
+              color: #f2f2f2;
+              text-align: center;
+              padding: 14px 16px;
+              text-decoration: none;
+              font-size: 17px;
+            }
 
+            .sidenav .topnav a:hover {
+              background-color: #ddd;
+              color: black;
+            }
+
+            .sidenav .topnav a.activeGeo {
+              background-color: cadetblue;
+              color: white;
+            }
+            
+            .sidenav .topnav a.activeSim {
+              background-color: salmon;
+              color: white;
+            }
 
 
             
@@ -167,17 +275,93 @@
 	
 		</style>
 	</head>
-    <!--info box obtained from https://github.com/stemkoski/stemkoski.github.com/blob/master/Three.js/Infobox.html    -->
     
-        
+    
+    
+    
+    
 	<body style="height:100%">
-		
-	
+		<!-- Place loading code on top of the body -->
+        <link rel="stylesheet" href="css/pageloader-cspin.css" />
+        <script type="text/javascript" src="js2/pageloader.js"></script>
         
-        <div class="sidenav">
-            <a href="#">Vessels   
+        <style>
+            .page-loader .loader p:before {
+                content: "loading";
                 
-            </a> 
+            }
+        </style>
+
+		<!--Side navigation for simulation mode-->
+        <div id ="sidebars" >
+        <div class ="sidenav" id = "sidenav_sim" style ="display:none">
+            <div class="topnav">
+              <a onclick="hideShowSideBar('sidenav_sim','sidenav_geo')">Liver Atlas</a>
+              <a  class="activeSim"  onclick="hideShowSideBar('sidenav_geo','sidenav_sim')">Simulation Viewer</a>
+              
+            </div>
+            <hr>
+            <p1>Portal Vein </p1>
+            
+            <a>Pressure</a>
+            <a>
+                <button class="button buttonSimulationPressurePre" onclick="simulationShowFunction('Sim Portal Pre Pressure')">Pre-surgery</button>
+                <button class="button buttonSimulationPressurePost" onclick="simulationShowFunction('Sim Portal Post Pressure')">Post-surgery</button>
+                
+            </a>
+           
+            
+            
+            <a>Flow</a>
+            <a>
+                <button class="button buttonSimulationFlowPre" onclick="simulationShowFunction('Sim Portal Pre Flow')">Pre-surgery</button>
+                <button class="button buttonSimulationFlowPost" onclick="simulationShowFunction('Sim Portal Post Flow')">Post-surgery</button>
+                
+            </a>
+            <hr>
+            
+            
+            
+          
+            
+     <!--
+            <a >Switch modes   </a> 
+            <p >
+                <a >
+
+                    <button class="button buttonGeometryMode" onclick="hideShowSideBar('sidenav_sim','sidenav_geo')">Geometry</button>
+
+                </a>
+            </p>
+            <hr>-->
+            
+            <p>
+                <a>
+                    <button name="View All" value="OK" type="button" onclick="viewAll()" class="button buttonviewall">View All</button>
+                </a>
+            </p>
+        </div>
+        
+        
+        <!--Side navigation for geometry mode-->
+        <div class="sidenav" id="sidenav_geo" >
+            
+           <!-- <span class="button buttonGeometryMode" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9974; Liver Atlas</span>
+            <span class="button buttonGeometryMode" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9974; Simulation Viewer</span>
+-->
+            
+            <div class="topnav">
+              <a class="activeGeo"  onclick="hideShowSideBar('sidenav_sim','sidenav_geo')">Liver Atlas</a>
+              <a   onclick="hideShowSideBar('sidenav_geo','sidenav_sim')">Simulation Viewer</a>
+              
+              
+            </div>
+              
+            
+            
+            <hr>
+            
+            <a >Vessels </a> 
             
             <p id="vessel"></p> 
             <a >
@@ -190,42 +374,49 @@
             <hr>
             
             
-            <a href="#">Segments  </a>
+            <a>Segments  </a>
             <p id="subsegments"></p> 
                 <a >
                     <button class="button buttonPre" onclick="hideallSegments('subsegments','pre')">Pre-surgery</button>
                     <button class="button buttonPost" onclick="hideallSegments('subsegments','post')">Post-surgery</button>
                     <button class="button buttonHideall"  onclick="hideallFunction('subsegments',true,'')">Hide all</button>
                 </a>
+            
             <hr>
             
-          
-            
-<!--
-            <a href="#">Modes  </a>
+            <!--<a>Modes   </a> 
+            <p >
                 <a >
-                    <button class="button buttonPre">Pressure</button>
-                    <button class="button buttonPost">Flow</button>
-                    
+
+                    <button class="button buttonSimulationMode" onclick="hideShowSideBar('sidenav_geo','sidenav_sim')">Simulation</button>
+
                 </a>
-            <hr>
--->
-          
-       
-            
-            
-            <p id="viewall"> 
-            <button name="View All" value="OK" type="button" onclick="viewAll()" class="button buttonviewall">View All</button>
             </p>
-         
-            <!--<div id="infoButton">       </div>-->
+            
+            <hr>-->
+            
+            <p>
+                <a>
+                    <button name="View All" value="OK" type="button" onclick="viewAll()" class="button buttonviewall">View All</button>
+                </a>
+            </p>
+            
+        </div>
+            
+       
+        
+        
         </div>
         
-        
-		<script src="js2/three.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/92/three.js"></script>
 		<script src="js2/zinc_threejs_control.js"></script>
 		<script src="js2/zinc_3js_renderer.js"></script>
+        <script src="js2/Lut.js"></script>
+        
 		<script>	
+            
+        
+            
 			container = document.createElement( 'div' );
 			document.body.appendChild( container );
 			container.style.height = "100%"
@@ -234,11 +425,18 @@
 			zincRenderer.initialiseVisualisation();
 			var scene = zincRenderer.createScene("BasicMesh");
             
+
+			var sceneSimulation = zincRenderer.createScene("BasicMesh2");
+            
+            var createdLegend = false;
+            
+            
             //Read in .json
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.open('GET', 'geo_list_patient2.json');
             xmlhttp.responseType = 'json';
             xmlhttp.send();
+            
             
             xmlhttp.onload = function() {
                 var geometries_info = xmlhttp.response;
@@ -246,27 +444,37 @@
                 for (var i =0; i < geometries_info.length; i++){
                     geo_info_ = geometries_info[i]
                     //console.log(geo_info_['file_dir'])
+                    
+                    //add geometry to scene 
                     scene.loadViewURL('/geo/'+geo_info_['group_name']+'_view.json');
                     scene.loadMetadataURL('/geo/'+geo_info_['group_name']+'_metadata.json');
                     
-                    var inputObj_ = document.createElement("INPUT");
-                    inputObj_.setAttribute("type","checkbox");
-                    inputObj_.setAttribute("id",geo_info_['group_name']);
-
-                    inputObj_.setAttribute("onchange","checkBoxChanged(this)");
-                    inputObj_.setAttribute("checked","true");
-                    console.log(geo_info_['geo_type'])
-                    var element_selected_ = document.getElementById(geo_info_['geo_type'])
-                    var labelObj_ = document.createElement("LABEL");  
                     
-                    var text_ = document.createTextNode(geo_info_['group_name']);
-                    var br = document.createElement("br");
-                 
-                    labelObj_.appendChild(text_);
-                    element_selected_.appendChild(inputObj_);
-                    element_selected_.appendChild(labelObj_);
-                    element_selected_.appendChild(br);
-       
+                    
+                    //Only add check box buttons if it is not simulation geometry
+                    if(geo_info_['geo_type']== 'subsegments' || geo_info_['geo_type']== 'vessel'){
+                        var inputObj_ = document.createElement("INPUT");
+                        inputObj_.setAttribute("type","checkbox");
+                        inputObj_.setAttribute("id",geo_info_['group_name']);
+
+                        inputObj_.setAttribute("onchange","checkBoxChanged(this)");
+                        inputObj_.setAttribute("checked","true");
+                        console.log(geo_info_['group_name']);
+
+                        //
+                        var element_selected_ = document.getElementById(geo_info_['geo_type'])
+                        var labelObj_ = document.createElement("LABEL");  
+
+                        var text_ = document.createTextNode(geo_info_['group_name']);
+                        var br = document.createElement("br");
+
+                        labelObj_.appendChild(text_);
+                        element_selected_.appendChild(inputObj_);
+                        element_selected_.appendChild(labelObj_);
+                        element_selected_.appendChild(br);
+
+                    } 
+                    
                     
                 }
                 
@@ -276,31 +484,112 @@
             }
             
             
+            
+            
             zincRenderer.setCurrentScene(scene);
             zincRenderer.animate();
             
+            
+            
+            
+            
+            pageLoader.info('Initializing Liver Geometries \n ...');
+            
+            
+            
             //wait 2 seconds then view all
-            setTimeout(function(){zincRenderer.viewAll(); }, 2000);
+            setTimeout(
+                function(){
+                    zincRenderer.viewAll();
+                    zincRenderer.addColourBar(20,10,'Pressure','mmHg');
+                    zincRenderer.showLegend(false);
+                    var planeElement = document.getElementById('subsegments');
+                    var planeInput = planeElement.getElementsByTagName('input');
+                    for (var i =0;i < planeInput.length;i++){
+                        console.log(planeInput[i].id)
+                        if(planeInput[i].id == 'Resection Plane'){
+                           planeInput[i].click(); 
+                        }
+                    }
+                    
+                    //Hide simulation data
+                    simulationShowFunction('');
+                    
+                    pageLoader.hide();
+                    
+                }, 
+                
+                10000);
             
             
-			var pre_segments = ['Dividing plane','S1','S2','S3','S4','S5','S6','S7','S8'];
-            var post_segments = ['Dividing plane','S5','S6','S7','S8'];
+            //Pre and post surgical segment 
+			var pre_segments = ['S1','S2','S3','S4','S5','S6','S7','S8'];
+            var post_segments = ['S5','S6','S7','S8'];
+            
+            //Array of the simulation data
+            var simulation_vessels = [
+                'Sim Portal Pre Pressure',
+                'Sim Portal Post Pressure',
+                'Sim Portal Pre Flow',
+                'Sim Portal Post Flow',
+            ]
+            
+            //Array for legend type
+            var simulation_legends = [
+                'Pressure',
+                'Pressure',
+                'Flow',
+                'Flow',   
+            ]
             
             
-            //If any check box has changed it will 
+            //If any check box has changed this function will be called
             function checkBoxChanged(element){
-         
-       
                 scene.forEachGeometry(
                     function(modelIn){
-                        if(element.id == modelIn.groupName){
-                        
-                            modelIn.setVisibility(element.checked);
-                            console.log(modelIn.groupName);
-                            console.log(element.id);
-                            
+                        if(element.id == modelIn.groupName){                 
+                            modelIn.setVisibility(element.checked);             
                         }  
                     }
+                )
+            }
+            
+            //Simulation show  function for simulation data geometries, 
+            //Input:    -geometry name: geometry name to show, hides all other geometry
+           
+            function simulationShowFunction(geometry_name_){
+                for (var i =0; i<simulation_vessels.length;i++){
+                    geo_name_ = simulation_vessels[i];
+                    legend_ = simulation_legends[i];
+                    if(geometry_name_ == geo_name_){
+                        //console.log("show" +geo_name_);
+                        hideModelScene(geo_name_,true);
+                        if(legend_=='Pressure'){
+                            zincRenderer.deleteLegend();
+                            zincRenderer.addColourBar(20,10,'Pressure','mmHg');
+                        } else{
+                            zincRenderer.deleteLegend();
+                            zincRenderer.addColourBar(20,10,'Flow','cm^3');
+                            
+                        }
+                    } else{
+                        //console.log("hide" +geo_name_);
+                        hideModelScene(geo_name_,false);
+                    }
+                }
+            }
+
+            
+            //Function to hide a particular model in scene
+            function hideModelScene(modelName_,visibility_){
+                scene.forEachGeometry(
+                    function(modelIn){
+                        if(modelName_ == modelIn.groupName){                 
+                            modelIn.setVisibility(visibility_); 
+                            console.log(modelIn);
+                        }  
+                    }
+                
                 )
             }
             //function to hid all segments
@@ -336,7 +625,8 @@
                 }
                 
             }
-            //function to hide all 
+            
+            //function for hide all button call
             function hideallFunction(geo_group,showhide_bool,postpre){
                 var muscleElement = document.getElementById(geo_group);
                 var muscles_ = muscleElement.getElementsByTagName('input');
@@ -379,15 +669,57 @@
                     }
                     
                     
-                    //console.log(muscles_[i]);
+
                 }
             }
+            
+            //Function called when switching between simulation and geometry tabs
+            function hideShowSideBar(sideBarToHide_,sideBarToShow_)
+			{
+                
+				var elementHide_ = document.getElementById(sideBarToHide_);
+                var elementShow_ = document.getElementById(sideBarToShow_);
+                
+                elementHide_.style.display = "none";
+                elementShow_.style.display = "block";
+                
+                
+                
+                if(sideBarToHide_ == 'sidenav_sim'){
+                    zincRenderer.showLegend(false);
+                    
+                    //show all geometries
+                    hideallFunction('vessel',true,'pre');
+                    hideallSegments('subsegments','pre');
+                    
+                    
+                } else {
+                    
+                    //zincRenderer.setCurrentScene(sceneSimulation);
+                    zincRenderer.showLegend(true);
+                    
+                    //hide all geometries
+                    hideallFunction('subsegments',true,'');
+                    hideallFunction('vessel',true,'');
+                    
+                    simulationShowFunction('Sim Portal Pre Pressure');
+                    
+                    
+                }
+
+			}
+            
+            
 			function viewAll()
 			{
 				zincRenderer.viewAll();
                 
                 
 			}
+            
+            
+            
+            
 		</script>
 	</body>
 </html>
