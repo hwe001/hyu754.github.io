@@ -5,6 +5,7 @@
 <script src="vendor/three.js/examples/js/libs/stats.min.js"></script>
 <!-- ar.js -->
 <script src="ar.js"></script>
+<script src="hammer.min.js"></script>
 <script>THREEx.ArToolkitContext.baseURL = '../'</script>
 
 <body style='margin : 0px; overflow: hidden; font-family: Monospace;'><div style='position: absolute; top: 10px; width:100%; text-align: center; z-index: 1;'>
@@ -14,12 +15,14 @@
 	//		Init
 	//////////////////////////////////////////////////////////////////////////////////
 
+    
+    
 	// init renderer
 	var renderer	= new THREE.WebGLRenderer({
 		antialias	: true,
 		alpha: true
 	});
-    var mixers=undefined;
+    
 	renderer.setClearColor(new THREE.Color('lightgrey'), 0)
 	// renderer.setPixelRatio( 1/2 );
 	renderer.setSize( window.innerWidth, window.innerHeight );
@@ -28,11 +31,46 @@
 	renderer.domElement.style.left = '0px'
 	document.body.appendChild( renderer.domElement );
 
+    var hammertime = new Hammer(renderer.domElement);
+    hammertime.on('swipeleft', function(ev) {
+	  
+            arWorldRoot.remove( currentMesh);
+            geoID-=1;
+            console.log(geoID % geoPathArray.length );
+            var geo_id_ = Math.abs(geoID %geoPathArray.length);
+            geoLoader(geoPathArray[ geo_id_]);
+     
+        
+        
+        
+    });
+    
+    hammertime.on('swiperight', function(ev) {
+	  
+            arWorldRoot.remove( currentMesh);
+            geoID+=1;
+            console.log(geoID % geoPathArray.length );
+            var geo_id_ = Math.abs(geoID %geoPathArray.length);
+            geoLoader(geoPathArray[geo_id_] );
+            
+        
+        
+        
+    });
 	// array of functions for the rendering loop
 	var onRenderFcts= [];
 
 	// init scene and camera
 	var scene	= new THREE.Scene();
+    
+    //mesh array
+    var meshArray=[];
+    
+    var mixers=[];
+    
+    var currentMesh=undefined;
+    
+    var currentMixer=undefined;
 	
 	//////////////////////////////////////////////////////////////////////////////////
 	//		Initialize a basic camera
@@ -137,17 +175,19 @@
 
 	var arWorldRoot = smoothedRoot
 
-	// add a torus knot	
-	var geometry	= new THREE.CubeGeometry(1,1,1);
-	var material	= new THREE.MeshNormalMaterial({
-		transparent : true,
-		opacity: 0.5,
-		side: THREE.DoubleSide
-	}); 
+	
     
     
     var loader = new THREE.JSONLoader();
-    loader.load( "models/animated/horse.js", function( geometry ) {
+    var geoPathArray=["models/animated/horse.js",
+                  "models/animated/stork.js",
+                  "models/animated/flamingo.js"];
+    var geoID=0;
+    
+    geoLoader("models/animated/horse.js");
+    
+    function geoLoader(geometry_path){
+        loader.load( geometry_path, function( geometry ) {
 
         var material = new THREE.MeshPhongMaterial( {
             color: 0xffffff,
@@ -163,29 +203,19 @@
         mesh.scale.set( 0.005, 0.005,0.005 );
         mesh.position.y	= 0
         arWorldRoot.add( mesh );
+        currentMesh = mesh
+        meshArray.push(mesh);
 
         var mixer = new THREE.AnimationMixer( mesh );
         mixer.clipAction( geometry.animations[ 0 ] ).setDuration( 1 ).play();
         
-        mixers=mixer;
+        mixers.push(mixer);
+        currentMixer = mixer;
 
     } );
-	var mesh	= new THREE.Mesh( geometry, material );
-	mesh.position.y	= geometry.parameters.height/2
-	//arWorldRoot.add( mesh );
+    }
+    
 	
-	//var geometry	= new THREE.TorusKnotGeometry(0.3,0.1,64,16);
-    var geometry = new THREE.CylinderBufferGeometry( 0.5,0.5,1,30,30);
-	var material	= new THREE.MeshNormalMaterial(); 
-    //material.wireframe=true;
-    var standardMaterial = new THREE.MeshStandardMaterial( {
-					map: null,
-					color: 0xffffff,
-					metalness: 1.0
-				} );
-	var mesh	= new THREE.Mesh( geometry, material );
-	mesh.position.y	= 0.5
-	//arWorldRoot.add( mesh );
 	
 	onRenderFcts.push(function(){
 		//mesh.rotation.x += 0.1
@@ -202,7 +232,12 @@
     var clock = new THREE.Clock();
 	onRenderFcts.push(function(){
         var delta = clock.getDelta();
-        mixers.update( delta );
+        
+//        for (var i =0;i<mixers.length;i++){
+//            mixers[i].update( delta );
+//        }
+        currentMixer.update(delta);
+        
         
         
 		renderer.render( scene, camera );
@@ -223,4 +258,11 @@
 			onRenderFct(deltaMsec/1000, nowMsec/1000)
 		})
 	})
+    
+    function sleep(miliseconds) {
+       var currentTime = new Date().getTime();
+
+       while (currentTime + miliseconds >= new Date().getTime()) {
+       }
+    }
 </script></body>
