@@ -38,7 +38,7 @@
             geoID-=1;
             console.log(geoID % geoPathArray.length );
             var geo_id_ = Math.abs(geoID %geoPathArray.length);
-            geoLoader(geoPathArray[ geo_id_]);
+            geoLoader(geoPathArray[ geo_id_],yOffsetArray[geo_id_]);
      
         
         
@@ -51,7 +51,7 @@
             geoID+=1;
             console.log(geoID % geoPathArray.length );
             var geo_id_ = Math.abs(geoID %geoPathArray.length);
-            geoLoader(geoPathArray[geo_id_] );
+            geoLoader(geoPathArray[geo_id_] ,yOffsetArray[geo_id_]);
             
         
         
@@ -182,11 +182,12 @@
     var geoPathArray=["models/animated/horse.js",
                   "models/animated/stork.js",
                   "models/animated/flamingo.js"];
+    var yOffsetArray=["0","0.5","0.5"];
     var geoID=0;
     
-    geoLoader("models/animated/horse.js");
+    geoLoader("models/animated/horse.js",yOffsetArray[0]);
     
-    function geoLoader(geometry_path){
+    function geoLoader(geometry_path,y_offset_){
         loader.load( geometry_path, function( geometry ) {
 
         var material = new THREE.MeshPhongMaterial( {
@@ -201,7 +202,8 @@
         //mesh.position.x = - 150;
         //mesh.position.y = 150;
         mesh.scale.set( 0.005, 0.005,0.005 );
-        mesh.position.y	= 0
+        mesh.position.y	= y_offset_;
+        console.log(y_offset_);
         arWorldRoot.add( mesh );
         currentMesh = mesh
         meshArray.push(mesh);
