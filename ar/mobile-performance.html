@@ -19,7 +19,7 @@
     
 	// init renderer
 	var renderer	= new THREE.WebGLRenderer({
-		antialias	: false,
+		antialias	: true,
 		alpha: true
 	});
     
@@ -114,6 +114,7 @@
 	function onResize(){
 		arToolkitSource.onResize()	
 		arToolkitSource.copySizeTo(renderer.domElement)	
+        console.log(renderer.domElement);
 		if( arToolkitContext.arController !== null ){
 			arToolkitSource.copySizeTo(arToolkitContext.arController.canvas)	
 		}	
@@ -209,7 +210,7 @@
         meshArray.push(mesh);
 
         var mixer = new THREE.AnimationMixer( mesh );
-        mixer.clipAction( geometry.animations[ 0 ] ).setDuration( 0.5 ).play();
+        mixer.clipAction( geometry.animations[ 0 ] ).setDuration( 0.75 ).play();
         
         mixers.push(mixer);
         currentMixer = mixer;
