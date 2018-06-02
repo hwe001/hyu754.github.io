@@ -19,7 +19,7 @@
     
 	// init renderer
 	var renderer	= new THREE.WebGLRenderer({
-		antialias	: true,
+		antialias	: false,
 		alpha: true
 	});
     
@@ -209,7 +209,7 @@
         meshArray.push(mesh);
 
         var mixer = new THREE.AnimationMixer( mesh );
-        mixer.clipAction( geometry.animations[ 0 ] ).setDuration( 1 ).play();
+        mixer.clipAction( geometry.animations[ 0 ] ).setDuration( 0.5 ).play();
         
         mixers.push(mixer);
         currentMixer = mixer;
