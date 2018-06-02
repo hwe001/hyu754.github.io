@@ -115,8 +115,9 @@
 	scene.add(markerRoot)
 	var artoolkitMarker = new THREEx.ArMarkerControls(arToolkitContext, markerRoot, {
 		type : 'pattern',
-		patternUrl : THREEx.ArToolkitContext.baseURL + 'ar/data/patt.hiro'
+		//patternUrl : THREEx.ArToolkitContext.baseURL + 'ar/data/pattern_rubus.patt'
 		// patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji'
+        patternUrl : THREEx.ArToolkitContext.baseURL + 'ar/data/patt.hiro'
 	})
 
 	// build a smoothedControls
@@ -146,7 +147,7 @@
     
     
     var loader = new THREE.JSONLoader();
-    loader.load( "models/animated/parrot.js", function( geometry ) {
+    loader.load( "models/animated/horse.js", function( geometry ) {
 
         var material = new THREE.MeshPhongMaterial( {
             color: 0xffffff,
@@ -159,8 +160,8 @@
 
         //mesh.position.x = - 150;
         //mesh.position.y = 150;
-        mesh.scale.set( 0.01, 0.01,0.01 );
-        mesh.position.y	= 1
+        mesh.scale.set( 0.005, 0.005,0.005 );
+        mesh.position.y	= 0
         arWorldRoot.add( mesh );
 
         var mixer = new THREE.AnimationMixer( mesh );
