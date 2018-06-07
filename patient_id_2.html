@@ -12,7 +12,7 @@
 			body {
 				font-family: Monospace;
 				background-color: #000;
-				color: #fff;
+				color: hotpink;
 				margin: 0px;
 				overflow: hidden;
 			}
@@ -33,7 +33,7 @@
                 z-index: 1; /* Stay on top */
                 top: 0; /* Stay at the top */
                 left: 0;
-                background-color: dimgray; /* Black */
+                background-color: darkslategray; /* Black */
                 overflow-x: hidden; /* Disable horizontal scroll */
              
             }
@@ -269,9 +269,17 @@
             }
 
 
+            #loadingBarItem{
+          
+                  position: fixed; /* or absolute */
+                  top: 50%;
+                  left: 50%;
+                  height: 20%;
+                
+
+            }
             
-            
-            
+      
 	
 		</style>
 	</head>
@@ -280,9 +288,9 @@
     
     
     
-	<body style="height:100%">
+	<body style="height:100%" >
 		<!-- Place loading code on top of the body -->
-        <link rel="stylesheet" href="css/pageloader-cspin.css" />
+       <!-- <link rel="stylesheet" href="css/pageloader-cspin.css" />
         <script type="text/javascript" src="js2/pageloader.js"></script>
         
         <style>
@@ -290,8 +298,22 @@
                 content: "loading";
                 
             }
-        </style>
-
+        </style>-->
+        
+       
+          <link rel="stylesheet" type="text/css" href="js2/loading-bar.css"/>
+        <script type="text/javascript" src="js2/loading-bar.js"></script>
+        <div data-value="0" data-preset="energy"
+              class="ldBar"
+               id ='loadingBarItem'></div>
+        
+        <script>
+          var bar1 = new ldBar("#loadingBarItem");
+          //var bar2 = document.getElementById('myItem1').ldBar;
+          
+        </script>
+      
+        
 		<!--Side navigation for simulation mode-->
         <div id ="sidebars" >
         <div class ="sidenav" id = "sidenav_sim" style ="display:none">
@@ -341,10 +363,12 @@
                 </a>
             </p>
         </div>
+            
+            
         
         
         <!--Side navigation for geometry mode-->
-        <div class="sidenav" id="sidenav_geo" >
+        <div class="sidenav" id="sidenav_geo" style ="display:none">
             
            <!-- <span class="button buttonGeometryMode" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9974; Liver Atlas</span>
             <span class="button buttonGeometryMode" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9974; Simulation Viewer</span>
@@ -414,12 +438,56 @@
         <script src="js2/Lut.js"></script>
         
 		<script>	
-            
-        
+           /* //ar progress_bar_element_ = document.getElementById('loadingbar')
+            var bar = new ProgressBar.Line(loadingbar, {
+              strokeWidth: 4,
+              easing: 'easeInOut',
+              duration: 12400,
+              color: '#FFEA82',
+              trailColor: '#eee',
+              trailWidth: 1,
+              svgStyle: {width: '50%', height: '100%'},
+              text: {
+                style: {
+                  // Text color.
+                  // Default: same as stroke color (options.color)
+                  color: '#999',
+                  position: 'absolute',
+                  right: '0',
+                  top: '30px',
+                  padding: 0,
+                  margin: 0,
+                  transform: null
+                },
+                autoStyleContainer: false
+              },
+              from: {color: '#FFEA82'},
+              to: {color: '#ED6A5A'},
+              step: (state, bar) => {
+                bar.setText(Math.round(bar.value() * 100) + ' %');
+              }
+            });
+
+            bar.animate(1.0);  // Number from 0.0 to 1.0*/
             
 			container = document.createElement( 'div' );
-			document.body.appendChild( container );
-			container.style.height = "100%"
+           
+            container.style.height = "100%"
+            document.body.appendChild( container );
+            //document.body.appendChild( container );
+            
+                        // progressbar.js@1.0.0 version is used
+            // Docs: http://progressbarjs.readthedocs.org/en/1.0.0/
+            
+            
+            
+            
+            
+            
+           
+            
+			
+			
 
 			var zincRenderer = new Zinc.Renderer(container, window);
 			zincRenderer.initialiseVisualisation();
@@ -493,13 +561,13 @@
             
             
             
-            pageLoader.info('Initializing Liver Geometries \n ...');
+            //pageLoader.info('Initializing Liver Geometries \n ...');
             
             
-            
-            //wait 2 seconds then view all
-            setTimeout(
-                function(){
+            var finishedLoadingBool = false;
+            //Function is called when all geometries have finished loading
+            function finishLoadingFunction(){
+               
                     zincRenderer.viewAll();
                     zincRenderer.addColourBar(20,10,'Pressure','mmHg');
                     zincRenderer.showLegend(false);
@@ -515,16 +583,31 @@
                     //Hide simulation data
                     simulationShowFunction('');
                     
-                    pageLoader.hide();
+                    //pageLoader.hide();
+                    //bar.destroy();
                     
-                }, 
+                    var element_ = document.getElementById('loadingBarItem');
+                 
+                    
+                    element_.style.display = "none";
                 
-                10000);
+                
+                    var element_ = document.getElementById('sidenav_geo');
+                 
+                    
+                    element_.style.display = "block";
+                    
+                    
+                
+                
+            }
+                
+            
             
             
             //Pre and post surgical segment 
-			var pre_segments = ['S1','S2','S3','S4','S5','S6','S7','S8'];
-            var post_segments = ['S5','S6','S7','S8'];
+			var pre_segments = ['Gallblader','S1','S2','S3','S4','S5','S6','S7','S8'];
+            var post_segments = ['Gallblader','S5','S6','S7','S8'];
             
             //Array of the simulation data
             var simulation_vessels = [
@@ -548,7 +631,8 @@
                 scene.forEachGeometry(
                     function(modelIn){
                         if(element.id == modelIn.groupName){                 
-                            modelIn.setVisibility(element.checked);             
+                            modelIn.setVisibility(element.checked);   
+                            
                         }  
                     }
                 )

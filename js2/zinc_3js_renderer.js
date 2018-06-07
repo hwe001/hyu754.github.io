@@ -670,6 +670,9 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 		return [totalSize, totalLoaded, errorDownload];
 	}
 	
+    this.returnNumInput = function(){
+        return num_inputs;
+    }
 	
 	this.onProgress = function(id) {
 	    return function(xhr){
@@ -722,6 +725,10 @@ Zinc.Scene = function ( containerIn, rendererIn) {
 		}
 		return startingId;
 	}
+    
+    this.returnNumberGeometry = function(){
+        return zincGeometries.length;
+    }
 	
 	this.loadView = function(viewData)
 	{
@@ -1495,8 +1502,23 @@ Zinc.Renderer = function (containerIn, window) {
         //update legend
        this.updateLegend();
         
-        
+        var current_ = currentScene.getDownloadProgress()[0];
+        var final_ = currentScene.getDownloadProgress()[1];
+        //console.log(currentScene.returnNumberGeometry());
+        //console.log();
+        var percentage_loaded_ = currentScene.returnNumberGeometry()/currentScene.returnNumInput();
+        bar1.set(100.0*percentage_loaded_);
       
+        
+        //If we have finished loading the geometries, then call the finish loading function
+        //Then set bool to true.
+        if(finishedLoadingBool == false){
+            if(percentage_loaded_ == 1){
+                finishLoadingFunction();
+                finishedLoadingBool = true;
+           }
+            
+        }
         
         
        
