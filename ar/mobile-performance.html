@@ -6,6 +6,7 @@
 <!-- ar.js -->
 <script src="ar.js"></script>
 <script src="hammer.min.js"></script>
+<script src="OBJLoader.js"></script>
 <script>THREEx.ArToolkitContext.baseURL = '../'</script>
 
 <body style='margin : 0px; overflow: hidden; font-family: Monospace;'><div style='position: absolute; top: 10px; width:100%; text-align: center; z-index: 1;'>
@@ -186,37 +187,86 @@
     var yOffsetArray=["0","0.5","0.5"];
     var geoID=0;
     
-    geoLoader("models/animated/horse.js",yOffsetArray[0]);
+    //geoLoader("models/animated/horse.js",yOffsetArray[0]);
     
     function geoLoader(geometry_path,y_offset_){
         loader.load( geometry_path, function( geometry ) {
 
-        var material = new THREE.MeshPhongMaterial( {
-            color: 0xffffff,
-            morphTargets: true,
-            vertexColors: THREE.FaceColors,
-            flatShading: true
+            var material = new THREE.MeshPhongMaterial( {
+                color: 0xffffff,
+                morphTargets: true,
+                vertexColors: THREE.FaceColors,
+                flatShading: true
+            } );
+            //var material	= new THREE.MeshNormalMaterial(); 
+            var mesh = new THREE.Mesh( geometry, material );
+
+            //mesh.position.x = - 150;
+            //mesh.position.y = 150;
+            mesh.scale.set( 0.005, 0.005,0.005 );
+            mesh.position.y	= y_offset_;
+            console.log(y_offset_);
+            arWorldRoot.add( mesh );
+            currentMesh = mesh
+            meshArray.push(mesh);
+
+            var mixer = new THREE.AnimationMixer( mesh );
+            mixer.clipAction( geometry.animations[ 0 ] ).setDuration( 0.75 ).play();
+
+            mixers.push(mixer);
+            currentMixer = mixer;
+
         } );
-        //var material	= new THREE.MeshNormalMaterial(); 
-        var mesh = new THREE.Mesh( geometry, material );
-
-        //mesh.position.x = - 150;
-        //mesh.position.y = 150;
-        mesh.scale.set( 0.005, 0.005,0.005 );
-        mesh.position.y	= y_offset_;
-        console.log(y_offset_);
-        arWorldRoot.add( mesh );
-        currentMesh = mesh
-        meshArray.push(mesh);
-
-        var mixer = new THREE.AnimationMixer( mesh );
-        mixer.clipAction( geometry.animations[ 0 ] ).setDuration( 0.75 ).play();
-        
-        mixers.push(mixer);
-        currentMixer = mixer;
-
-    } );
     }
+    
+//    var loaderObj = new THREE.OBJLoader();
+//    geoLoaderObj('models/obj/cerberus/Cerberus.obj',0);
+//    
+//    var textureLoader = new THREE.TextureLoader(  );
+//    var texture = textureLoader.load( 'models/obj/cerberus/Cerberus_A.jpg');
+        var loaderObj = new THREE.OBJLoader();
+    geoLoaderObj('models/obj/Converse_obj/converse_obj.obj',0);
+    
+    var textureLoader = new THREE.TextureLoader(  );
+    var texture = textureLoader.load( 'models/obj/Converse_obj/converse.jpg');
+    
+    function geoLoaderObj(geometry_path,y_offset_){
+        loaderObj.load( geometry_path, function( geometry ) {
+
+            var material = new THREE.MeshPhongMaterial( {
+                color: 0xffffff,
+                morphTargets: true,
+                vertexColors: THREE.FaceColors,
+                flatShading: true
+            } );
+            //var material	= new THREE.MeshNormalMaterial(); 
+            //var mesh = geometry;//new THREE.Mesh( geometry, material );
+            
+            geometry.traverse( function ( child ) {
+						if ( child instanceof THREE.Mesh ) {
+							child.material.map = texture;
+						}
+					} );
+            //mesh.position.x = - 150;
+            
+            geometry.scale.set(0.12,0.12,0.12);
+            geometry.position.x =1;
+            //geometry.rotateZ(180);
+            geometry.position.y	= y_offset_;
+            console.log(y_offset_);
+            arWorldRoot.add( geometry );
+            currentMesh = geometry
+            meshArray.push(geometry);
+
+            //var mixer = new THREE.AnimationMixer( mesh );
+            //mixer.clipAction( geometry.animations[ 0 ] ).setDuration( 0.75 ).play();
+
+            //mixers.push(mixer);
+            //currentMixer = mixer;
+
+        } );
+    }
+    
     
 	
 	
@@ -239,7 +289,7 @@
 //        for (var i =0;i<mixers.length;i++){
 //            mixers[i].update( delta );
 //        }
-        currentMixer.update(delta);
+        //currentMixer.update(delta);
         
         
         

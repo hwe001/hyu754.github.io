@@ -4,7 +4,7 @@
 		<title>Liver Atlas</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-     <!--   <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        <!--<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
         <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
         -->
         
@@ -275,6 +275,8 @@
                   top: 50%;
                   left: 50%;
                   height: 20%;
+                  font-size: 2.1em;
+                  width:110%;height:110%;margin:auto
                 
 
             }
@@ -305,8 +307,8 @@
         <script type="text/javascript" src="js2/loading-bar.js"></script>
         <div data-value="0" data-preset="energy"
               class="ldBar"
-               id ='loadingBarItem'></div>
-        
+               id ='loadingBarItem' data-pattern-size='200'></div>
+            
         <script>
           var bar1 = new ldBar("#loadingBarItem");
           //var bar2 = document.getElementById('myItem1').ldBar;
@@ -580,8 +582,7 @@
                         }
                     }
                     
-                    //Hide simulation data
-                    simulationShowFunction('');
+                    
                     
                     //pageLoader.hide();
                     //bar.destroy();
@@ -596,6 +597,13 @@
                  
                     
                     element_.style.display = "block";
+                
+                    //Hide simulation data
+                    simulationShowFunction('');
+                
+                    //show pre segments
+                    hideallFunction('vessel',true,'pre');
+                    hideallSegments('subsegments','pre');
                     
                     
                 
@@ -653,7 +661,7 @@
                             zincRenderer.addColourBar(20,10,'Pressure','mmHg');
                         } else{
                             zincRenderer.deleteLegend();
-                            zincRenderer.addColourBar(20,10,'Flow','cm^3');
+                            zincRenderer.addColourBar(1500,0,'Flow','mL/min');
                             
                         }
                     } else{
@@ -771,6 +779,10 @@
                 
                 if(sideBarToHide_ == 'sidenav_sim'){
                     zincRenderer.showLegend(false);
+                    
+                    
+                    //Hide simulation data
+                    simulationShowFunction('');
                     
                     //show all geometries
                     hideallFunction('vessel',true,'pre');

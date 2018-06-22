@@ -1512,11 +1512,14 @@ Zinc.Renderer = function (containerIn, window) {
         
         //If we have finished loading the geometries, then call the finish loading function
         //Then set bool to true.
+        
         if(finishedLoadingBool == false){
             if(percentage_loaded_ == 1){
                 finishLoadingFunction();
                 finishedLoadingBool = true;
            }
+            
+            console.log(percentage_loaded_);
             
         }
         
