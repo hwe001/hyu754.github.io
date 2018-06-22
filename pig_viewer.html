@@ -102,7 +102,17 @@
                 
             }
 
+              #loadingBarItem{
+          
+                  position: fixed; /* or absolute */
+                  top: 50%;
+                  left: 50%;
+                  height: 20%;
+                  font-size: 2.1em;
+                  width:110%;height:110%;margin:auto
+                
 
+            }
 
             
             
@@ -110,9 +120,17 @@
 	
 		</style>
 	</head>
-
+<script type="text/javascript" src="js2/loading-bar.js"></script>
 	<body style="height:100%">
-		
+		<div data-value="0" data-preset="energy"
+              class="ldBar"
+               id ='loadingBarItem' data-pattern-size='200'></div>
+            
+        <script>
+          var bar1 = new ldBar("#loadingBarItem");
+          //var bar2 = document.getElementById('myItem1').ldBar;
+          
+        </script>
 		
         <div class="sidenav">
             <a href="#">Skin
@@ -208,14 +226,21 @@
             }
             
             
+           
+            
+            
+             var finishedLoadingBool = false;
+            //Function is called when all geometries have finished loading
+            function finishLoadingFunction(){
+                zincRenderer.viewAll();
+                 var element_ = document.getElementById('loadingBarItem');
+                 
+                    
+                element_.style.display = "none";
+                
+            }
             zincRenderer.setCurrentScene(scene);
             zincRenderer.animate();
-            
-            //wait 2 seconds then view all
-            setTimeout(function(){zincRenderer.viewAll(); }, 5000);
-            
-            
-			
             
             
             //If any check box has changed it will 
