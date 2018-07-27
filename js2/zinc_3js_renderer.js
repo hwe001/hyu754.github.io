@@ -1351,16 +1351,23 @@ Zinc.Renderer = function (containerIn, window) {
 				"images/abi-black-h.png", undefined, createHUDSprites(logoSprite));
 	}
     
-    this.addColourBar = function(min_,max_,title_,units_) {
+    this.addColourBar = function(min_,max_,title_,units_,num_ticks_) {
         var lut = new THREE.Lut('rainbow', 512);
         
         lut.setMax( min_ );
         lut.setMin( max_ );
+        
+        
+        var lut1000 = new THREE.Lut('rainbow', 512);
+        
+        lut1000.setMax( 1000 );
+        lut1000.setMin( 1000 );
 
         legend = lut.setLegendOn();
-        var labels = lut.setLegendLabels( { 'title': title_, 'um': units_, 'ticks': 11 } );
-        
-    
+        legend2 = lut1000.setLegendOn();
+        var labels = lut.setLegendLabels( { 'title': title_, 'um': units_, 'ticks': num_ticks_ } );
+         var labels2 = lut1000.setLegendLabels( { 'title': title_, 'um': units_, 'ticks':2 } );
+
         
         var scene_ = _this.getCurrentScene();
         var camera_ = scene_.camera;
@@ -1369,21 +1376,37 @@ Zinc.Renderer = function (containerIn, window) {
         
         
         for ( var i = 0; i < Object.keys( labels[ 'ticks' ] ).length; i++ ) {
+          
             labels[ 'ticks' ][ i ].name = 'ticks'+i.toString();
+            labels[ 'ticks' ][ i ].text = 1;
             labels[ 'lines' ][ i ].name = 'lines'+i.toString();
-            
+            labels[ 'lines' ][ i ].legend_type = title_;
+            labels[ 'ticks' ][ i ].legend_type =title_;
             _this.addToScene ( labels[ 'ticks' ][ i ] );
            
         } 
         
+        for ( var i = 0; i < Object.keys( labels2[ 'ticks' ] ).length; i++ ) {
+          
+            labels2[ 'ticks' ][ i ].name = 'ticks1000'+i.toString();
+            labels2[ 'ticks' ][ i ].text = 1;
+            labels2[ 'lines' ][ i ].name = 'lines1000'+i.toString();
+            labels2[ 'lines' ][ i ].legend_type = title_;
+            labels2[ 'ticks' ][ i ].legend_type =title_;
+            _this.addToScene ( labels2[ 'ticks' ][ i ] );
+           
+        } 
         
         labels['title'].name = 'title';
         
         this.legendLabels = labels;
+        this.legendLabels_adhoc = labels2;
         legend.name = 'legend';
         console.log(legend.name);
         _this.addToScene(legend);
+         _this.addToScene(legend2);
         _this.addToScene (labels['title']  );
+        _this.addToScene (labels2['title']  );
       
         //_this.addToScene(labels);
 	}
@@ -1393,21 +1416,27 @@ Zinc.Renderer = function (containerIn, window) {
         
         var legendObj = scene_.getObjectByName("legend");
         
+        
         if(legendObj != undefined){
             var titleObj = scene_.getObjectByName("title");
             
-            /*legendObj.scale.set(10,20,1);
-            legendObj.position.copy(currentScene.camera.position);
-            legendObj.rotation.copy( currentScene.camera.rotation );
-            legendObj.translateZ(  -200 );
-            legendObj.translateX(  70 );*/
+
             
             this.rotateObjectCamera(legendObj,currentScene.camera,20,30,70,0);
             this.rotateObjectCamera(titleObj,currentScene.camera,40,30,70,40);
+            console.log(this.legendLabels_adhoc);
             
             for ( var i = 0; i < Object.keys( this.legendLabels[ 'ticks' ] ).length; i++ ) {
                 var ticksObj =scene_.getObjectByName('ticks'+i.toString());
-                this.rotateObjectCamera(ticksObj,currentScene.camera,50,30,75,-55+i*8.8);
+                if( (ticksObj.legend_type == 'Flow') && (i == 1) ){
+                    ticksObj =scene_.getObjectByName('ticks1000'+i.toString());
+                    this.rotateObjectCamera(ticksObj,currentScene.camera,50,30,75,-22.5+i*44);  
+                } else {
+                    this.rotateObjectCamera(ticksObj,currentScene.camera,50,30,75,-55+i*44);    
+                }
+                
+                
+                
                 
                 
                 /*var linesObj =scene_.getObjectByName('lines'+i.toString());
@@ -1445,6 +1474,17 @@ Zinc.Renderer = function (containerIn, window) {
                 this.rotateObjectCamera(linesObj,currentScene.camera,100,100,90,40-i*10);*/
            
             } 
+            
+            for ( var i = 0; i < Object.keys( this.legendLabels_adhoc[ 'ticks' ] ).length; i++ ) {
+                var ticksObj =scene_.getObjectByName('ticks1000'+i.toString());
+                //this.rotateObjectCamera(ticksObj,currentScene.camera,30,30,70,-55+i*8.8);
+                ticksObj.visible=visible_;
+                
+                /*var linesObj =scene_.getObjectByName('lines'+i.toString());
+                this.rotateObjectCamera(linesObj,currentScene.camera,100,100,90,40-i*10);*/
+           
+            } 
+           
            
         }    
     }
@@ -1476,6 +1516,17 @@ Zinc.Renderer = function (containerIn, window) {
                 this.rotateObjectCamera(linesObj,currentScene.camera,100,100,90,40-i*10);*/
            
             } 
+            
+            
+            for ( var i = 0; i < Object.keys( this.legendLabels_adhoc[ 'ticks' ] ).length; i++ ) {
+                var ticksObj =scene_.getObjectByName('ticks1000'+i.toString());
+                //this.rotateObjectCamera(ticksObj,currentScene.camera,30,30,70,-55+i*8.8);
+                 scene_.remove(ticksObj);
+                
+                /*var linesObj =scene_.getObjectByName('lines'+i.toString());
+                this.rotateObjectCamera(linesObj,currentScene.camera,100,100,90,40-i*10);*/
+           
+            } ;
            
         }    
     }
