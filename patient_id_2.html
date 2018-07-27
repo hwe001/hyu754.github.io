@@ -562,7 +562,9 @@
             
             
             
-            
+            //Global variables for colour bar
+            NUM_PRESSURE_TICKS = 3;
+            NUM_FLOW_TICKS = 3;
             //pageLoader.info('Initializing Liver Geometries \n ...');
             
             
@@ -571,7 +573,7 @@
             function finishLoadingFunction(){
                
                     zincRenderer.viewAll();
-                    zincRenderer.addColourBar(20,10,'Pressure','mmHg');
+                    zincRenderer.addColourBar(20,10,'Pressure','mmHg',NUM_PRESSURE_TICKS);
                     zincRenderer.showLegend(false);
                     var planeElement = document.getElementById('subsegments');
                     var planeInput = planeElement.getElementsByTagName('input');
@@ -658,10 +660,10 @@
                         hideModelScene(geo_name_,true);
                         if(legend_=='Pressure'){
                             zincRenderer.deleteLegend();
-                            zincRenderer.addColourBar(20,10,'Pressure','mmHg');
+                            zincRenderer.addColourBar(15,5,'Pressure','mmHg',NUM_PRESSURE_TICKS);
                         } else{
                             zincRenderer.deleteLegend();
-                            zincRenderer.addColourBar(1500,0,'Flow','mL/min');
+                            zincRenderer.addColourBar(1200,10,'Flow','mL/min',NUM_FLOW_TICKS);
                             
                         }
                     } else{
