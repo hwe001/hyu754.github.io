@@ -1,0 +1,279 @@
+<title>Meso-Unit Handoff</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#f4f6f7;
+    --surface:#ffffff;
+    --surface-2:#eef2f3;
+    --border:#dde3e6;
+    --border-soft:#e7ebec;
+    --text:#1a2226;
+    --text-dim:#5b6b72;
+    --text-faint:#8a969b;
+    --accent:#2b6e6e;
+    --accent-soft:#e2eeee;
+    --done-bg:#e3f1e8; --done-text:#1f6a3f; --done-border:#bfe0cb;
+    --open-bg:#fdeeea; --open-text:#a33d1f; --open-border:#f4cfc2;
+    --ruled-bg:#eef1fb; --ruled-text:#3a4a9e; --ruled-border:#d3d9f4;
+    --font-body:"IBM Plex Sans",-apple-system,"Segoe UI",sans-serif;
+    --font-mono:"IBM Plex Mono",ui-monospace,"SF Mono",monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0f1416; --surface:#161d20; --surface-2:#1b2327; --border:#2a3438; --border-soft:#232b2f;
+      --text:#e8edee; --text-dim:#93a3a9; --text-faint:#6b7a80;
+      --accent:#5fc2c2; --accent-soft:#193433;
+      --done-bg:#173225; --done-text:#6fd196; --done-border:#245239;
+      --open-bg:#3a2018; --open-text:#f0a685; --open-border:#5c3223;
+      --ruled-bg:#1c2340; --ruled-text:#a9b4f5; --ruled-border:#31396b;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0f1416; --surface:#161d20; --surface-2:#1b2327; --border:#2a3438; --border-soft:#232b2f;
+    --text:#e8edee; --text-dim:#93a3a9; --text-faint:#6b7a80;
+    --accent:#5fc2c2; --accent-soft:#193433;
+    --done-bg:#173225; --done-text:#6fd196; --done-border:#245239;
+    --open-bg:#3a2018; --open-text:#f0a685; --open-border:#5c3223;
+    --ruled-bg:#1c2340; --ruled-text:#a9b4f5; --ruled-border:#31396b;
+    color-scheme: dark;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text); font-family:var(--font-body);
+    line-height:1.6; padding-block:40px;
+  }
+  .page{ max-width:800px; margin:0 auto; padding-inline:20px; }
+
+  header.hero{ margin-bottom:32px; }
+  .eyebrow{
+    font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--accent); margin-bottom:10px;
+  }
+  h1{ font-size:1.9rem; font-weight:700; margin:0 0 10px; text-wrap:balance; letter-spacing:-0.01em; }
+  .meta{ display:flex; flex-wrap:wrap; gap:8px 18px; font-size:0.82rem; color:var(--text-dim); margin-top:14px; }
+  .meta b{ color:var(--text); font-weight:500; }
+  .meta a{ color:var(--accent); }
+
+  .target-card{
+    margin-top:20px; padding:16px 18px; border-radius:10px; background:var(--surface);
+    border:1px solid var(--border); font-size:0.92rem;
+  }
+  .target-card .label{ font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-faint); margin-bottom:6px;}
+  .editors{ margin-top:8px; color:var(--text-dim); font-size:0.85rem; }
+
+  h2{
+    font-size:1.15rem; font-weight:600; margin:40px 0 14px; padding-top:20px; border-top:1px solid var(--border-soft);
+    display:flex; align-items:baseline; gap:10px;
+  }
+  h2 .num{ font-family:var(--font-mono); color:var(--text-faint); font-size:0.85rem; font-weight:400; }
+  h3{ font-size:0.98rem; font-weight:600; margin:24px 0 10px; color:var(--text); }
+  p{ margin:0 0 12px; color:var(--text); }
+  a{ color:var(--accent); }
+
+  .chip{
+    display:inline-flex; align-items:center; gap:5px; font-family:var(--font-mono); font-size:0.68rem;
+    font-weight:500; padding:2px 8px; border-radius:999px; border:1px solid; letter-spacing:0.02em;
+    vertical-align:middle; margin-right:6px;
+  }
+  .chip.done{ background:var(--done-bg); color:var(--done-text); border-color:var(--done-border); }
+  .chip.open{ background:var(--open-bg); color:var(--open-text); border-color:var(--open-border); }
+  .chip.ruled{ background:var(--ruled-bg); color:var(--ruled-text); border-color:var(--ruled-border); }
+
+  .item{ margin:0 0 14px; padding-left:2px; }
+  .item p{ margin:4px 0 0; color:var(--text-dim); font-size:0.92rem; }
+
+  .card{
+    background:var(--surface); border:1px solid var(--border); border-radius:10px;
+    padding:16px 18px; margin:14px 0;
+  }
+  .card h4{ margin:0 0 6px; font-size:0.88rem; font-weight:600; }
+  .card p{ font-size:0.88rem; color:var(--text-dim); margin:0; }
+
+  pre{
+    background:var(--surface-2); border:1px solid var(--border-soft); border-radius:8px;
+    padding:12px 14px; overflow-x:auto; font-family:var(--font-mono); font-size:0.78rem; line-height:1.55;
+    color:var(--text);
+  }
+  code{ font-family:var(--font-mono); font-size:0.85em; background:var(--surface-2); padding:1px 5px; border-radius:4px; }
+  pre code{ background:none; padding:0; }
+
+  ul, ol{ padding-left:22px; margin:0 0 12px; }
+  li{ margin-bottom:6px; }
+  li::marker{ color:var(--text-faint); }
+
+  table{ width:100%; border-collapse:collapse; font-size:0.85rem; margin:12px 0; }
+  th{ text-align:left; font-family:var(--font-mono); font-size:0.68rem; text-transform:uppercase; letter-spacing:0.05em;
+      color:var(--text-faint); padding:6px 10px; border-bottom:1px solid var(--border); }
+  td{ padding:8px 10px; border-bottom:1px solid var(--border-soft); vertical-align:top; }
+  tr:last-child td{ border-bottom:none; }
+
+  .quote{
+    border-left:3px solid var(--accent); padding:4px 0 4px 16px; margin:14px 0; font-style:italic;
+    color:var(--text-dim); font-size:0.94rem;
+  }
+
+  .links{ display:flex; flex-direction:column; gap:8px; margin:14px 0; }
+  .link-row{
+    display:flex; justify-content:space-between; align-items:center; gap:12px;
+    padding:11px 14px; background:var(--surface); border:1px solid var(--border); border-radius:8px; font-size:0.88rem;
+  }
+  .link-row .lbl{ font-weight:500; }
+  .link-row .sub{ color:var(--text-faint); font-size:0.78rem; }
+
+  footer{ margin-top:44px; padding-top:18px; border-top:1px solid var(--border-soft); color:var(--text-faint); font-size:0.78rem; }
+
+  @media (max-width:480px){
+    h1{ font-size:1.5rem; }
+    .page{ padding-inline:16px; }
+  }
+</style>
+
+<div class="page">
+
+<header class="hero">
+  <div class="eyebrow">Handoff note &mdash; liver virtual twin</div>
+  <h1>Meso-Unit Vasculature: Handoff</h1>
+  <p style="color:var(--text-dim); font-size:1rem;">Everything needed to pick up the OpenCCO meso-unit work where it stands: what's built, what's verified, what's still broken, and where the code and data actually live.</p>
+  <div class="meta">
+    <span><b>Branch</b> claude/livermodels-repo-access-ks7sit</span>
+    <span><b>Repo path</b> <code>virtual_twin_pipeline/</code></span>
+    <span><b>Full detail</b> <a href="https://github.com/hwe001/hyu754.github.io/blob/claude/livermodels-repo-access-ks7sit/virtual_twin_pipeline/HANDOFF.md" target="_blank" rel="noopener">HANDOFF.md in the repo</a></span>
+  </div>
+  <div class="target-card">
+    <div class="label">Target venue</div>
+    <a href="https://www.sciencedirect.com/special-issue/335590/virtual-twins-of-human-organ-systems" target="_blank" rel="noopener"><b>Journal of Biomechanics</b> &mdash; special issue "Virtual Twins of Human Organ Systems"</a>
+    <div style="margin-top:6px; color:var(--text-dim); font-size:0.88rem;">Submission deadline <b>31 Dec 2026</b> &middot; article type "VSI: Virtual Twins"</div>
+    <div class="editors">Guest editors: J. Weickenmeier (Oxford) &middot; A. N&iacute; Annaidh (UCD) &middot; S. Budday (FAU Erlangen) &middot; M. Peirlinck (TU Delft) &middot; M. Genet (&Eacute;cole Polytechnique)</div>
+  </div>
+</header>
+
+<h2><span class="num">1</span> The core concept</h2>
+<p>A <b>"vascularly constrained functional macro-unit"</b>: bridge patient-scale anatomy (Couinaud segments, imaged vasculature &mdash; resolvable to maybe 40&ndash;90 branch generations) down toward the liver's true functional scale (~10&sup6; hepatic lobules, ~1.4&thinsp;mm&sup3; each) without meshing every lobule individually.</p>
+<ul>
+  <li><b>Macro</b> &mdash; the 8 Couinaud segments. Done, real segmented geometry.</li>
+  <li><b>Meso</b> &mdash; portal perfusion territories, each fed by one real imaged terminal branch, extended by a synthetic vascular tree toward lobule-cluster resolution. Each meso-unit's terminal flow/pressure becomes the boundary condition for a micro-scale lobule model.</li>
+  <li><b>Micro</b> &mdash; representative lobule physics (1D portal&rarr;central oxygen/zonation PDE). Not started.</li>
+</ul>
+<p>This session's work is entirely the <b>meso</b> layer, scoped to Couinaud segments II+III &mdash; the left lateral lobe, the standard adult-to-infant living-donor transplant graft, chosen as a tractable and clinically meaningful demo region.</p>
+
+<h2><span class="num">2</span> Published viewers &mdash; look at these first</h2>
+<div class="links">
+  <div class="link-row">
+    <div><div class="lbl">Couinaud Viewer</div><div class="sub">All 8 segments (S1+S9 merged) + the 4 real vascular/biliary trees</div></div>
+    <a href="https://claude.ai/artifact/RKW5uv2ScCMMBzsNMaXavn" target="_blank" rel="noopener">Open &rarr;</a>
+  </div>
+  <div class="link-row">
+    <div><div class="lbl">Meso-Unit Growth</div><div class="sub">Segments II+III, real portal tree, 6 confirmed terminals, OpenCCO extensions &mdash; the active work</div></div>
+    <a href="https://claude.ai/artifact/8hFHERdZw233mhVbQmtVkE" target="_blank" rel="noopener">Open &rarr;</a>
+  </div>
+</div>
+
+<h2><span class="num">3</span> What's built and verified</h2>
+
+<h3>3.1 Anatomy pipeline</h3>
+<div class="item">
+  <span class="chip done">done</span><b>Legacy format &rarr; compact geometry.</b>
+  <p><code>scripts/skeleton.py</code> parses the source Zinc/three.js JSON (vertex/face arrays, bitmask face encoding &mdash; not glTF) into <code>{positions, indices}</code>, and reconstructs a vessel skeleton graph from the triangulated tube surface. Each vessel mesh turns out to be ~40&ndash;90 disconnected mesh fragments, not one connected surface &mdash; the script re-bridges them into a proper node/edge graph via tuned endpoint clustering.</p>
+</div>
+<div class="item">
+  <span class="chip done">done</span><b>S1+S9 merge, evidence-based.</b>
+  <p>Geodesic distance along the <i>portal vein surface graph</i> (not straight-line, which cuts through tissue) showed S9's portal entry is topologically closest to S1's &mdash; consistent with S9 being a split-off caudate sub-region. All downstream work uses the merged 8-segment set. Whole-liver volume: <b>1,433,320&thinsp;mm&sup3;</b>.</p>
+</div>
+
+<h3>3.2 Topology-based perfusion-zone identification</h3>
+<div class="item">
+  <span class="chip done">done</span><b>6 real terminal branches confirmed for S2/S3</b> (<code>scripts/find_s2s3_roots.py</code> &rarr; <code>data/s2s3_roots.json</code>).
+  <p>Naive nearest-vertex spatial assignment was tried first and rejected as unreliable &mdash; a terminal can sit spatially close to a segment without being the branch that actually perfuses it. Instead: BFS the portal skeleton graph from the main trunk (identified by an outlier vessel-radius test), find the deepest common ancestor of all candidate leaves near S2/S3. Result: 1 terminal in S2, 5 in S3 &mdash; independently verified via point-in-mesh containment to be genuinely inside tissue, not merely nearby.</p>
+</div>
+
+<h3>3.3 OpenCCO integration</h3>
+<div class="item">
+  <span class="chip done">done</span><b>Built from source</b> (DGtal + OpenCCO, C++, not a pip package) &mdash; full build recipe in HANDOFF.md &sect;2.4, ~5&thinsp;min total on standard Ubuntu packages.
+</div>
+<div class="item">
+  <span class="chip done">done</span><b>Domain confinement fixed and verified.</b>
+  <p>Real bug found: DGtal's <code>.vol</code> reader places the domain origin at <code>Center&nbsp;&minus;&nbsp;(dim&minus;1)/2</code>, not at index (0,0,0), for whatever Center is given &mdash; every territory file was written with Center=(0,0,0), silently offsetting the domain by roughly half its own size. Synthetic trees spilled up to 60+&thinsp;mm outside the real mesh (83% of node endpoints). Fixed in <code>run_opencco.py</code>. Re-verified by point-in-mesh containment testing after the fix: <b>97.5%</b> of node endpoints strictly inside, remainder within 0.8&thinsp;mm of the surface (voxel discretization noise, not a leak).</p>
+</div>
+<div class="item">
+  <span class="chip done">done</span><b>Exporter switched from <code>.txt</code> to <code>.xml</code>.</b>
+  <p>OpenCCO's <code>-e</code>/<code>.txt</code> exporter resolves each segment's parent via a fragile raw array-position lookup; the <code>-x</code>/<code>.xml</code> exporter uses an explicit ID-referenced node/edge table (<code>scripts/xml_helpers.py</code>). More robust architecture, and replaces a "guess the nearest node" root-connector heuristic with OpenCCO's own definitive root point.</p>
+</div>
+<div class="item">
+  <span class="chip ruled">verified, not the bug</span><b>Tree topology/connectivity.</b>
+  <p>A rigorous re-investigation (ID-based BFS from the root, not spatial-proximity clustering &mdash; <code>scripts/check_id_bfs.py</code>) confirmed the tree was <b>fully connected all along</b>, in both the old and new exporters, at every scale tested including the real 3,542-terminal trees. The earlier "floating subtree" alarm was a false positive: checking 3D spatial proximity is not the same as checking graph connectivity &mdash; two unconnected nodes can legitimately sit close together in space. The XML switch was worth keeping regardless, but it is <b>not</b> what's wrong with the tree (see &sect;4).</p>
+</div>
+<div class="item">
+  <span class="chip done">done</span><b>Density pushed to 10+ generations.</b>
+  <p>50&thinsp;mm&sup3;/terminal &rarr; <b>3,542 synthetic terminals, 7,084 segments</b> across the 6 territories. Cross-checked against a closely related published paper (&sect;6) &mdash; lands in the same ballpark (~15&ndash;35 lobules represented per terminal in both, arrived at independently).</p>
+</div>
+
+<h3>3.4 Flow/pressure solve</h3>
+<div class="item">
+  <span class="chip open">important</span><b>OpenCCO's own flow/pressure/resistance values are unusable.</b>
+  <p><code>my_pPerf=13300</code>, <code>my_pTerm=8400</code>, <code>my_qPerf=8330</code> are literally OpenCCO's unmodified <b>coronary-artery demo defaults</b>, hardcoded, not derived from our <code>-a</code>/<code>-n</code> inputs at all &mdash; confirmed in its own XML output and in <code>CoronaryArteryTree.h</code> source. Its per-segment <b>radius</b> is trustworthy (genuinely Poiseuille/Murray's-law optimized); its flow/pressure bookkeeping is not.</p>
+</div>
+<div class="item">
+  <span class="chip done">done</span><b>Independent Poiseuille network solve</b> (<code>scripts/compute_flow.py</code>).
+  <p>Real mm geometry + literature portal physiology: 1100&thinsp;mL/min total portal flow, 7&thinsp;mmHg portal pressure, 3.6&times;10&sup3;&thinsp;Pa&middot;s blood viscosity (matches OpenCCO's own internal choice). Territory inlet flow &prop; volume fraction of total liver; equal split across a territory's own terminals. Output: <code>data/opencco_s2s3_flow.json</code> (every segment) and <code>data/meso_unit_terminals.json</code> &mdash; <b>3,542 rows, one per meso-unit, each with position/radius/flow/pressure: the literal macro&rarr;meso boundary-condition table.</b></p>
+  <p>Result: terminal flow is very uniform (~0.0383&ndash;0.0384&thinsp;mL/min) &mdash; a direct consequence of both terminal count and flow being assigned proportional to volume, worth stating honestly rather than presenting as an emergent finding. Pressure drop across the resolved tree is small (6.6&ndash;6.95&thinsp;mmHg from a 7&thinsp;mmHg root), physiologically plausible since most of the real portal-to-hepatic-vein drop is expected at the sinusoidal bed &mdash; downstream of everything modeled so far.</p>
+</div>
+<div class="item">
+  <span class="chip open">unfinished</span><b>Pressure/flow color-coding in the viewer.</b>
+  <p>InstancedMesh <code>setColorAt</code> confirmed supported in three.js r0.128.0. Partially wired into <code>viewers/meso_unit_viewer/viewer.html</code> &mdash; button handlers and the stats footer are <b>not yet connected</b>. Check current state before assuming it works.</p>
+</div>
+
+<h2><span class="num">4</span> The open problem</h2>
+<p>This is the actual task. Everything above is context.</p>
+<div class="quote">"OpenCCO tree usually has one inlet, then protrude into a surface to generate branches. In this case, we've to design it more strategically. In segment II and III, use real tree to create perfusion zones, then in each perfusion zone, we've the perfusion branch generate the sub-OpenCCO tree, only in this way can we perform flow simulations."</div>
+<table>
+  <tr><th style="width:60%">Requirement</th><th>Status</th></tr>
+  <tr><td>Real tree &rarr; perfusion zones</td><td><span class="chip done">done</span></td></tr>
+  <tr><td>Perfusion branch generates its own sub-tree</td><td><span class="chip done">done</span></td></tr>
+  <tr><td>Sub-tree reads as a directional continuation of the real vessel, not a symmetric burst from one point</td><td><span class="chip open">open</span></td></tr>
+</table>
+<p>Confirmed via screenshot review: each territory's tree looks like a "starburst"/"sea urchin" radiating outward from one point &mdash; not a directionally-continuous extension of the incoming real vessel. This threatens flow-simulation validity, not just aesthetics: a real vessel entering tissue continues in a consistent direction and progressively ramifies; a symmetric burst with no directional constraint may not be physically appropriate for assigning boundary conditions. <b>Not yet root-caused or fixed</b> &mdash; this is where a teammate is needed.</p>
+
+<h3>Leads worth trying</h3>
+<ol>
+  <li><b>Directional bias at the domain root.</b> <code>generateTree3D</code> only takes a root position (<code>-p X Y Z</code>), no direction. Check <code>src/helpers/GeomHelpers.h</code> and <code>ExpandTreeHelpers.h</code> for whether candidate-point sampling can be restricted, near the root, to the forward half-space along the real vessel's local tangent &mdash; computable from the portal skeleton graph, which already has the parent-edge direction at each of the 6 roots.</li>
+  <li><b>Two-stage/hierarchical growth.</b> Grow a short directional "extension" first (root + a few terminals placed explicitly along the real tangent), then use that sub-tree's outer nodes as multiple new roots for a second, larger call to fill the rest of the territory.</li>
+  <li><b>Reconsider territory shape.</b> Current territories are pure nearest-neighbor Voronoi cells from only 6 seed points &mdash; large and irregular, which may itself be why the fill pattern looks unnatural. Finer sub-territories might produce more natural local growth.</li>
+  <li>Check whether OpenCCO's Kamiya optimization or candidate-sampling functions accept any undocumented directionality parameter &mdash; may need a small source patch (toolchain rebuilds fast, ~5&thinsp;min).</li>
+</ol>
+
+<h2><span class="num">5</span> What not to re-investigate</h2>
+<p>Already ruled out &mdash; re-checking these would waste time:</p>
+<ul>
+  <li>Tree topology/connectivity &mdash; verified fully connected at every scale tested.</li>
+  <li>Geometric confinement to S2/S3 &mdash; fixed and verified (97.5% strict containment).</li>
+  <li>The 6 real root terminals' validity &mdash; verified both topologically and geometrically.</li>
+  <li>OpenCCO's radius computation &mdash; trustworthy, keep using it.</li>
+</ul>
+
+<h2><span class="num">6</span> Relevant literature</h2>
+<p style="font-size:0.85rem; color:var(--text-faint); margin-top:-6px;">Found via live search this session, not from memory &mdash; verify before citing in the paper.</p>
+<div class="card">
+  <h4>Multiscale modeling of drug-induced liver injury from organ to lobule &mdash; npj Digital Medicine, 2025</h4>
+  <p>Closest prior art. Patient-specific MRI portal geometry &rarr; CCO bridging 1.5&thinsp;mm vessels to 50&thinsp;&micro;m outlets &rarr; lobule-scale drug-injury physics. ~100,000 outlets for ~1.5M real lobules (~15/outlet &mdash; same order of magnitude as our 25&ndash;35/unit, arrived at independently). Their stated limitation: simplified 2D capillary geometry &mdash; our full 3D trees are a genuine differentiator. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12185720/" target="_blank" rel="noopener">pmc.ncbi.nlm.nih.gov/articles/PMC12185720</a></p>
+</div>
+<div class="card">
+  <h4>Dual continuum upscaling of liver lobule flow and metabolism to the full organ scale &mdash; Frontiers in Systems Biology, 2022</h4>
+  <p>Different strategy: continuum homogenization, no discrete vessel geometry, ~1.4M lobule-scale grid blocks at 1&thinsp;mm&sup3;. <a href="https://www.frontiersin.org/journals/systems-biology/articles/10.3389/fsysb.2022.926923/full" target="_blank" rel="noopener">frontiersin.org/.../fsysb.2022.926923</a></p>
+</div>
+
+<h2><span class="num">7</span> How to pick this up</h2>
+<ol>
+  <li>Clone the repo, checkout <code>claude/livermodels-repo-access-ks7sit</code>. Everything is under <code>virtual_twin_pipeline/</code>.</li>
+  <li>Rebuild DGtal + OpenCCO (full recipe in HANDOFF.md &sect;2.4, ~5&thinsp;min, standard Ubuntu packages). Also <code>pip install numpy scipy trimesh</code>.</li>
+  <li>Re-run order:
+    <pre><code>find_s2s3_roots.py &rarr; voxelize_s2s3.py &rarr; run_opencco.py &rarr; compute_flow.py</code></pre>
+    Each writes its output JSON; copy into <code>viewers/meso_unit_viewer/data/</code> to update the live viewer, then republish via the Artifact tool <b>to the same URL</b> (pass the existing link back in &mdash; don't create a new one).
+  </li>
+  <li>The immediate task is &sect;4. Everything else here is context, not a blocker.</li>
+</ol>
+
+<footer>Full technical detail, exact commands, and file inventory: <a href="https://github.com/hwe001/hyu754.github.io/blob/claude/livermodels-repo-access-ks7sit/virtual_twin_pipeline/HANDOFF.md" target="_blank" rel="noopener">HANDOFF.md</a> in the repo.</footer>
+
+</div>
