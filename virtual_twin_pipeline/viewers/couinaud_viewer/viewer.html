@@ -1,0 +1,740 @@
+<title>Couinaud Viewer</title>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#0a0e13;
+    --canvas-fog:#0a0e13;
+    --surface:#121922;
+    --surface-2:#1a232e;
+    --border:rgba(255,255,255,0.09);
+    --border-soft:rgba(255,255,255,0.05);
+    --text:#eef2f5;
+    --text-dim:#8fa0ad;
+    --text-faint:#5c6b78;
+    --accent:#d7a458;
+    --accent-soft:rgba(215,164,88,0.16);
+    --danger:#d1483c;
+    --font-body: "IBM Plex Sans", -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    overflow:hidden;
+    -webkit-tap-highlight-color:transparent;
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important; animation:none!important;}
+  }
+
+  #scene-container{
+    position:fixed; inset:0;
+    touch-action:none;
+    cursor:grab;
+  }
+  #scene-container.dragging{cursor:grabbing;}
+  #scene-container canvas{display:block;}
+
+  header.hud{
+    position:fixed;
+    top:calc(18px + env(safe-area-inset-top,0px));
+    left:18px;
+    z-index:5;
+    pointer-events:none;
+  }
+  header.hud h1{
+    margin:0;
+    font-size:1.15rem;
+    font-weight:600;
+    letter-spacing:0.01em;
+  }
+  header.hud p{
+    margin:4px 0 0;
+    font-size:0.78rem;
+    color:var(--text-dim);
+    max-width:280px;
+    line-height:1.4;
+  }
+
+  #loading{
+    position:fixed; inset:0;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:14px;
+    background:var(--bg);
+    z-index:50;
+    font-family:var(--font-mono);
+    color:var(--text-dim);
+    font-size:0.82rem;
+  }
+  #loading .ring{
+    width:34px; height:34px;
+    border-radius:50%;
+    border:2px solid var(--border);
+    border-top-color:var(--accent);
+    animation:spin 0.9s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+  #loading .bar-track{
+    width:180px; height:3px;
+    background:var(--surface-2);
+    border-radius:2px;
+    overflow:hidden;
+  }
+  #loading .bar-fill{
+    height:100%; width:0%;
+    background:var(--accent);
+    transition:width 0.25s ease;
+  }
+
+  #rail-toggle{
+    display:none;
+    position:fixed;
+    bottom:calc(18px + env(safe-area-inset-bottom,0px));
+    right:18px;
+    z-index:20;
+    background:var(--surface);
+    border:1px solid var(--border);
+    color:var(--text);
+    font-family:var(--font-body);
+    font-size:0.85rem;
+    font-weight:500;
+    padding:10px 16px;
+    border-radius:999px;
+    box-shadow:0 8px 24px rgba(0,0,0,0.4);
+  }
+  #rail-toggle:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+
+  .rail{
+    position:fixed;
+    top:calc(18px + env(safe-area-inset-top,0px));
+    right:18px;
+    bottom:calc(18px + env(safe-area-inset-bottom,0px));
+    width:250px;
+    z-index:10;
+    background:rgba(18,25,34,0.86);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border:1px solid var(--border);
+    border-radius:14px;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+  }
+  .rail-scroll{
+    overflow-y:auto;
+    padding:14px 14px 8px;
+    flex:1;
+  }
+  .rail-scroll::-webkit-scrollbar{width:8px;}
+  .rail-scroll::-webkit-scrollbar-thumb{background:var(--surface-2); border-radius:4px;}
+
+  .group{margin-bottom:16px;}
+  .group-head{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:6px;
+  }
+  .group-head h2{
+    margin:0;
+    font-size:0.68rem;
+    font-weight:600;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--text-faint);
+  }
+  .group-head .mini-btns{display:flex; gap:6px;}
+  .mini-btn{
+    background:none; border:none; cursor:pointer;
+    font-family:var(--font-body);
+    font-size:0.66rem;
+    color:var(--text-dim);
+    padding:2px 4px;
+    border-radius:4px;
+  }
+  .mini-btn:hover{color:var(--accent);}
+  .mini-btn:focus-visible{outline:1px solid var(--accent);}
+
+  .row{
+    display:flex; align-items:center; gap:9px;
+    padding:5px 4px;
+    border-radius:8px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .row:hover{background:var(--surface-2);}
+  .row input[type="checkbox"]{
+    appearance:none; -webkit-appearance:none;
+    width:15px; height:15px;
+    border-radius:4px;
+    border:1.5px solid var(--border);
+    background:var(--surface-2);
+    flex:none;
+    position:relative;
+    cursor:pointer;
+  }
+  .row input[type="checkbox"]:checked{border-color:var(--swatch,var(--accent));}
+  .row input[type="checkbox"]:checked::after{
+    content:"";
+    position:absolute; inset:2.5px;
+    border-radius:2px;
+    background:var(--swatch,var(--accent));
+  }
+  .row input[type="checkbox"]:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+  .swatch{
+    width:10px; height:10px; border-radius:3px;
+    background:var(--swatch);
+    flex:none;
+    box-shadow:0 0 0 1px rgba(255,255,255,0.15) inset;
+  }
+  .row label{
+    flex:1;
+    font-size:0.82rem;
+    cursor:pointer;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .row .tri-count{
+    font-family:var(--font-mono);
+    font-size:0.64rem;
+    color:var(--text-faint);
+    font-variant-numeric:tabular-nums;
+    flex:none;
+  }
+
+  .controls{
+    border-top:1px solid var(--border-soft);
+    padding:12px 14px calc(14px + env(safe-area-inset-bottom,0px));
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .ctl-row{display:flex; flex-direction:column; gap:4px;}
+  .ctl-row .ctl-label{
+    display:flex; justify-content:space-between;
+    font-size:0.7rem; color:var(--text-dim);
+  }
+  .ctl-row .ctl-label span.val{
+    font-family:var(--font-mono);
+    color:var(--text);
+    font-variant-numeric:tabular-nums;
+  }
+  input[type="range"]{
+    -webkit-appearance:none; appearance:none;
+    width:100%; height:3px;
+    background:var(--surface-2);
+    border-radius:2px;
+    outline:none;
+  }
+  input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:13px; height:13px; border-radius:50%;
+    background:var(--accent);
+    cursor:pointer;
+    border:2px solid var(--bg);
+  }
+  input[type="range"]:focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+
+  .toggle-row{
+    display:flex; align-items:center; justify-content:space-between;
+    font-size:0.78rem;
+    color:var(--text-dim);
+  }
+  .switch{
+    position:relative; width:32px; height:18px;
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    border-radius:999px;
+    cursor:pointer;
+    flex:none;
+  }
+  .switch::after{
+    content:"";
+    position:absolute; top:1px; left:1px;
+    width:14px; height:14px; border-radius:50%;
+    background:var(--text-dim);
+    transition:transform 0.15s ease, background 0.15s ease;
+  }
+  .switch.on{border-color:var(--accent);}
+  .switch.on::after{transform:translateX(14px); background:var(--accent);}
+  .switch:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+
+  .btn-row{display:flex; gap:8px;}
+  .btn{
+    flex:1;
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    color:var(--text);
+    font-family:var(--font-body);
+    font-size:0.76rem;
+    font-weight:500;
+    padding:8px 10px;
+    border-radius:8px;
+    cursor:pointer;
+    text-align:center;
+  }
+  .btn:hover{border-color:var(--accent); color:var(--accent);}
+  .btn:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+
+  #stats{
+    position:fixed;
+    bottom:calc(18px + env(safe-area-inset-bottom,0px));
+    left:18px;
+    z-index:5;
+    font-family:var(--font-mono);
+    font-size:0.68rem;
+    color:var(--text-faint);
+    line-height:1.6;
+    pointer-events:none;
+    font-variant-numeric:tabular-nums;
+  }
+  #stats .lead{color:var(--text-dim);}
+
+  @media (max-width:720px){
+    header.hud p{display:none;}
+    #rail-toggle{display:block;}
+    .rail{
+      top:auto;
+      left:12px; right:12px; bottom:0;
+      width:auto;
+      max-height:48vh;
+      border-bottom-left-radius:0;
+      border-bottom-right-radius:0;
+      transform:translateY(100%);
+      transition:transform 0.25s ease;
+    }
+    .rail.open{transform:translateY(0);}
+    .rail[hidden]{display:flex;}
+  }
+</style>
+
+<div id="scene-container"></div>
+
+<header class="hud">
+  <h1>Couinaud Viewer</h1>
+  <p>Eight Couinaud liver segments with hepatic artery, portal vein, hepatic vein &amp; bile duct &mdash; drag to orbit, scroll to zoom.</p>
+</header>
+
+<div id="loading">
+  <div class="ring"></div>
+  <div id="loading-label">loading geometry…</div>
+  <div class="bar-track"><div class="bar-fill" id="loading-bar"></div></div>
+</div>
+
+<button id="rail-toggle" aria-expanded="false" aria-controls="rail">Structures</button>
+
+<aside class="rail" id="rail" hidden>
+  <div class="rail-scroll">
+    <div class="group" id="group-segments">
+      <div class="group-head">
+        <h2>Liver segments</h2>
+        <div class="mini-btns">
+          <button class="mini-btn" data-group="segments" data-action="all">all</button>
+          <button class="mini-btn" data-group="segments" data-action="none">none</button>
+        </div>
+      </div>
+      <div class="rows" id="rows-segments"></div>
+    </div>
+    <div class="group" id="group-vessels">
+      <div class="group-head">
+        <h2>Vasculature</h2>
+        <div class="mini-btns">
+          <button class="mini-btn" data-group="vessels" data-action="all">all</button>
+          <button class="mini-btn" data-group="vessels" data-action="none">none</button>
+        </div>
+      </div>
+      <div class="rows" id="rows-vessels"></div>
+    </div>
+  </div>
+  <div class="controls">
+    <div class="ctl-row">
+      <div class="ctl-label"><span>Segment opacity</span><span class="val" id="opacity-val">55%</span></div>
+      <input type="range" id="opacity-slider" min="10" max="100" step="1" value="55">
+    </div>
+    <div class="toggle-row">
+      <span>Wireframe</span>
+      <div class="switch" id="wireframe-toggle" role="switch" aria-checked="false" tabindex="0"></div>
+    </div>
+    <div class="toggle-row">
+      <span>Auto-rotate</span>
+      <div class="switch" id="rotate-toggle" role="switch" aria-checked="false" tabindex="0"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn" id="reset-view">Reset view</button>
+    </div>
+  </div>
+</aside>
+
+<div id="stats">
+  <div><span class="lead">visible</span> <span id="stat-tris">–</span> triangles</div>
+  <div><span class="lead">source</span> hyu754.github.io/liverModels</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var SEGMENTS = [
+    {id:"S1", label:"Segment 1 (caudate)", color:0x640000},
+    {id:"S2", label:"Segment 2", color:0xff7500},
+    {id:"S3", label:"Segment 3", color:0xff26bd},
+    {id:"S4", label:"Segment 4", color:0xd0bd4e},
+    {id:"S5", label:"Segment 5", color:0x61004b},
+    {id:"S6", label:"Segment 6", color:0x2aa198},
+    {id:"S7", label:"Segment 7", color:0x14195a},
+    {id:"S8", label:"Segment 8", color:0xfddfe9}
+  ];
+  var VESSELS = [
+    {id:"vessel_arterial", label:"Hepatic artery", color:0xd1483c},
+    {id:"vessel_portal",   label:"Portal vein",    color:0x3f7dc4},
+    {id:"vessel_hepatic",  label:"Hepatic vein",   color:0x59b9a8},
+    {id:"vessel_bile",     label:"Bile duct",      color:0x93a848}
+  ];
+  var ALL = SEGMENTS.concat(VESSELS);
+
+  var container = document.getElementById("scene-container");
+  var renderer = new THREE.WebGLRenderer({antialias:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  container.appendChild(renderer.domElement);
+
+  var scene = new THREE.Scene();
+  scene.background = new THREE.Color(getCss("--canvas-fog"));
+
+  var camera = new THREE.PerspectiveCamera(42, window.innerWidth/window.innerHeight, 0.1, 10000);
+
+  var keyLight = new THREE.DirectionalLight(0xffffff, 0.9);
+  keyLight.position.set(1, 1.2, 1);
+  scene.add(keyLight);
+  var fillLight = new THREE.DirectionalLight(0x8fb4d9, 0.35);
+  fillLight.position.set(-1, -0.4, -0.6);
+  scene.add(fillLight);
+  scene.add(new THREE.AmbientLight(0x445566, 0.55));
+
+  var modelGroup = new THREE.Group();
+  scene.add(modelGroup);
+
+  function getCss(name){
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  }
+
+  // ---- simple orbit/pan/zoom camera rig ----
+  var target = new THREE.Vector3(0,0,0);
+  var radius = 400, minRadius = 5, maxRadius = 5000;
+  var azimuth = Math.PI * 0.28;
+  var polar = Math.PI * 0.38;
+  var initial = null;
+
+  function updateCamera(){
+    polar = Math.max(0.05, Math.min(Math.PI - 0.05, polar));
+    radius = Math.max(minRadius, Math.min(maxRadius, radius));
+    var sinP = Math.sin(polar);
+    camera.position.set(
+      target.x + radius * sinP * Math.sin(azimuth),
+      target.y + radius * Math.cos(polar),
+      target.z + radius * sinP * Math.cos(azimuth)
+    );
+    camera.up.set(0,1,0);
+    camera.lookAt(target);
+  }
+
+  var dragging = false, panning = false, lastX = 0, lastY = 0;
+  var pinchDist = null, pinchMid = null;
+
+  function pointerDown(e){
+    dragging = true;
+    panning = (e.button === 2) || e.shiftKey;
+    lastX = e.clientX; lastY = e.clientY;
+    container.classList.add("dragging");
+    container.setPointerCapture && e.pointerId != null && container.setPointerCapture(e.pointerId);
+  }
+  function pointerMove(e){
+    if(!dragging) return;
+    var dx = e.clientX - lastX, dy = e.clientY - lastY;
+    lastX = e.clientX; lastY = e.clientY;
+    if(panning){
+      var panScale = radius * 0.0015;
+      var camRight = new THREE.Vector3(); camera.getWorldDirection(new THREE.Vector3());
+      var forward = new THREE.Vector3(); camera.getWorldDirection(forward);
+      camRight.crossVectors(forward, camera.up).normalize();
+      var camUp = new THREE.Vector3().crossVectors(camRight, forward).normalize();
+      target.addScaledVector(camRight, -dx * panScale);
+      target.addScaledVector(camUp, dy * panScale);
+    } else {
+      azimuth -= dx * 0.006;
+      polar -= dy * 0.006;
+    }
+    updateCamera();
+  }
+  function pointerUp(){
+    dragging = false; panning = false;
+    container.classList.remove("dragging");
+  }
+  container.addEventListener("pointerdown", pointerDown);
+  window.addEventListener("pointermove", pointerMove);
+  window.addEventListener("pointerup", pointerUp);
+  container.addEventListener("contextmenu", function(e){ e.preventDefault(); });
+  container.addEventListener("wheel", function(e){
+    e.preventDefault();
+    radius *= Math.pow(1.0015, e.deltaY);
+    updateCamera();
+  }, {passive:false});
+
+  container.addEventListener("touchstart", function(e){
+    if(e.touches.length === 2){
+      pinchDist = touchDist(e.touches);
+      pinchMid = touchMid(e.touches);
+    }
+  }, {passive:true});
+  container.addEventListener("touchmove", function(e){
+    if(e.touches.length === 2){
+      e.preventDefault();
+      var d = touchDist(e.touches);
+      var m = touchMid(e.touches);
+      if(pinchDist){
+        radius *= pinchDist / d;
+        var dx = m.x - pinchMid.x, dy = m.y - pinchMid.y;
+        var panScale = radius * 0.0015;
+        var forward = new THREE.Vector3(); camera.getWorldDirection(forward);
+        var camRight = new THREE.Vector3().crossVectors(forward, camera.up).normalize();
+        var camUp = new THREE.Vector3().crossVectors(camRight, forward).normalize();
+        target.addScaledVector(camRight, -dx * panScale);
+        target.addScaledVector(camUp, dy * panScale);
+        updateCamera();
+      }
+      pinchDist = d; pinchMid = m;
+    }
+  }, {passive:false});
+  container.addEventListener("touchend", function(e){
+    if(e.touches.length < 2){ pinchDist = null; pinchMid = null; }
+  });
+  function touchDist(t){ var dx=t[0].clientX-t[1].clientX, dy=t[0].clientY-t[1].clientY; return Math.sqrt(dx*dx+dy*dy); }
+  function touchMid(t){ return {x:(t[0].clientX+t[1].clientX)/2, y:(t[0].clientY+t[1].clientY)/2}; }
+
+  var autoRotate = false;
+
+  function animate(){
+    requestAnimationFrame(animate);
+    if(autoRotate){ azimuth += 0.0022; updateCamera(); }
+    renderer.render(scene, camera);
+  }
+
+  window.addEventListener("resize", function(){
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+  });
+
+  // ---- load + build meshes ----
+  var meshes = {};
+
+  function fetchJSON(url){
+    return fetch(url).then(function(r){
+      if(!r.ok) throw new Error("failed to load " + url);
+      return r.json();
+    });
+  }
+
+  var loadingBar = document.getElementById("loading-bar");
+  var loadingLabel = document.getElementById("loading-label");
+  var loaded = 0;
+
+  Promise.all(ALL.map(function(item){
+    return fetchJSON("data/" + item.id + ".json").then(function(data){
+      loaded++;
+      loadingBar.style.width = Math.round(loaded/ALL.length*100) + "%";
+      loadingLabel.textContent = "loading geometry… " + loaded + "/" + ALL.length;
+
+      var geometry = new THREE.BufferGeometry();
+      geometry.setAttribute("position", new THREE.Float32BufferAttribute(data.positions, 3));
+      geometry.setIndex(data.indices);
+      geometry.computeVertexNormals();
+      geometry.computeBoundingBox();
+
+      var isSegment = item.id.charAt(0) === "S";
+      var material = new THREE.MeshStandardMaterial({
+        color: item.color,
+        transparent: isSegment,
+        opacity: isSegment ? 0.55 : 0.96,
+        roughness: isSegment ? 0.7 : 0.35,
+        metalness: 0.04,
+        side: THREE.DoubleSide,
+        depthWrite: !isSegment
+      });
+
+      var mesh = new THREE.Mesh(geometry, material);
+      mesh.userData.triCount = data.indices.length / 3;
+      mesh.userData.isSegment = isSegment;
+      modelGroup.add(mesh);
+      meshes[item.id] = mesh;
+      return {item:item, box:geometry.boundingBox};
+    });
+  })).then(function(results){
+    var box = new THREE.Box3();
+    results.forEach(function(r){ box.union(r.box); });
+    var center = box.getCenter(new THREE.Vector3());
+    var sphere = box.getBoundingSphere(new THREE.Sphere());
+
+    modelGroup.position.set(-center.x, -center.y, -center.z);
+    target.set(0,0,0);
+    radius = Math.max(sphere.radius * 2.5, 10);
+    minRadius = sphere.radius * 0.15;
+    maxRadius = sphere.radius * 12;
+    initial = {radius: radius, azimuth: azimuth, polar: polar, target: target.clone()};
+    updateCamera();
+
+    buildUI();
+    updateStats();
+    document.getElementById("loading").style.display = "none";
+    animate();
+  }).catch(function(err){
+    loadingLabel.textContent = "error: " + err.message;
+  });
+
+  // ---- UI ----
+  function rowFor(item){
+    var row = document.createElement("div");
+    row.className = "row";
+    row.style.setProperty("--swatch", "#" + item.color.toString(16).padStart(6,"0"));
+
+    var cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.checked = true;
+    cb.id = "toggle-" + item.id;
+
+    var label = document.createElement("label");
+    label.setAttribute("for", cb.id);
+    label.textContent = item.label;
+
+    var tri = document.createElement("span");
+    tri.className = "tri-count";
+
+    row.appendChild(cb);
+    row.appendChild(label);
+    row.appendChild(tri);
+
+    function sync(){
+      var mesh = meshes[item.id];
+      if(!mesh) return;
+      mesh.visible = cb.checked;
+      tri.textContent = mesh.userData.triCount.toLocaleString();
+      updateStats();
+    }
+    cb.addEventListener("change", sync);
+    row.addEventListener("click", function(e){
+      if(e.target !== cb){ cb.checked = !cb.checked; sync(); }
+    });
+
+    row._sync = sync;
+    row._checkbox = cb;
+    return row;
+  }
+
+  function buildUI(){
+    var rowsSegments = document.getElementById("rows-segments");
+    var rowsVessels = document.getElementById("rows-vessels");
+    var allRows = [];
+
+    SEGMENTS.forEach(function(item){
+      var row = rowFor(item);
+      row.dataset.group = "segments";
+      rowsSegments.appendChild(row);
+      row._sync();
+      allRows.push(row);
+    });
+    VESSELS.forEach(function(item){
+      var row = rowFor(item);
+      row.dataset.group = "vessels";
+      rowsVessels.appendChild(row);
+      row._sync();
+      allRows.push(row);
+    });
+
+    document.querySelectorAll(".mini-btn").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var group = btn.dataset.group;
+        var show = btn.dataset.action === "all";
+        allRows.filter(function(r){ return r.dataset.group === group; }).forEach(function(r){
+          r._checkbox.checked = show;
+          r._sync();
+        });
+      });
+    });
+
+    // opacity slider
+    var opacitySlider = document.getElementById("opacity-slider");
+    var opacityVal = document.getElementById("opacity-val");
+    opacitySlider.addEventListener("input", function(){
+      var v = parseInt(opacitySlider.value, 10) / 100;
+      opacityVal.textContent = Math.round(v*100) + "%";
+      SEGMENTS.forEach(function(item){
+        var mesh = meshes[item.id];
+        if(mesh) mesh.material.opacity = v;
+      });
+    });
+
+    // wireframe + autorotate switches
+    makeSwitch(document.getElementById("wireframe-toggle"), function(on){
+      ALL.forEach(function(item){
+        var mesh = meshes[item.id];
+        if(mesh) mesh.material.wireframe = on;
+      });
+    });
+    makeSwitch(document.getElementById("rotate-toggle"), function(on){
+      autoRotate = on;
+    });
+
+    document.getElementById("reset-view").addEventListener("click", function(){
+      if(!initial) return;
+      radius = initial.radius; azimuth = initial.azimuth; polar = initial.polar;
+      target.copy(initial.target);
+      updateCamera();
+    });
+
+    // mobile rail toggle
+    var railToggle = document.getElementById("rail-toggle");
+    var rail = document.getElementById("rail");
+    rail.hidden = window.innerWidth > 720 ? false : true;
+    if(window.innerWidth > 720){ rail.hidden = false; }
+    railToggle.addEventListener("click", function(){
+      var willOpen = rail.hasAttribute("hidden");
+      if(willOpen){ rail.hidden = false; requestAnimationFrame(function(){ rail.classList.add("open"); }); }
+      else { rail.classList.remove("open"); setTimeout(function(){ rail.hidden = true; }, 250); }
+      railToggle.setAttribute("aria-expanded", String(willOpen));
+    });
+    window.addEventListener("resize", function(){
+      if(window.innerWidth > 720){ rail.hidden = false; rail.classList.remove("open"); }
+      else if(!rail.classList.contains("open")){ rail.hidden = true; }
+    });
+  }
+
+  function makeSwitch(el, onChange){
+    var on = false;
+    function set(v){
+      on = v;
+      el.classList.toggle("on", on);
+      el.setAttribute("aria-checked", String(on));
+      onChange(on);
+    }
+    el.addEventListener("click", function(){ set(!on); });
+    el.addEventListener("keydown", function(e){
+      if(e.key === " " || e.key === "Enter"){ e.preventDefault(); set(!on); }
+    });
+  }
+
+  function updateStats(){
+    var total = 0;
+    Object.keys(meshes).forEach(function(id){
+      var m = meshes[id];
+      if(m.visible) total += m.userData.triCount;
+    });
+    document.getElementById("stat-tris").textContent = Math.round(total).toLocaleString();
+  }
+
+})();
+</script>
