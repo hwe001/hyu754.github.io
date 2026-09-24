@@ -57,6 +57,53 @@ def set_equal_aspect(ax, all_verts):
 
 
 # ---------------------------------------------------------------------
+# Figure 0: full original atlas -- liver segments + all four vessel trees
+# ---------------------------------------------------------------------
+def fig0_atlas():
+    fig = plt.figure(figsize=(7.5, 6.5))
+    ax = fig.add_subplot(111, projection="3d")
+    all_v = []
+
+    for s in ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8"]:
+        m = load_mesh(s, target_faces=1500)
+        add_mesh_to_ax(ax, m, SEGMENT_COLORS[s], alpha=0.12, edgecolor="none")
+        all_v.append(m.vertices)
+
+    trees = {
+        "vessel_portal": ("Portal vein", "#377eb8"),
+        "vessel_arterial": ("Hepatic artery", "#e41a1c"),
+        "vessel_hepatic": ("Hepatic vein", "#4a2377"),
+        "vessel_bile": ("Biliary tree", "#2c8a3d"),
+    }
+    handles = []
+    for fname, (label, color) in trees.items():
+        d = json.load(open(os.path.join(DATA, f"{fname}.json")))
+        v = np.array(d["positions"]).reshape(-1, 3)
+        f = np.array(d["indices"]).reshape(-1, 3)
+        m = trimesh.Trimesh(vertices=v, faces=f, process=False)
+        add_mesh_to_ax(ax, m, color, alpha=0.95, edgecolor="none")
+        all_v.append(m.vertices)
+        handles.append(plt.Line2D([0], [0], color=color, lw=4, label=label))
+
+    handles += [plt.Line2D([0], [0], marker="s", color="w",
+                            markerfacecolor="gray", alpha=0.3, markersize=10,
+                            label="Couinaud segments\n(translucent)")]
+
+    set_equal_aspect(ax, all_v)
+    ax.view_init(elev=15, azim=-60)
+    ax.set_axis_off()
+    ax.legend(handles=handles, loc="center left", bbox_to_anchor=(1.0, 0.5),
+              frameon=False, fontsize=9)
+    ax.set_title("Full source atlas: whole-liver segmentation with all\nfour patient-specific vascular/biliary tree structures",
+                 fontsize=11)
+    fig.tight_layout()
+    fig.savefig(os.path.join(OUT, "fig0_atlas_overview.png"), dpi=300,
+                bbox_inches="tight")
+    plt.close(fig)
+    print("fig0 done")
+
+
+# ---------------------------------------------------------------------
 # Figure 1: whole-liver 8-segment model
 # ---------------------------------------------------------------------
 def fig1_segments():
@@ -278,6 +325,7 @@ def fig5_flow_pressure():
 
 
 if __name__ == "__main__":
+    fig0_atlas()
     fig1_segments()
     fig2_portal_tree()
     fig3_territories()
