@@ -51,6 +51,10 @@ During preprocessing we identified that the source dataset's Segment I (caudate 
 | VIII | 361,804 |
 | **Total** | **1,433,320** |
 
+![Figure 1](figures/fig1_couinaud_segments.png)
+
+**Figure 1.** Whole-liver Couinaud segmentation used in this study, after merging the source dataset's split Segment I representation ("S1"/"S9") into a single Segment I (§2.1). Rendered directly from the compact triangulated-surface geometry in `data/S1.json`–`data/S8.json`.
+
 ### 2.2 Vessel skeletonization
 
 Each vascular tree's surface mesh, on inspection, was found to consist not of one connected tube surface but of 17–86 disconnected triangulated tube fragments ("tubelets") per tree — an artifact of the source segmentation pipeline. We reconstructed a proper skeleton graph from this fragmented representation as follows: for each tubelet, its two end-ring centroids were estimated from the extremal percentiles of vertex positions projected onto the tubelet's principal axis (via singular value decomposition); these endpoints, pooled across all tubelets in a tree, were then merged into unified graph nodes by proximity clustering at a tuned bridging radius (selected per tree by sweeping radius and tracking the resulting node/leaf/branch-point counts until full single-component connectivity was achieved without over-merging distinct branch points). Each tubelet became one graph edge, carrying its mean cross-sectional radius (estimated from the perpendicular spread of its vertices about the principal axis). This produced, for the portal vein tree, a connected graph of 69 nodes at a bridging radius of 6 mm (the radius used for the topology-tracing analysis in §2.3).
@@ -58,6 +62,10 @@ Each vascular tree's surface mesh, on inspection, was found to consist not of on
 ### 2.3 Topology-based identification of perfusion territories
 
 A recurring risk in linking anatomical segments to their supplying vessels is spatial-proximity assignment — associating a vessel terminal with the nearest segment surface — which can misattribute a branch that merely passes near a segment without perfusing it. We instead traced the portal vein skeleton graph's topology directly. The main portal trunk was identified as the leaf node with the largest incident vessel radius (trunk tubelets are markedly thicker than terminal tubelets; the trunk radius was 6.21 mm against a median leaf radius of 2.05 mm). A breadth-first search from this trunk established a parent–child hierarchy over the full graph. For each terminal leaf within a threshold distance of the target segments (II and III), we computed its full path back to the trunk, and found the deepest node common to *all* such paths — the graph-theoretic equivalent of the anatomical "left portal branch." Six terminal leaves passed this topology criterion (one supplying segment II, five supplying segment III); we independently verified, by point-in-mesh containment testing against the true segmented surface (not proximity), that all six lie genuinely inside the segment II/III tissue volume rather than merely near it. Their shared ancestor's subtree was also found to include leaves near segments I and IV, consistent with the true anatomical left portal branch supplying segments II, III, and IV rather than II/III in isolation — an internal anatomical consistency check on the method, not an artifact requiring correction.
+
+![Figure 2](figures/fig2_portal_tree_roots.png)
+
+**Figure 2.** Real portal vein skeleton graph (reconstructed per §2.2) with the main portal trunk, the left-portal-branch common ancestor, and the six topology-confirmed segment II/III terminal roots identified by the method of §2.3.
 
 ### 2.4 Meso-scale vascular synthesis
 
@@ -76,6 +84,14 @@ Each of the six confirmed terminals seeds one meso-scale synthetic sub-tree, gro
 | **Total** | | **177,068** | **3,542** | **7,084** |
 
 The sum of Voronoi territory volumes (177,068 mm³) agrees with the independently computed true segment II + III volume (179,182 mm³; Table 1) to within 1.2%, the expected discretization error of the 1.5 mm voxel grid — a first internal consistency check on the domain construction.
+
+![Figure 3](figures/fig3_territories.png)
+
+**Figure 3.** The six Voronoi perfusion territories tessellating the segment II/III tissue volume, each seeded from one of the confirmed real terminal roots of Figure 2, shown here already populated with their synthesized OpenCCO sub-trees (§2.4).
+
+![Figure 4](figures/fig4_opencco_synthetic_trees.png)
+
+**Figure 4.** The complete dense synthetic vascular network (3,542 terminals, 7,084 segments; Table 2) grown by OpenCCO from the six real terminal roots, confined to the true segment II/III tissue volume and colored by territory.
 
 During development we identified and corrected a coordinate-system defect in the domain-construction pipeline: DGtal's `.vol` reader places a voxel domain's first index at `Center − (dim − 1)/2` for whatever `Center` header value is supplied, not at the origin, for any `Center` value; our initial implementation wrote `Center = (0,0,0)` uniformly, which silently displaced each territory's true domain origin by roughly half that territory's own extent, and correspondingly allowed synthetic growth up to several centimeters outside the true tissue volume. Correcting the header calculation (`Center = (dim − 1)//2`, placing the domain origin at the intended index) and re-verifying by point-in-mesh containment testing (rather than trusting the fix by construction) confirmed that 97.5% of synthetic vascular node endpoints now lie strictly inside the true segmented mesh, with the residual 2.5% within 0.8 mm of the surface — consistent with, and not exceeding, the 1.5 mm voxel discretization scale, i.e. not a residual geometric error. We report this defect and its correction explicitly because it is the kind of silent, plausible-looking failure mode that independent geometric verification — rather than visual inspection alone — is needed to catch, and because it is a property of the third-party domain-format convention rather than of our own geometric method.
 
@@ -104,6 +120,10 @@ The six real terminals were extended into 3,542 synthetic terminals over 7,084 v
 ### 3.4 Flow and pressure distribution
 
 Under the physiological assumptions of §2.5, territory root inlet flows ranged from 5.2 mL min⁻¹ (the smallest territory, 6,797 mm³) to 49.3 mL min⁻¹ (the largest, 64,290 mm³), summing to 135.9 mL min⁻¹ for the combined segment II/III region — consistent with the 137.5 mL min⁻¹ expected from segment II/III's 12.5% share of total liver volume (Table 1) applied to the 1100 mL min⁻¹ whole-liver assumption, the small difference attributable to the 1.2% Voronoi-tessellation volume discrepancy noted in §2.4. Because both terminal count and territory inlet flow were assigned proportional to territory volume, per-terminal flow is, by construction rather than as an independent physiological finding, nearly uniform across all six territories (0.0383–0.0384 mL min⁻¹ per terminal) — we report this explicitly as a consequence of the modeling assumptions rather than an emergent result. Pressure fell from the assumed 7 mmHg root value to 6.6–6.95 mmHg at synthetic terminals — a modest drop consistent with the expectation that the majority of the physiological portal-to-hepatic-venous pressure drop (approximately 7 → 2–3 mmHg [CITE]) occurs at the sinusoidal bed, which lies downstream of, and is not yet resolved by, the vascular network reported here.
+
+![Figure 5](figures/fig5_flow_pressure.png)
+
+**Figure 5.** (a) Root inlet flow per territory. (b) Distribution of distal-segment pressure per territory relative to the 7 mmHg root pressure. (c) Root inlet flow versus territory volume, confirming the volume-proportional inlet-flow assignment of §2.5 (Pearson correlation is exact by construction, not an independent finding).
 
 ## 4. Discussion
 
